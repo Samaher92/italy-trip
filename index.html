@@ -94,10 +94,9 @@ body{background-color:#FFF7F1}
 .btn.primary{background:linear-gradient(135deg,#F9C7CF,#F7D6A6)}
 .tip{background:linear-gradient(135deg,#D9F2E6,#FDE3D0);border-radius:30px}
 .tipIcon{background:#fff;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,.06)}
-/* colorful pill tabs: each tab has its own pastel (--c), the active one grows and gets full color */
-.nav{background:rgba(255,255,255,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 12px 28px rgba(120,90,80,.2);gap:6px;padding:6px}
-.nav button{color:#4D5A62;background:color-mix(in srgb,var(--c) 45%,#fff);flex:1 1 0;min-width:0;opacity:.85}
-.nav button[aria-current=page]{background:var(--c);color:var(--ink);box-shadow:0 6px 14px rgba(0,0,0,.12);flex:1.7;opacity:1}
+.nav{background:linear-gradient(90deg,#B9E6D4,#F9C7A8);box-shadow:0 12px 28px rgba(120,90,80,.25)}
+.nav button{color:#4D5A62}
+.nav button[aria-current=page]{background:#fff;color:var(--ink);box-shadow:0 4px 10px rgba(0,0,0,.1)}
 .burst{position:relative;display:inline-grid;place-items:center;width:96px;height:96px;background:#8FD3B6;color:#fff;font-weight:800;text-align:center;font-size:15px;clip-path:polygon(50% 0%,61% 14%,79% 8%,80% 26%,98% 30%,90% 46%,100% 62%,84% 70%,86% 88%,68% 88%,58% 100%,46% 88%,30% 96%,26% 78%,8% 76%,14% 60%,0% 46%,12% 34%,8% 16%,26% 14%,34% 0%)}
 .badgeWrap{display:flex;justify-content:flex-start;margin-top:4px}
 body::before{content:"";position:fixed;inset:0;z-index:-1;background:url("images/italy-pattern.jpg") center/520px auto repeat;opacity:.22;pointer-events:none}
@@ -253,7 +252,6 @@ html[data-phase=night] .sun,html[data-phase=dawn] .sun{opacity:0}
 .hero{background:rgba(255,255,255,.4)!important;border:none;backdrop-filter:blur(10px) saturate(1.1);-webkit-backdrop-filter:blur(10px) saturate(1.1)}
 .hero .scene{display:none}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1B1B1B;color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;z-index:50}
-.fx-out{margin-top:12px;font-size:20px;text-align:center;font-weight:800}
 </style>
 </head>
 <body>
@@ -609,52 +607,8 @@ function viewBudget(){
     ${isOwner ? `<div class="row" style="justify-content:space-between;padding:6px 0"><span>المصروفات</span><strong>${fmt(c.spent)}</strong></div>` : ''}
   </section>
   ${isOwner ? `<section class="share fade" style="border-radius:28px"><div><small>المتاح للصرف</small><strong style="font-size:38px">${fmt(c.available)} <span style="font-size:18px">ريال</span></strong></div></section>` : ''}
-  ${isOwner && c.available < 0 ? '<div class="alert">⚠️ المصروف تجاوز الميزانية</div>' : ''}
-  ${fxCard()}`;
+  ${isOwner && c.available < 0 ? '<div class="alert">⚠️ المصروف تجاوز الميزانية</div>' : ''}`;
 }
-
-/* ---------- currency converter (EUR <-> SAR) ---------- */
-const FX_KEY = 'italyTripFxRate';
-const fxRate = () => { const r = Number(localStorage.getItem(FX_KEY)); return r > 0 ? r : 4.3; };
-function fxText(amt, rate, dir){
-  if (!rate) return 'أدخلي سعر الصرف';
-  const res = dir === 'sarEur' ? amt / rate : amt * rate;
-  const unit = dir === 'sarEur' ? '€' : 'ريال';
-  return `<strong>${res.toLocaleString('en-US', {maximumFractionDigits: 2})}</strong> ${unit}`;
-}
-function fxCard(){
-  const r = fxRate();
-  return `<section class="card fade"><h2>محول العملة 💱</h2>
-    <div class="row" style="flex-wrap:wrap;gap:10px">
-      <input class="in" id="fxAmt" type="number" min="0" step="0.01" value="100" data-fx="amt" aria-label="المبلغ" style="flex:1;min-width:120px">
-      <select class="in" id="fxDir" data-fx="dir" aria-label="اتجاه التحويل" style="flex:1;min-width:140px">
-        <option value="eurSar">يورو ← ريال</option>
-        <option value="sarEur">ريال ← يورو</option>
-      </select>
-    </div>
-    <div class="row" style="margin-top:10px;flex-wrap:wrap;gap:10px;align-items:center">
-      <span class="muted">سعر الصرف: 1 يورو =</span>
-      <input class="in" id="fxRate" type="number" min="0" step="0.01" value="${r}" data-fx="rate" aria-label="سعر الصرف" style="width:110px">
-      <span class="muted">ريال</span>
-    </div>
-    <div class="fx-out" id="fxOut">${fxText(100, r, 'eurSar')}</div>
-    <p class="hint" style="margin:8px 0 0">عدّلي سعر الصرف حسب سعر اليوم، ويُحفظ على جهازك.</p>
-  </section>`;
-}
-function updateFx(){
-  const amt = Number(($('#fxAmt') || {}).value) || 0;
-  const rate = Number(($('#fxRate') || {}).value) || 0;
-  const dir = ($('#fxDir') || {}).value || 'eurSar';
-  const out = $('#fxOut');
-  if (out) out.innerHTML = fxText(amt, rate, dir);
-}
-document.addEventListener('input', e => {
-  const f = e.target.dataset && e.target.dataset.fx;
-  if (!f) return;
-  if (f === 'rate') { const r = Number(e.target.value); if (r > 0) { try { localStorage.setItem(FX_KEY, String(r)); } catch(_) {} } }
-  updateFx();
-});
-document.addEventListener('change', e => { if (e.target.dataset && e.target.dataset.fx) updateFx(); });
 
 function viewMine(){
   const m = mine();
@@ -783,8 +737,7 @@ function render(){
   const focusKey = act && (act.id || act.name);
   const typed = act && (act.tagName === 'INPUT' || act.tagName === 'TEXTAREA') ? act.value : null;
   app.innerHTML = picked ? VIEWS[tab]() : viewWelcome();
-  const TAB_COLORS = ['#B9E6D4', '#F7D6A6', '#F9C7CF', '#C9D7F7', '#F9C7A8'];
-  $('#nav').innerHTML = !picked ? '' : TABS.map(([k, i, l], n) => `<button data-act="tab" data-v="${k}" style="--c:${TAB_COLORS[n % TAB_COLORS.length]}" aria-current="${tab === k ? 'page' : 'false'}"><span class="i" aria-hidden="true">${i}</span>${l}</button>`).join('');
+  $('#nav').innerHTML = !picked ? '' : TABS.map(([k, i, l]) => `<button data-act="tab" data-v="${k}" aria-current="${tab === k ? 'page' : 'false'}"><span class="i" aria-hidden="true">${i}</span>${l}</button>`).join('');
   tickCd();
   if (focusKey) { const el = document.getElementById(focusKey) || document.querySelector('[name="' + focusKey + '"]'); if (el) { el.focus(); if (typed !== null) el.value = typed; } }
 }
