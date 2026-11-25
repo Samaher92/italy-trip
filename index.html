@@ -148,7 +148,7 @@ html[data-phase=noon]{background:linear-gradient(180deg,#5DB8F0,#A8DDF8 60%,#E7F
 html[data-phase=sunset]{background:linear-gradient(180deg,#3F5FA8,#F2906B 50%,#FFC37A)}
 html[data-phase=night]{background:linear-gradient(180deg,#0B1433,#1C2D63 60%,#2E4A8A)}
 /* ---- cards, phase label, emoji effects ---- */
-.card{background:rgba(255,255,255,.4)!important;backdrop-filter:none;-webkit-backdrop-filter:none}
+.card{background:rgba(255,255,255,.82)!important;backdrop-filter:none;-webkit-backdrop-filter:none}
 .phase{font-weight:800;font-size:15px;margin-top:4px;color:var(--ink)}
 .emo-tap{border:0;background:#fff;border-radius:50%;width:38px;height:38px;font-size:20px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.1);vertical-align:middle;margin-inline-start:4px}
 .shake{animation:shake .5s}
@@ -234,8 +234,8 @@ html[data-phase=night] .sun,html[data-phase=dawn] .sun{opacity:0}
 .clk b::before{content:attr(data-ic);font-size:20px;margin-inline-end:6px}
 .clk b{font-size:28px;white-space:nowrap}
 /* ---- 60% transparent tab backgrounds ---- */
-.wel{background:rgba(85,179,247,.4)!important}
-.clk{background:rgba(246,239,223,.4)!important}
+.wel{background:rgba(85,179,247,.85)!important}
+.clk{background:rgba(246,239,223,.88)!important}
 /* ---- tidy top row ---- */
 .top{flex-wrap:wrap;gap:8px;align-items:center}
 .pill{white-space:nowrap}
@@ -250,7 +250,7 @@ html[data-phase=night] .sun,html[data-phase=dawn] .sun{opacity:0}
 .card{backdrop-filter:blur(10px) saturate(1.1)!important;-webkit-backdrop-filter:blur(10px) saturate(1.1)!important}
 .clk{backdrop-filter:blur(10px)!important;-webkit-backdrop-filter:blur(10px)!important}
 .cd>div{backdrop-filter:blur(10px) saturate(1.1);-webkit-backdrop-filter:blur(10px) saturate(1.1)}
-.hero{background:rgba(255,255,255,.4)!important;border:none;backdrop-filter:blur(10px) saturate(1.1);-webkit-backdrop-filter:blur(10px) saturate(1.1)}
+.hero{background:rgba(255,255,255,.75)!important;border:none;backdrop-filter:blur(10px) saturate(1.1);-webkit-backdrop-filter:blur(10px) saturate(1.1)}
 .hero .scene{display:none}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1B1B1B;color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;z-index:50}
 .fx-out{margin-top:12px;font-size:20px;text-align:center;font-weight:800}
@@ -260,6 +260,13 @@ section.card > h2::after{content:'▾';position:absolute;inset-inline-end:0;top:
 section.card.collapsed > h2::after{transform:translateY(-50%) rotate(-90deg)}
 section.card.collapsed > :not(h2){display:none}
 section.card.collapsed{padding-bottom:18px}
+/* readability: headings that sit straight on the dark night/dawn sky turn light */
+html[data-phase=night] .app > h2,html[data-phase=dawn] .app > h2{color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.35)}
+/* calm motion: phones with "reduce motion" on get a still sky and no entrance animations */
+@media (prefers-reduced-motion: reduce){
+  .sky *,.sky *::before,.sky *::after,.sun::before,.fall,.plane-fly,.fade{animation:none!important}
+  .sky .gen{display:none!important}
+}
 </style>
 </head>
 <body>
@@ -344,6 +351,10 @@ const uid = () => Math.random().toString(36).slice(2, 9);
 const TAKEOFF = Date.parse('2027-04-17T14:05:00+03:00');
 const RETURN = Date.parse('2027-04-29T00:00:00+03:00');
 const PEOPLE = ['منى','سحر','سماهر','سمارا'];
+/* العضوة الخامسة: حضورها مو مؤكد. لما يتأكد، غيّري null إلى {name: 'الاسم'}.
+   هذا يغيّر عدد المسافرات المعروض بس، وما يلمس حسبة المبالغ (حسبة المبالغ في calc() زي ما حطتها سماهر). */
+const GUEST = null;
+const TRAVELERS = PEOPLE.length + (GUEST ? 1 : 0);
 const PEOPLE_EMO = ['🦋','🌸','🌻','🌙','🐬','🍓','🦩','🌴'];
 const TAB_FX = {home:['📍','✈️','🗺️'], budget:['🎫','🧳','🎫'], mine:['💸','💰','🪙'], route:['📍','✈️','🗺️'], bag:['🧳','🎫','🧳']};
 const TRAVEL_LINES = ['الرحلة الحلوة تبدأ بخطوة… وأحلى خطوة تبدأ الحين ✈️', 'إيطاليا تنتظركم: بيتزا، أزقة، وقهوة على الرصيف ☕', 'خفّفوا الحقايب، وثقّلوا الذكريات 🧳', 'كل شارع في إيطاليا له قصة، وأنتم اللي تكتبونها 📖', 'الدنيا واسعة، والسفر أحلى علاج للروح 🌍', 'يلا نعد للإقلاع، والعداد يعد معنا ⏳'];
@@ -502,11 +513,23 @@ function tickCd(){
   showClock('clk-it', 'Europe/Rome', 'it');
 }
 
+const DECIDE_LABEL = {true: '✅ نسويها', false: '❌ ما نسويها'};
+function placeCard(c, i){
+  const key = c.id + '|' + i.id;
+  const badge = DECIDE_LABEL[i.decided] ? `<span class="tag">${DECIDE_LABEL[i.decided]}</span>` : '<span class="tag">⏳ بنقرر</span>';
+  const link = /^https?:\/\//.test(i.link || '') ? `<a href="${esc(i.link)}" target="_blank" rel="noopener" style="font-weight:700">📍 الموقع</a>` : '';
+  return `<div class="fade" style="margin-top:8px;padding:10px 12px;border:1px solid var(--line);border-radius:14px">
+    <div class="row" style="justify-content:space-between;align-items:center;gap:6px"><strong>${esc(i.text)}</strong>${badge}</div>
+    ${i.details ? `<p class="hint" style="margin:6px 0 0;white-space:pre-line">${esc(i.details)}</p>` : ''}
+    <div class="row" style="gap:8px;margin-top:6px;flex-wrap:wrap">${link}
+      ${isOwner ? `<button class="btn sm" data-act="toggleDo" data-id="${esc(key)}">تغيير القرار</button><button class="del" aria-label="حذف" data-act="delItem" data-id="${esc(key)}">🗑️</button>` : ''}
+    </div></div>`;
+}
 function cityTags(c){
   const groups = [['activity','أنشطة'],['food','أكل'],['site','مواقع']];
   return groups.map(([k, label]) => {
     const list = (c.items || []).filter(i => i.kind === k);
-    return list.length ? `<div style="margin-top:6px"><span class="hint">${label}</span><div class="tags">${list.map(i => `<span class="tag">${esc(i.text)}</span>`).join('')}</div></div>` : '';
+    return list.length ? `<div style="margin-top:6px"><span class="hint">${label}</span>${list.map(i => placeCard(c, i)).join('')}</div>` : '';
   }).join('');
 }
 
@@ -554,7 +577,7 @@ function viewHome(){
       <div class="top" style="margin-bottom:6px">${greetPill()}${picked ? '<button class="btn sm back-btn" data-act="back" aria-label="الرجوع للصفحة الرئيسية">🔙</button>' : ''}</div>
       <h1>Italy ✈️</h1>
       <div class="phase">${PHASE_LABEL[document.documentElement.dataset.phase] || ''}</div>
-      <p style="margin:6px 0 0;font-weight:700;font-size:16px">١٧ – ${ARD(RET_DAY)} أبريل ٢٠٢٧ · ${ARD(plan.travelers || 5)} مسافرين</p>
+      <p style="margin:6px 0 0;font-weight:700;font-size:16px">١٧ – ${ARD(RET_DAY)} أبريل ٢٠٢٧ · ${ARD(TRAVELERS)} مسافرات</p>
       <p class="cd-label" id="cd-label"></p>
       <div class="cd" role="timer" aria-label="الوقت المتبقي للإقلاع">
         <div><b id="cd-d">--</b><span>يوم</span></div>
@@ -572,6 +595,8 @@ function viewHome(){
     <div class="grow"><div class="muted">نصيحة من ${esc(tip.city)}</div><p style="margin:4px 0 0;font-weight:700;font-size:16px;line-height:1.6">${esc(tip.text)}</p></div>
     <button class="btn sm" data-act="tip" aria-label="نصيحة ثانية">🎲</button>
   </section>
+
+  ${updatesCard()}
 
   <section class="share fade" aria-label="مبلغ المشاركة">
     <div>
@@ -594,20 +619,27 @@ function viewHome(){
 function viewBudget(){
   const c = calc();
   const lines = budget.lines || [];
+  /* owner gets toggle buttons; members get a read-only status badge instead of a greyed-out button */
+  const status = (l, act, on, onText, offText, offBg, offColor) => {
+    const style = `background:${on ? '#A8D5B0' : offBg};color:${on ? '#16331F' : offColor}`;
+    return isOwner
+      ? `<button class="btn sm" data-act="${act}" data-id="${esc(l.id)}" aria-pressed="${on}" style="${style};min-width:92px">${on ? onText + ' ✓' : offText}</button>`
+      : `<span class="tag" style="${style};font-weight:700">${on ? onText + ' ✓' : offText + ' ⏳'}</span>`;
+  };
   const lineRow = l => `<div class="row" style="padding:12px 0;border-bottom:1px solid var(--line);flex-wrap:wrap;gap:10px;align-items:center">
-      <button class="btn sm" data-act="booked" data-id="${esc(l.id)}" ${isOwner ? '' : 'disabled'} aria-pressed="${!!l.booked}" style="background:${l.booked ? '#A8D5B0' : '#EEF0F6'};color:${l.booked ? '#16331F' : '#5A6175'};min-width:92px">${l.booked ? 'تم الحجز ✓' : 'لم يُحجز'}</button>
-      <button class="btn sm" data-act="paid" data-id="${esc(l.id)}" ${isOwner ? '' : 'disabled'} aria-pressed="${!!l.paid}" style="background:${l.paid ? '#A8D5B0' : '#F8D9D4'};color:${l.paid ? '#16331F' : '#8A2F26'};min-width:92px">${l.paid ? 'تم الدفع ✓' : 'لم يُدفع'}</button>
+      ${status(l, 'booked', !!l.booked, 'تم الحجز', 'لم يُحجز', '#EEF0F6', '#5A6175')}
+      ${status(l, 'paid', !!l.paid, 'تم الدفع', 'لم يُدفع', '#F8D9D4', '#8A2F26')}
       <div style="flex:1 1 100%;font-weight:800;font-size:16px;line-height:1.5">${esc(l.label)}</div>
-      ${isOwner ? `<input class="in" style="width:120px;height:44px" type="number" min="0" step="0.01" value="${Number(l.amount || 0)}" data-field="amount" data-id="${esc(l.id)}" aria-label="مبلغ ${esc(l.label)}">` : `<strong>${fmt(l.amount)}</strong>`}
+      ${isOwner ? `<input class="in" style="width:120px;height:44px" type="number" inputmode="decimal" min="0" step="0.01" value="${Number(l.amount || 0)}" data-field="amount" data-id="${esc(l.id)}" aria-label="مبلغ ${esc(l.label)}">` : `<strong>${fmt(l.amount)}</strong>`}
     </div>`;
   return `<section class="card fade"><h2>الميزانية الكلية</h2>
     <label class="form"><span class="muted">المبلغ الكلي للرحلة (ريال) 🔒 مقفل</span>
-      <input class="in" type="number" min="0" step="0.01" value="${Number(budget.total || 0)}" data-field="total" disabled style="font-size:22px;font-weight:800">
+      <input class="in" type="number" inputmode="decimal" min="0" step="0.01" value="${Number(budget.total || 0)}" data-field="total" disabled style="font-size:22px;font-weight:800">
     </label>
     <p class="hint" style="margin:8px 0 0">مبلغ المشاركة للمسافر: ${fmt(c.share)} ريال</p>
   </section>
   <section class="card fade"><h2>السكن والتذاكر 🏨</h2>${lines.map(lineRow).join('') || '<p class="muted">لا توجد حجوزات</p>'}
-    ${isOwner ? (addingLine ? `<form id="lineForm" class="row" style="margin-top:12px;flex-wrap:wrap"><input class="in" name="label" placeholder="اسم الحجز" required style="flex:2;min-width:140px"><input class="in" name="amount" type="number" min="0" step="0.01" placeholder="المبلغ" required style="flex:1;min-width:90px"><button class="btn primary" type="submit">حفظ</button></form>` : `<button class="btn primary" style="width:100%;margin-top:12px" data-act="addLine">+ إضافة حجز</button>`) : ''}
+    ${isOwner ? (addingLine ? `<form id="lineForm" class="row" style="margin-top:12px;flex-wrap:wrap"><input class="in" name="label" placeholder="اسم الحجز" required style="flex:2;min-width:140px"><input class="in" name="amount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="المبلغ" required style="flex:1;min-width:90px"><button class="btn primary" type="submit">حفظ</button></form>` : `<button class="btn primary" style="width:100%;margin-top:12px" data-act="addLine">+ إضافة حجز</button>`) : ''}
   </section>
   <section class="card fade">
     <div class="row" style="justify-content:space-between;padding:6px 0"><span>الحجوزات المدفوعة</span><strong>${fmt(c.paid)}</strong></div>
@@ -637,7 +669,7 @@ function fxCard(){
   const r = fxRate();
   return `<section class="card fade"><h2>محول العملة 💱</h2>
     <div class="row" style="flex-wrap:wrap;gap:10px">
-      <input class="in" id="fxAmt" type="number" min="0" step="0.01" value="100" data-fx="amt" aria-label="المبلغ" style="flex:1;min-width:120px">
+      <input class="in" id="fxAmt" type="number" inputmode="decimal" min="0" step="0.01" value="100" data-fx="amt" aria-label="المبلغ" style="flex:1;min-width:120px">
       <select class="in" id="fxDir" data-fx="dir" aria-label="اتجاه التحويل" style="flex:1;min-width:140px">
         <option value="eurSar">يورو ← ريال</option>
         <option value="sarEur">ريال ← يورو</option>
@@ -645,7 +677,7 @@ function fxCard(){
     </div>
     <div class="row" style="margin-top:10px;flex-wrap:wrap;gap:10px;align-items:center">
       <span class="muted">سعر الصرف: 1 يورو =</span>
-      <input class="in" id="fxRate" type="number" min="0" step="0.01" value="${r}" data-fx="rate" aria-label="سعر الصرف" style="width:110px">
+      <input class="in" id="fxRate" type="number" inputmode="decimal" min="0" step="0.01" value="${r}" data-fx="rate" aria-label="سعر الصرف" style="width:110px">
       <span class="muted">ريال</span>
     </div>
     <div class="fx-out" id="fxOut">${fxText(100, r, 'eurSar')}</div>
@@ -676,12 +708,13 @@ function viewMine(){
   return `<section class="card fade"><h2>مساهمتي 💳</h2>
     <div class="share" style="margin-bottom:14px;flex-direction:column;align-items:flex-start"><div><small>مبلغ المشاركة (ثابت)</small><strong>${fmt0(share)} <span style="font-size:18px">ريال</span></strong></div></div>
     <p class="muted" style="margin:0 0 6px">كم دفعتِ لحد الحين</p>
-    <div class="row"><input class="in" type="number" min="0" step="0.01" id="contrib" value="${Number(m.contributed || 0)}" aria-label="مبلغ مساهمتي" ${me ? '' : 'disabled'}><button class="btn primary" data-act="saveContrib" ${me ? '' : 'disabled'}>حفظ</button></div>
+    <div class="row"><input class="in" type="number" inputmode="decimal" min="0" step="0.01" id="contrib" value="${Number(m.contributed || 0)}" aria-label="مبلغ مساهمتي" ${me ? '' : 'disabled'}><button class="btn primary" data-act="saveContrib" ${me ? '' : 'disabled'}>حفظ</button></div>
+    ${me ? `<div class="chips" role="group" aria-label="إضافة سريعة للمبلغ" style="margin-top:10px">${[100, 500, 1000].map(n => `<button class="chip" data-act="addContrib" data-v="${n}">+${fmt0(n)}</button>`).join('')}</div><p class="hint" style="margin:6px 0 0">الأزرار تزيد الرقم بس، واضغطي حفظ بعدها.</p>` : ''}
     <div class="row" style="justify-content:space-between;margin-top:12px"><span class="muted">باقي عليك</span><strong style="color:${left < 0 ? 'var(--red)' : 'var(--green)'}">${fmt(left)} ريال</strong></div>
   </section>
   <section class="card fade"><h2>مصروف جديد ✍️</h2>
     <form class="form" id="expForm">
-      <input class="in" name="amount" type="number" min="0" step="0.01" placeholder="المبلغ (ريال)" required>
+      <input class="in" name="amount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="المبلغ (ريال)" required>
       <div class="two">
         <select class="sel" name="cat">${CATS.map(c => `<option>${c}</option>`).join('')}</select>
         <select class="sel" name="city">${plan.cities.map(c => `<option>${esc(c.name)}</option>`).join('')}</select>
@@ -698,12 +731,29 @@ function viewMine(){
     </div>`).join('') : `<div class="empty fade"><div style="font-size:34px" aria-hidden="true">✈️🧳</div><p style="font-weight:800;font-size:18px;margin:8px 0 4px">شنطتك جاهزة؟ 🧳 الرحلة قريبة!</p><p class="muted" style="margin:0">أول مصروف تسجلينه بيبدأ معنا العد الحقيقي لإيطاليا، يلا نبدأ 🇮🇹🍕</p></div>`}`;
 }
 
-function viewRoute(){
-  const ups = (plan.updates || []).slice(0, 3);
+function allUpdates(){
+  const owner = (plan.updates || []).map(u => ({...u, by: ''}));
+  const ideas = Object.values(members).filter(Boolean).flatMap(m => (m.ideas || []).map(i => ({text: i.text, at: i.at, by: m.name || ''})));
+  return [...owner, ...ideas].sort((a, b) => (b.at || 0) - (a.at || 0));
+}
+function updatesCard(){
+  const ups = allUpdates().slice(0, 5);
   return `
   <section class="card fade"><h2>آخر التحديثات 📣</h2>
-    ${ups.length ? ups.map(u => `<div style="padding:10px 0;border-bottom:1px solid var(--line)"><p style="margin:0;font-weight:600">${esc(u.text)}</p><span class="hint">${esc(new Date(u.at).toLocaleString('ar-SA',{dateStyle:'medium',timeStyle:'short'}))}</span></div>`).join('') : '<p class="muted" style="margin:0">ما فيه تحديثات لين الحين ✈️</p>'}
-  </section>
+    ${ups.length ? ups.map(u => `<div style="padding:10px 0;border-bottom:1px solid var(--line)"><p style="margin:0;font-weight:600">${u.by ? '💡 اقتراح من ' + esc(u.by) + ': ' : ''}${esc(u.text)}</p><span class="hint">${esc(new Date(u.at).toLocaleString('ar-SA',{dateStyle:'medium',timeStyle:'short'}))}</span></div>`).join('') : '<p class="muted" style="margin:0">ما فيه تحديثات لين الحين ✈️</p>'}
+  </section>`;
+}
+function viewRoute(){
+  return `
+
+
+  ${me ? `<section class="card fade"><h2>اقتراح نشاط 💡</h2>
+    <form class="form" id="ideaForm">
+      <input class="in" name="text" placeholder="مثلاً: زيارة سوق ريالتو" required>
+      <button class="btn ink" type="submit">أرسليه للتحديثات</button>
+    </form>
+    ${(mine().ideas || []).length ? (mine().ideas || []).slice().reverse().map(i => `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)"><span>${esc(i.text)}</span><button class="del" aria-label="حذف الاقتراح" data-act="delIdea" data-id="${esc(i.id)}">🗑️</button></div>`).join('') : ''}
+  </section>` : '<p class="hint" style="text-align:center">اختاري اسمك أول عشان تقدرين تقترحين أنشطة</p>'}
 
   <h2 style="padding-right:4px">خط الرحلة 🗺️</h2>
   <div style="position:relative;margin-right:46px">
@@ -722,6 +772,8 @@ function viewRoute(){
       <div class="two"><select class="sel" name="city">${plan.cities.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
       <select class="sel" name="kind"><option value="activity">نشاط</option><option value="food">أكل</option><option value="site">موقع</option></select></div>
       <input class="in" name="text" placeholder="مثلاً: كاتدرائية الدومو" required>
+      <textarea class="ta" name="details" placeholder="التفاصيل: السعر، وش فيه، أفضل وقت (اختياري)"></textarea>
+      <input class="in" name="link" type="url" placeholder="رابط الموقع (اختياري)">
       <button class="btn ink" type="submit">أضيفيه للمدينة</button>
     </form>
     <form class="form" id="updForm" style="margin-top:16px">
@@ -784,7 +836,7 @@ function viewPick(){
     </div>
   </section>
   <section class="pass fade" data-act="stamp" role="button" tabindex="0" aria-label="بطاقة الصعود">
-    <div class="pass-top"><div><span>الوجهة</span><b>إيطاليا 🇮🇹</b></div><div><span>المسافرين</span><b>٥</b></div></div>
+    <div class="pass-top"><div><span>الوجهة</span><b>إيطاليا 🇮🇹</b></div><div><span>المسافرات</span><b>${ARD(TRAVELERS)}</b></div></div>
     <div class="pass-mid"><div><span>الإقلاع</span><b>١٧ أبريل ٢٠٢٧</b></div><div><span>المقاعد</span><b>👇 من الشريط</b></div></div>
     <span class="stamp" aria-hidden="true">✔ جاهزة للإقلاع</span>
   </section>`;
@@ -806,25 +858,53 @@ function render(){
   applyCollapsed();
 }
 
-/* ---------- collapsible sections: closed by default, tap heading to open (saved on this device) ---------- */
+/* ---------- collapsible sections: tap heading to open/close (saved on this device) ----------
+   The important sections start open; everything else starts closed.
+   Saved state is {title: true|false}; an older saved list of open titles still works. */
 const OPEN_KEY = 'italyTripOpenSections';
-function openSet(){ try { return new Set(JSON.parse(localStorage.getItem(OPEN_KEY) || '[]')); } catch(_) { return new Set(); } }
+const DEFAULT_OPEN = new Set(['آخر التحديثات 📣', 'أنتم هنا 📍', 'مساهمتي 💳', 'المساهمات 💰']);
+function openState(){
+  try {
+    const raw = JSON.parse(localStorage.getItem(OPEN_KEY) || '{}');
+    return Array.isArray(raw) ? Object.fromEntries(raw.map(k => [k, true])) : (raw || {});
+  } catch(_) { return {}; }
+}
+const isOpen = (st, key) => key in st ? !!st[key] : DEFAULT_OPEN.has(key);
 function applyCollapsed(){
-  const set = openSet();
+  const st = openState();
   document.querySelectorAll('section.card').forEach(s => {
     const h = s.querySelector(':scope > h2');
-    if (h) s.classList.toggle('collapsed', !set.has(h.textContent.trim()));
+    if (h) s.classList.toggle('collapsed', !isOpen(st, h.textContent.trim()));
   });
 }
 document.addEventListener('click', e => {
   const h = e.target.closest('section.card > h2');
   if (!h) return;
   const key = h.textContent.trim();
-  const set = openSet();
-  if (set.has(key)) set.delete(key); else set.add(key);
-  try { localStorage.setItem(OPEN_KEY, JSON.stringify([...set])); } catch(_) {}
-  h.parentElement.classList.toggle('collapsed', !set.has(key));
+  const st = openState();
+  st[key] = !isOpen(st, key);
+  try { localStorage.setItem(OPEN_KEY, JSON.stringify(st)); } catch(_) {}
+  h.parentElement.classList.toggle('collapsed', !st[key]);
 });
+
+/* ---------- swipe between tabs on phones (RTL: swipe right = next tab, left = previous) ---------- */
+let swipeStart = null;
+document.addEventListener('touchstart', e => {
+  const t = e.touches[0];
+  const skip = e.touches.length > 1 || !picked || e.target.closest('input,select,textarea,.chips,.nav,.sky');
+  swipeStart = skip ? null : {x: t.clientX, y: t.clientY, time: Date.now()};
+}, {passive: true});
+document.addEventListener('touchend', e => {
+  if (!swipeStart) return;
+  const t = e.changedTouches[0];
+  const dx = t.clientX - swipeStart.x, dy = t.clientY - swipeStart.y, dt = Date.now() - swipeStart.time;
+  swipeStart = null;
+  if (Math.abs(dx) < 70 || Math.abs(dy) > Math.abs(dx) * 0.6 || dt > 600) return;
+  const keys = TABS.map(x => x[0]);
+  const next = keys[keys.indexOf(tab) + (dx > 0 ? 1 : -1)];
+  if (!next) return;
+  tab = next; render(); window.scrollTo({top: 0, behavior: 'smooth'}); burst(TAB_FX[next]);
+}, {passive: true});
 
 function toast(msg){ const d = document.createElement('div'); d.className = 'toast'; d.textContent = msg; document.body.appendChild(d); setTimeout(() => d.remove(), 3000); }
 /* ---------- events ---------- */
@@ -832,6 +912,8 @@ document.addEventListener('click', async e => {
   const b = e.target.closest('[data-act]');
   if (!b) return;
   const a = b.dataset.act, id = b.dataset.id, v = b.dataset.v;
+  const CONFIRM = {delItem: 'تبين تحذفين هالاقتراح من المدينة؟', delIdea: 'تبين تحذفين اقتراحك؟', delExp: 'تبين تحذفين هالمصروف؟', release: 'تبين تحررين هالاسم؟'};
+  if (CONFIRM[a] && !confirm(CONFIRM[a])) return;
   if (a === 'spin') { b.classList.remove('spin'); void b.offsetWidth; b.classList.add('spin'); return; }
   if (a === 'quote') { quoteIdx++; render(); return; }
   if (a === 'stamp') { b.classList.remove('stamped'); void b.offsetWidth; b.classList.add('stamped'); burst(['🛂', '🎉', '✈️']); return; }
@@ -851,13 +933,31 @@ document.addEventListener('click', async e => {
   if (a === 'tab') { tab = v; render(); window.scrollTo({top: 0, behavior: 'smooth'}); burst(TAB_FX[v]); return; }
   if (a === 'tip') { tipIdx = Math.floor(Math.random() * DEFAULT_TIPS.length); render(); return; }
   if (a === 'filter') { catFilter = v; render(); return; }
+  if ((a === 'toggleDo' || a === 'delItem') && isOwner && id) {
+    const [cid, iid] = id.split('|');
+    const c = plan.cities.find(x => x.id === cid);
+    if (!c) return;
+    if (a === 'delItem') c.items = (c.items || []).filter(i => i.id !== iid);
+    else c.items = (c.items || []).map(i => i.id === iid ? {...i, decided: i.decided === null || i.decided === undefined ? true : i.decided === true ? false : null} : i);
+    await savePlan(); return;
+  }
+  if (a === 'delIdea' && me) { const next = (mine().ideas || []).filter(x => x.id !== id); await saveMine({ideas: next}); return; }
   if (a === 'delExp' && me) { const next = (mine().expenses || []).filter(x => x.id !== id); await saveMine({expenses: next}); return; }
-  if (a === 'booked' && isOwner) { budget.lines = budget.lines.map(l => l.id === id ? {...l, booked: !l.booked} : l); await saveBudget(); return; }
+  if (a === 'booked' && isOwner) {
+    const ln = budget.lines.find(l => l.id === id);
+    const becomesBooked = !!ln && !ln.booked;
+    budget.lines = budget.lines.map(l => l.id === id ? {...l, booked: !l.booked} : l);
+    if (becomesBooked) plan.updates = [{text: '✅ تم تأكيد: ' + ln.label, at: Date.now()}, ...(plan.updates || [])];
+    await saveBudget();
+    if (becomesBooked) await savePlan();
+    return;
+  }
   if (a === 'paid' && isOwner) { budget.lines = budget.lines.map(l => l.id === id ? {...l, paid: !l.paid} : l); await saveBudget(); return; }
   if (a === 'addLine' && isOwner) { addingLine = true; render(); return; }
   if (a === 'bag' && me) { const bag = (mine().bag && mine().bag.length) ? mine().bag : DEFAULT_BAG.map((t, i) => ({id: 'd' + i, t, done: false})); const next = bag.map(i => i.id === id ? {...i, done: !i.done} : i); await saveMine({bag: next}); return; }
   if (a === 'setCity' && isOwner) { plan.currentCity = id; await savePlan(); return; }
   if (a === 'cityDates' && isOwner) { editingCity = id; render(); return; }
+  if (a === 'addContrib') { const inp = $('#contrib'); if (inp && !inp.disabled) { inp.value = (Number(inp.value) || 0) + Number(v); inp.focus(); } return; }
   if (a === 'saveContrib') { const n = Number(($('#contrib') || {}).value) || 0; await saveMine({contributed: n}); return; }
 });
 
@@ -871,6 +971,14 @@ document.addEventListener('change', async e => {
 
 document.addEventListener('submit', async e => {
   const form = e.target;
+  if (form.id === 'ideaForm') {
+    e.preventDefault();
+    const text = String(new FormData(form).get('text') || '').trim();
+    if (!me) { toast('ما قدرنا نعرف حسابك، حدّثي الصفحة'); return; }
+    if (!text) return;
+    await saveMine({ideas: [...(mine().ideas || []), {id: uid(), text, at: Date.now()}]});
+    form.reset(); return;
+  }
   if (form.id === 'expForm') {
     e.preventDefault();
     const fd = new FormData(form);
@@ -910,7 +1018,7 @@ document.addEventListener('submit', async e => {
     const fd = new FormData(form);
     const c = plan.cities.find(x => x.id === fd.get('city'));
     if (!c) return;
-    c.items = [...(c.items || []), {id: uid(), kind: fd.get('kind'), text: String(fd.get('text') || '').trim()}];
+    c.items = [...(c.items || []), {id: uid(), kind: fd.get('kind'), text: String(fd.get('text') || '').trim(), details: String(fd.get('details') || '').trim(), link: String(fd.get('link') || '').trim(), decided: null}];
     form.reset(); await savePlan();
   }
   if (form.id === 'updForm' && isOwner) {
@@ -952,7 +1060,10 @@ function buildSky(){
   const PLANE = `<svg viewBox="0 0 64 32"><path d="M4 16 L40 13 L58 3 L54 13 L60 16 L54 19 L58 29 L40 19 L4 16Z" fill="#fff" stroke="#8FA3B8" stroke-width="1.6" stroke-linejoin="round"/><circle cx="50" cy="16" r="2" fill="#E8844A"/></svg>`;
   const BIRD = `<svg viewBox="0 0 34 16"><path d="M3 6 Q9 0 17 9 Q25 0 31 6" fill="none" stroke="#3B4A5A" stroke-width="2.6" stroke-linecap="round"/></svg>`;
   const out = [];
-  for (let i = 0; i < 6; i++) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const small = innerWidth < 600;
+  const CLOUDS = small ? 3 : 5, BIRDS = small ? 2 : 4;
+  for (let i = 0; i < CLOUDS; i++) {
     const dir = Math.random() < .5 ? '' : ' l';
     const w = R(110, 190).toFixed(0);
     out.push(`<div class="cl gen${dir}" style="top:${R(3, 80).toFixed(1)}%;width:${w}px;animation-duration:${R(38, 70).toFixed(0)}s;animation-delay:${(-R(0, 60)).toFixed(0)}s"><div class="shape"></div></div>`);
@@ -961,7 +1072,7 @@ function buildSky(){
     const dir = i % 2 ? ' l' : '';
     out.push(`<div class="pl gen${dir}" style="top:${R(6, 70).toFixed(1)}%;animation-duration:${R(22, 34).toFixed(0)}s;animation-delay:${(-R(0, 30)).toFixed(0)}s"><div class="body">${PLANE}</div></div>`);
   }
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < BIRDS; i++) {
     const dir = Math.random() < .5 ? '' : ' l';
     out.push(`<div class="bd gen${dir}" style="top:${R(5, 85).toFixed(1)}%;animation-duration:${R(16, 30).toFixed(0)}s;animation-delay:${(-R(0, 30)).toFixed(0)}s"><div class="body">${BIRD}</div></div>`);
   }
