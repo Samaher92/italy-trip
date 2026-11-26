@@ -231,6 +231,7 @@ button.st{cursor:pointer;min-height:34px}
 .fx-amt::-webkit-outer-spin-button,.fx-amt::-webkit-inner-spin-button,.fx-rate .in::-webkit-inner-spin-button,.fx-rate .in::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .fx-amt,.fx-rate .in{-moz-appearance:textfield}
 .fx-sheet h2{margin:0}
+.fx-sheet:focus{outline:none}
 .fx-dir{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--pink-t);border-radius:999px;padding:6px}
 .fx-cur{flex:1;text-align:center;font-weight:800;font-size:17px}
 .fx-swap{width:50px;height:50px;border:0;border-radius:50%;background:var(--pink);color:#fff;display:grid;place-items:center;cursor:pointer}
@@ -678,17 +679,17 @@ function buildFx(){
   if ($('#fxSheet')) return;
   document.body.insertAdjacentHTML('beforeend', `
   <div class="fx-back" id="fxBack" hidden></div>
-  <div class="fx-sheet" id="fxSheet" role="dialog" aria-modal="true" aria-labelledby="fxTitle" hidden>
+  <div class="fx-sheet" id="fxSheet" role="dialog" aria-modal="true" aria-labelledby="fxTitle" tabindex="-1" hidden>
     <div class="row" style="justify-content:space-between"><h2 id="fxTitle"><span class="h-ic">${ic('exchange')}</span>محول العملة</h2><button class="icon-btn" id="fxClose" aria-label="إغلاق" style="box-shadow:none;background:var(--pink-t)">${ic('x')}</button></div>
     <div class="fx-dir">
       <span class="fx-cur" id="fxFromLbl"></span>
       <button class="fx-swap" id="fxSwap" aria-label="اعكسي اتجاه التحويل">${ic('exchange')}</button>
       <span class="fx-cur" id="fxToLbl"></span>
     </div>
-    <input class="in fx-amt" id="fxAmt" type="number" inputmode="decimal" min="0" step="0.01" value="100" data-fx="amt" aria-label="المبلغ">
+    <input class="in fx-amt" id="fxAmt" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" autocomplete="off" enterkeyhint="done" min="0" step="0.01" value="100" data-fx="amt" aria-label="المبلغ">
     <div class="chips fx-quick" id="fxQuick" role="group" aria-label="مبالغ سريعة"></div>
     <div class="fx-out" id="fxOut" aria-live="polite"></div>
-    <div class="row fx-rate"><span class="muted">1 يورو =</span><input class="in" id="fxRate" type="number" inputmode="decimal" min="0" step="0.01" data-fx="rate" aria-label="سعر الصرف"><span class="muted">ريال</span></div>
+    <div class="row fx-rate"><span class="muted">1 يورو =</span><input class="in" id="fxRate" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" autocomplete="off" enterkeyhint="done" min="0" step="0.01" data-fx="rate" aria-label="سعر الصرف"><span class="muted">ريال</span></div>
     <p class="hint" style="text-align:center;margin:6px 0 0">عدّلي سعر الصرف حسب سعر اليوم، ويُحفظ على جهازك.</p>
   </div>`);
   $('#fxRate').value = fxRate();
@@ -704,12 +705,13 @@ function buildFx(){
 }
 function fxOpen(on){
   $('#fxSheet').hidden = $('#fxBack').hidden = !on;
-  if (on) { updateFx(); $('#fxAmt').focus(); $('#fxAmt').select(); } else { const f = $('#fxFab'); if (f) f.focus(); }
+  if (on) { updateFx(); $('#fxSheet').focus({preventScroll: true}); } else { const f = $('#fxFab'); if (f) f.focus(); }
 }
 function fxSync(){ buildFx(); if (!picked && !$('#fxSheet').hidden) fxOpen(false); }
+const fxParse = v => Number(String(v || '').replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[٫,]/g, '.')) || 0;
 function updateFx(){
-  const amt = Number(($('#fxAmt') || {}).value) || 0;
-  const rate = Number(($('#fxRate') || {}).value) || 0;
+  const amt = fxParse(($('#fxAmt') || {}).value);
+  const rate = fxParse(($('#fxRate') || {}).value);
   const F = FX_UNITS[fxFrom], T = FX_UNITS[fxTo()];
   $('#fxFromLbl').textContent = `${F.name} ${F.sym}`;
   $('#fxToLbl').textContent = `${T.name} ${T.sym}`;
@@ -720,7 +722,7 @@ function updateFx(){
 document.addEventListener('input', e => {
   const f = e.target.dataset && e.target.dataset.fx;
   if (!f) return;
-  if (f === 'rate') { const r = Number(e.target.value); if (r > 0) { try { localStorage.setItem(FX_KEY, String(r)); } catch(_) {} } }
+  if (f === 'rate') { const r = fxParse(e.target.value); if (r > 0) { try { localStorage.setItem(FX_KEY, String(r)); } catch(_) {} } }
   updateFx();
 });
 
