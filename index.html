@@ -263,6 +263,23 @@ section.card.collapsed{padding-bottom:18px}
 /* readability: headings that sit straight on the dark night/dawn sky turn light */
 html[data-phase=night] .app > h2,html[data-phase=dawn] .app > h2{color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.35)}
 /* calm motion: phones with "reduce motion" on get a still sky and no entrance animations */
+/* currency converter: floating button + bottom sheet */
+.fx-fab{position:fixed;left:16px;bottom:96px;z-index:10;width:58px;height:58px;border-radius:50%;border:3px solid #fff;background:linear-gradient(135deg,#F9C7CF,#F7D6A6);font-size:28px;cursor:pointer;box-shadow:0 8px 20px rgba(120,90,80,.28);transition:transform .15s}
+.fx-fab:active{transform:scale(.92)}
+.fx-back{position:fixed;inset:0;z-index:30;background:rgba(20,24,40,.35)}
+.fx-sheet{position:fixed;left:0;right:0;bottom:0;z-index:31;max-width:480px;margin:0 auto;background:#FFFDFB;border-radius:30px 30px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -14px 34px rgba(0,0,0,.18);display:grid;gap:12px;animation:sheetUp .28s cubic-bezier(.2,.8,.2,1)}
+.fx-sheet[hidden],.fx-back[hidden],.fx-fab[hidden]{display:none}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+.fx-dir{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#F6EFDF;border-radius:999px;padding:6px}
+.fx-cur{flex:1;text-align:center;font-weight:800;font-size:17px}
+.fx-swap{width:52px;height:52px;border:0;border-radius:50%;background:linear-gradient(135deg,#BDE7D6,#C9D7F7);font-size:24px;font-weight:900;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.fx-swap.spin{animation:spinG .45s ease}
+.fx-amt{height:60px;font-size:26px;font-weight:800;text-align:center}
+.fx-quick{justify-content:center}
+.fx-out{margin:0;font-size:18px;text-align:center;font-weight:700}
+.fx-out strong{font-size:30px;font-weight:900}
+.fx-rate{justify-content:center;gap:8px}
+.fx-rate .in{width:100px;height:42px;text-align:center}
 @media (prefers-reduced-motion: reduce){
   .sky *,.sky *::before,.sky *::after,.sun::before,.fall,.plane-fly,.fade{animation:none!important}
   .sky .gen{display:none!important}
@@ -650,45 +667,61 @@ function viewBudget(){
   <section class="card fade"><h2>المساهمات 💰</h2>
     <div class="mini" style="margin-bottom:12px"><span>مجموع المساهمات</span><b>${fmt0(c.pool)} ريال</b></div>
     ${contribRows(c)}
-  </section>
-
-  ${fxCard()}`;
-}
-
-/* ---------- currency converter (EUR <-> SAR) ---------- */
-const FX_KEY = 'italyTripFxRate';
-const fxRate = () => { const r = Number(localStorage.getItem(FX_KEY)); return r > 0 ? r : 4.3; };
-function fxText(amt, rate, dir){
-  if (!rate) return 'أدخلي سعر الصرف';
-  const res = dir === 'sarEur' ? amt / rate : amt * rate;
-  const unit = dir === 'sarEur' ? '€' : 'ريال';
-  return `<strong>${res.toLocaleString('en-US', {maximumFractionDigits: 2})}</strong> ${unit}`;
-}
-function fxCard(){
-  const r = fxRate();
-  return `<section class="card fade"><h2>محول العملة 💱</h2>
-    <div class="row" style="flex-wrap:wrap;gap:10px">
-      <input class="in" id="fxAmt" type="number" inputmode="decimal" min="0" step="0.01" value="100" data-fx="amt" aria-label="المبلغ" style="flex:1;min-width:120px">
-      <select class="in" id="fxDir" data-fx="dir" aria-label="اتجاه التحويل" style="flex:1;min-width:140px">
-        <option value="eurSar">يورو ← ريال</option>
-        <option value="sarEur">ريال ← يورو</option>
-      </select>
-    </div>
-    <div class="row" style="margin-top:10px;flex-wrap:wrap;gap:10px;align-items:center">
-      <span class="muted">سعر الصرف: 1 يورو =</span>
-      <input class="in" id="fxRate" type="number" inputmode="decimal" min="0" step="0.01" value="${r}" data-fx="rate" aria-label="سعر الصرف" style="width:110px">
-      <span class="muted">ريال</span>
-    </div>
-    <div class="fx-out" id="fxOut">${fxText(100, r, 'eurSar')}</div>
-    <p class="hint" style="margin:8px 0 0">عدّلي سعر الصرف حسب سعر اليوم، ويُحفظ على جهازك.</p>
   </section>`;
 }
+
+/* ---------- currency converter (EUR <-> SAR) ----------
+   A floating 💱 button on every page opens a bottom sheet. The ⇄ button flips the direction.
+   It lives outside #app, so re-renders never reset what you typed. Rate is saved on this device. */
+const FX_KEY = 'italyTripFxRate';
+const fxRate = () => { try { const r = Number(localStorage.getItem(FX_KEY)); return r > 0 ? r : 4.3; } catch(_) { return 4.3; } };
+const FX_UNITS = {eur: {name: 'يورو', sym: '€', quick: [5, 10, 20, 50, 100]}, sar: {name: 'ريال', sym: 'ر.س', quick: [50, 100, 200, 500]}};
+let fxFrom = 'eur';
+const fxTo = () => fxFrom === 'eur' ? 'sar' : 'eur';
+const fxNum = n => n.toLocaleString('en-US', {maximumFractionDigits: 2});
+function buildFx(){
+  if ($('#fxSheet')) return;
+  document.body.insertAdjacentHTML('beforeend', `
+  <button class="fx-fab" id="fxFab" hidden aria-label="محول العملة" aria-haspopup="dialog">💱</button>
+  <div class="fx-back" id="fxBack" hidden></div>
+  <div class="fx-sheet" id="fxSheet" role="dialog" aria-modal="true" aria-labelledby="fxTitle" hidden>
+    <div class="row" style="justify-content:space-between"><h2 id="fxTitle" style="margin:0">محول العملة 💱</h2><button class="del" id="fxClose" aria-label="إغلاق" style="background:#F4F1F9">✕</button></div>
+    <div class="fx-dir">
+      <span class="fx-cur" id="fxFromLbl"></span>
+      <button class="fx-swap" id="fxSwap" aria-label="اعكسي اتجاه التحويل">⇄</button>
+      <span class="fx-cur" id="fxToLbl"></span>
+    </div>
+    <input class="in fx-amt" id="fxAmt" type="number" inputmode="decimal" min="0" step="0.01" value="100" data-fx="amt" aria-label="المبلغ">
+    <div class="chips fx-quick" id="fxQuick" role="group" aria-label="مبالغ سريعة"></div>
+    <div class="fx-out" id="fxOut" aria-live="polite"></div>
+    <div class="row fx-rate"><span class="muted">1 يورو =</span><input class="in" id="fxRate" type="number" inputmode="decimal" min="0" step="0.01" data-fx="rate" aria-label="سعر الصرف"><span class="muted">ريال</span></div>
+    <p class="hint" style="text-align:center;margin:6px 0 0">عدّلي سعر الصرف حسب سعر اليوم، ويُحفظ على جهازك.</p>
+  </div>`);
+  $('#fxRate').value = fxRate();
+  $('#fxFab').addEventListener('click', () => fxOpen(true));
+  $('#fxClose').addEventListener('click', () => fxOpen(false));
+  $('#fxBack').addEventListener('click', () => fxOpen(false));
+  $('#fxSwap').addEventListener('click', () => {
+    fxFrom = fxTo(); const s = $('#fxSwap'); s.classList.remove('spin'); void s.offsetWidth; s.classList.add('spin'); updateFx();
+  });
+  $('#fxQuick').addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (b) { $('#fxAmt').value = b.dataset.q; updateFx(); } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#fxSheet').hidden) fxOpen(false); });
+  updateFx();
+}
+function fxOpen(on){
+  $('#fxSheet').hidden = $('#fxBack').hidden = !on;
+  if (on) { updateFx(); $('#fxAmt').focus(); $('#fxAmt').select(); } else $('#fxFab').focus();
+}
+function fxSync(){ buildFx(); $('#fxFab').hidden = !picked; if (!picked && !$('#fxSheet').hidden) fxOpen(false); }
 function updateFx(){
   const amt = Number(($('#fxAmt') || {}).value) || 0;
   const rate = Number(($('#fxRate') || {}).value) || 0;
-  const dir = ($('#fxDir') || {}).value || 'eurSar';
-  const out = $('#fxOut');
-  if (out) out.innerHTML = fxText(amt, rate, dir);
+  const F = FX_UNITS[fxFrom], T = FX_UNITS[fxTo()];
+  $('#fxFromLbl').textContent = `${F.name} ${F.sym}`;
+  $('#fxToLbl').textContent = `${T.name} ${T.sym}`;
+  $('#fxQuick').innerHTML = F.quick.map(n => `<button class="chip" data-q="${n}">${n} ${F.sym}</button>`).join('');
+  const res = fxFrom === 'eur' ? amt * rate : amt / rate;
+  $('#fxOut').innerHTML = rate ? `${fxNum(amt)} ${F.sym} = <strong>${fxNum(res)}</strong> ${T.name}` : 'أدخلي سعر الصرف';
 }
 document.addEventListener('input', e => {
   const f = e.target.dataset && e.target.dataset.fx;
@@ -696,7 +729,6 @@ document.addEventListener('input', e => {
   if (f === 'rate') { const r = Number(e.target.value); if (r > 0) { try { localStorage.setItem(FX_KEY, String(r)); } catch(_) {} } }
   updateFx();
 });
-document.addEventListener('change', e => { if (e.target.dataset && e.target.dataset.fx) updateFx(); });
 
 function viewMine(){
   const m = mine();
@@ -853,6 +885,7 @@ function render(){
   const TAB_COLORS = ['#B9E6D4', '#F7D6A6', '#F9C7CF', '#C9D7F7', '#F9C7A8'];
   $('#nav').innerHTML = !picked ? '' : TABS.map(([k, i, l], n) => `<button data-act="tab" data-v="${k}" style="--c:${TAB_COLORS[n % TAB_COLORS.length]}" aria-current="${tab === k ? 'page' : 'false'}"><span class="i" aria-hidden="true">${i}</span>${l}</button>`).join('');
   tickCd();
+  fxSync();
   if (focusKey) { const el = document.getElementById(focusKey) || document.querySelector('[name="' + focusKey + '"]'); if (el) { el.focus(); if (typed !== null) el.value = typed; } }
   applyCollapsed();
 }
@@ -890,7 +923,7 @@ document.addEventListener('click', e => {
 let swipeStart = null;
 document.addEventListener('touchstart', e => {
   const t = e.touches[0];
-  const skip = e.touches.length > 1 || !picked || e.target.closest('input,select,textarea,.chips,.nav,.sky');
+  const skip = e.touches.length > 1 || !picked || e.target.closest('input,select,textarea,.chips,.nav,.sky,.fx-sheet');
   swipeStart = skip ? null : {x: t.clientX, y: t.clientY, time: Date.now()};
 }, {passive: true});
 document.addEventListener('touchend', e => {
