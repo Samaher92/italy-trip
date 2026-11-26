@@ -51,8 +51,40 @@ h1,h2,h3{margin:0;line-height:1.25}
 
 /* hero: pink countdown card */
 .hero{position:relative;border-radius:var(--r-xl);padding:20px;background:var(--pink-s);color:var(--ink);overflow:hidden;box-shadow:var(--shadow);animation:rise .6s cubic-bezier(.16,1,.3,1) both}
-.hero::after{content:"";position:absolute;inset-inline-end:-38px;top:-38px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.35)}
+.hero{isolation:isolate}
+.hero::after{content:"";position:absolute;z-index:-1;inset-inline-end:-38px;top:-38px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.35)}
 .hero-top{position:relative;display:flex;align-items:center;gap:12px}
+.pass{cursor:pointer;-webkit-user-select:none;user-select:none}
+.pass-route{position:relative;display:flex;align-items:center;gap:10px}
+.pass-route b{font-size:24px;font-weight:900}
+.pass-line{flex:1;display:flex;align-items:center;gap:6px;color:var(--pink)}
+.pass-line i{flex:1;border-bottom:2px dashed rgba(200,50,106,.45)}
+.pass-line .ic{width:28px;height:28px;transform:scaleX(-1);animation:glide 3.2s ease-in-out infinite}
+@keyframes glide{50%{transform:scaleX(-1) translate(6px,-4px) rotate(-4deg)}}
+.pass .hero-sub{margin:6px 0 0}
+.pass .stub{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pass .stub small{display:block;font-size:11px;font-weight:700;color:#6E3A4E}
+.pass .stub b{font-size:14px;font-weight:900}
+.pass-stamp{position:absolute;inset-inline-end:18px;bottom:22px;display:inline-flex;align-items:center;gap:4px;border:3px solid var(--green);color:var(--green);background:rgba(255,255,255,.7);padding:4px 12px;border-radius:12px;font-weight:900;font-size:15px;transform:rotate(-12deg);opacity:0;pointer-events:none}
+.pass.stamped .pass-stamp{animation:stampIn .5s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes stampIn{0%{opacity:0;transform:rotate(-12deg) scale(1.8)}100%{opacity:1;transform:rotate(-12deg) scale(1)}}
+.cd div{cursor:pointer}
+.cd div.pop{animation:pop .45s cubic-bezier(.16,1,.3,1)}
+@keyframes pop{40%{transform:scale(1.14) rotate(-3deg)}}
+.quote{display:flex;align-items:center;gap:10px;margin:0;padding:14px 16px;border-radius:var(--r-lg);background:var(--card);box-shadow:var(--shadow);font-weight:800;font-size:16px;line-height:1.6;cursor:pointer}
+.quote .ic{color:var(--pink);flex:none}
+.quote.swap span{animation:rise .45s cubic-bezier(.16,1,.3,1)}
+.quote:active{transform:scale(.98)}
+.stop-rail{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:10px -16px 0;padding:4px 16px 10px}
+.stop-tile{flex:0 0 132px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px;border:0;border-radius:var(--r-lg);background:color-mix(in srgb,var(--c) 16%,#fff);color:var(--ink);font:inherit;text-align:start;cursor:pointer;transition:transform .2s cubic-bezier(.16,1,.3,1)}
+.stop-tile:active{transform:scale(.95)}
+.stop-tile b{font-size:18px;font-weight:900;margin-top:8px}
+.stop-tile small{font-size:12px;font-weight:700;color:var(--muted)}
+.stop-ic{width:38px;height:38px;border-radius:50%;background:#fff;color:var(--c);display:grid;place-items:center}
+.stop-tile.now .stop-ic{background:var(--pink);color:#fff}
+.stop-wx{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-weight:900;font-size:15px}
+.stop-wx .ic{width:18px;height:18px;color:var(--c)}
+.dice.spin{animation:spinG .5s cubic-bezier(.16,1,.3,1)}
 .hero-ic{width:52px;height:52px;border-radius:50%;background:var(--card);color:var(--pink);display:grid;place-items:center;flex:none}
 .hero-ic .ic{width:26px;height:26px}
 .hero-title{margin:0;font-size:26px;font-weight:900}
@@ -195,8 +227,12 @@ button.st{cursor:pointer;min-height:34px}
 .nav button{flex:1;min-width:0;min-height:58px;border:0;background:transparent;color:var(--muted);font:700 12px Tajawal,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border-radius:18px}
 .nav .i{display:grid;place-items:center;width:46px;height:30px;border-radius:999px;transition:background .25s}
 .nav .ic{width:22px;height:22px}
-.nav button[aria-current=page]{color:var(--pink)}
-.nav button[aria-current=page] .i{background:var(--pink-t)}
+.nav .i{background:color-mix(in srgb,var(--tc) 40%,#fff)}
+.nav button{color:var(--ink)}
+.nav button:active .i{transform:scale(.9)}
+.nav button[aria-current=page]{color:var(--ink);font-weight:900}
+.nav button[aria-current=page] .i{background:var(--tc);width:58px;box-shadow:0 6px 14px -6px color-mix(in srgb,var(--tc) 80%,#000)}
+.nav .i{transition:background .25s,width .3s cubic-bezier(.16,1,.3,1),transform .15s}
 
 /* welcome */
 .wel{background:var(--card);border-radius:34px;padding:22px 18px;box-shadow:var(--shadow);animation:rise .6s cubic-bezier(.16,1,.3,1) both}
@@ -393,6 +429,7 @@ const H = (icon, text) => `<h2><span class="h-ic">${ic(icon)}</span>${text}</h2>
 const TIP_IC = {'🍚':'fork','🍝':'fork','🥩':'fork','🎨':'camera','🏛️':'landmark','⛪':'landmark','⛲':'landmark','☕':'cup'};
 const CAT_IC = {'هدايا':'gift','تسوق شخصي':'bag','أكل وشرب':'fork','قهوة وحلويات':'cup','مواصلات محلية':'train','تذاكر ومتاحف':'ticket','متفرقات':'sparkle'};
 const TAB_IC = {home:'home', budget:'wallet', mine:'coins', route:'route', bag:'suitcase'};
+const TAB_COL = {home:'#F9C3D1', budget:'#DCD2FA', mine:'#CDEBDC', route:'#CFE3F7', bag:'#FFDDB5'};
 const greetWord = () => new Date().getHours() < 12 ? 'صباح الخير' : 'مساء الخير';
 const sep = t => String(t ?? '').replace(/(\S)\s*·\s*(\S)/g, (m, a, b) => /[\u0600-\u06FF]/.test(a + b) ? a + '، ' + b : a + ' · ' + b);
 const emoOf = name => PEOPLE_EMO[PEOPLE.indexOf(name)] || '✈️';
@@ -604,50 +641,57 @@ function headBar(){
     <div class="head-actions"><button class="icon-btn" data-act="back" aria-label="الرجوع لاختيار الاسم">${ic('back')}</button><button class="avatar emo-tap" data-emo="${PEOPLE_EMO[pickedIdx]}" aria-label="${esc(picked)}">${PEOPLE_EMO[pickedIdx]}</button></div>
   </header>`;
 }
+function stopTiles(){
+  return plan.cities.map(c => {
+    const w = cityWx[geoKey(c)];
+    const now = plan.currentCity === c.id;
+    const d = sep(c.dates || '').split('،')[0];
+    return `<button class="stop-tile${now ? ' now' : ''}" style="--c:${c.color}" data-act="tab" data-v="route" aria-label="${esc(c.name)}، ${esc(d)}">
+      <span class="stop-ic">${ic(now ? 'plane' : 'pin')}</span>
+      <b>${esc(c.name)}</b><small>${esc(d)}</small>
+      ${w ? `<span class="stop-wx">${ic(wxInfo(w.now.code)[0])}<span class="num">${Math.round(w.now.t)}°</span></span>` : ''}
+    </button>`;
+  }).join('');
+}
 function viewHome(){
-  const c = calc();
   const cityNow = plan.cities.find(x => x.id === plan.currentCity);
-  const mineContr = Number(mine().contributed || 0);
-  const remaining = Math.max(0, c.share - mineContr);
   const tip = DEFAULT_TIPS[tipIdx % DEFAULT_TIPS.length];
   return `${headBar()}
-  <section class="hero" aria-label="العد التنازلي للرحلة">
-    <div class="hero-top"><span class="hero-ic">${ic('plane')}</span><div><p class="hero-title">إيطاليا</p><p class="hero-sub">١٧ – ${ARD(RET_DAY)} أبريل ٢٠٢٧، ${ARD(TRAVELERS)} مسافرات</p></div></div>
+  <section class="hero pass" data-act="stamp" role="button" tabindex="0" aria-label="تذكرة رحلتنا، اضغطي عشان تنختم">
+    <div class="pass-route"><b>السعودية</b><span class="pass-line"><i></i>${ic('plane')}<i></i></span><b>إيطاليا</b></div>
+    <p class="hero-sub">١٧ – ${ARD(RET_DAY)} أبريل ٢٠٢٧، ميلانو ← روما</p>
     <p class="cd-label" id="cd-label"></p>
     <div class="cd" role="timer" aria-label="الوقت المتبقي للإقلاع">
-      <div><b id="cd-d">--</b><span>يوم</span></div>
-      <div><b id="cd-h">--</b><span>ساعة</span></div>
-      <div><b id="cd-m">--</b><span>دقيقة</span></div>
-      <div><b id="cd-s">--</b><span>ثانية</span></div>
+      <div data-act="pop"><b id="cd-d">--</b><span>يوم</span></div>
+      <div data-act="pop"><b id="cd-h">--</b><span>ساعة</span></div>
+      <div data-act="pop"><b id="cd-m">--</b><span>دقيقة</span></div>
+      <div data-act="pop"><b id="cd-s">--</b><span>ثانية</span></div>
     </div>
-    <div class="stub" aria-label="من السعودية إلى إيطاليا"><span>السعودية</span><span class="stub-line"><i></i>${ic('plane')}<i></i></span><span>إيطاليا</span></div>
+    <div class="stub">
+      <div><small>المسافرة</small><b>${PEOPLE_EMO[pickedIdx] || ''} ${esc(picked)}</b></div>
+      <div><small>الرفقة</small><b>${ARD(TRAVELERS)} مسافرات</b></div>
+      <div><small>المحطات</small><b>${ARD(plan.cities.length)} مدن</b></div>
+    </div>
+    <span class="pass-stamp" aria-hidden="true">${ic('check')} جاهزة للإقلاع</span>
   </section>
 
-  <section class="share" aria-label="مبلغ المشاركة">
-    <div>
-      <small>مبلغ المشاركة</small>
-      <strong>${fmt0(c.share)} <span>ريال</span></strong>
-      <small style="font-weight:600">لكل مسافر، من الميزانية الكلية</small>
-    </div>
-    <div class="share-stats">
-      <div class="mini"><span>دفعتِ</span><b>${fmt0(mineContr)}</b></div>
-      <div class="mini"><span>باقي عليك</span><b>${fmt0(remaining)}</b></div>
-    </div>
+  <p class="quote" data-act="quote" role="button" tabindex="0">${ic('sparkle')}<span>${esc(TRAVEL_LINES[quoteIdx % TRAVEL_LINES.length])}</span></p>
+
+  ${cityNow ? `<section class="card here" style="--c:${cityNow.color}">${H('pin', 'أنتم هنا')}
+    <strong style="font-size:20px">${esc(cityNow.name)}</strong>${wxNowLine(cityNow)}<p class="muted" style="margin:4px 0 0">${esc(sep(cityNow.dates || ''))}${cityNow.desc ? '، ' + esc(sep(cityNow.desc)) : ''}</p>
+  </section>` : ''}
+
+  <section class="stops" aria-label="محطاتنا">
+    <h2 class="sec">${ic('route')}محطاتنا</h2>
+    <div class="stop-rail">${stopTiles()}</div>
   </section>
 
   ${updatesCard()}
 
-  ${weatherCard()}
-
   <section class="tip" aria-label="نصيحة للسفر">
     <div class="tipIcon">${ic(TIP_IC[tip.icon] || 'compass')}</div>
     <div class="grow"><div class="muted">نصيحة من ${esc(tip.city)}</div><p class="tip-text">${esc(tip.text)}</p></div>
-    <button class="icon-btn" data-act="tip" aria-label="نصيحة ثانية">${ic('refresh')}</button>
-  </section>
-
-  <section class="card here"${cityNow ? ` style="--c:${cityNow.color}"` : ''}>${H('pin', 'أنتم هنا')}
-    ${cityNow ? `<strong style="font-size:20px">${esc(cityNow.name)}</strong>${wxNowLine(cityNow)}<p class="muted" style="margin:4px 0 0">${esc(sep(cityNow.dates || ''))}${cityNow.desc ? '، ' + esc(sep(cityNow.desc)) : ''}</p>` : '<p class="muted" style="margin:0">حددي المدينة الحالية من تبويب الخط</p>'}
-    <button class="btn sm" style="margin-top:12px" data-act="tab" data-v="route">${ic('route')} عرض الخط كامل</button>
+    <button class="icon-btn dice" data-act="tip" aria-label="نصيحة ثانية">${ic('refresh')}</button>
   </section>`;
 }
 
@@ -932,7 +976,7 @@ function render(){
   const typed = act && (act.tagName === 'INPUT' || act.tagName === 'TEXTAREA') ? act.value : null;
   const tabLabel = (TABS.find(t => t[0] === tab) || [])[2];
   app.innerHTML = picked ? (tab === 'home' || tab === 'mine' ? '' : `<h1 class="page-title"><span class="h-ic">${ic(TAB_IC[tab])}</span>${tabLabel}</h1>`) + VIEWS[tab]() : viewWelcome();
-  $('#nav').innerHTML = !picked ? '' : TABS.map(([k, , l]) => `<button data-act="tab" data-v="${k}" aria-current="${tab === k ? 'page' : 'false'}"><span class="i">${ic(TAB_IC[k])}</span>${l}</button>`).join('') + `<button class="fx-fab" id="fxFab" aria-label="محول العملة" aria-haspopup="dialog">${ic('exchange')}</button>`;
+  $('#nav').innerHTML = !picked ? '' : TABS.map(([k, , l]) => `<button data-act="tab" data-v="${k}" style="--tc:${TAB_COL[k]}" aria-current="${tab === k ? 'page' : 'false'}"><span class="i">${ic(TAB_IC[k])}</span>${l}</button>`).join('') + `<button class="fx-fab" id="fxFab" aria-label="محول العملة" aria-haspopup="dialog">${ic('exchange')}</button>`;
   tickCd();
   fxSync();
   if (focusKey) { const el = document.getElementById(focusKey) || document.querySelector('[name="' + focusKey + '"]'); if (el) { el.focus(); if (typed !== null) el.value = typed; } }
@@ -984,7 +1028,7 @@ document.addEventListener('touchend', e => {
   const keys = TABS.map(x => x[0]);
   const next = keys[keys.indexOf(tab) + (dx > 0 ? 1 : -1)];
   if (!next) return;
-  tab = next; render(); window.scrollTo({top: 0, behavior: 'smooth'});
+  tab = next; render(); window.scrollTo({top: 0, behavior: 'smooth'}); burst(TAB_FX[next]);
 }, {passive: true});
 
 function toast(msg){ const d = document.createElement('div'); d.className = 'toast'; d.textContent = msg; document.body.appendChild(d); setTimeout(() => d.remove(), 3000); }
@@ -996,8 +1040,9 @@ document.addEventListener('click', async e => {
   const CONFIRM = {delBag: 'تبين تحذفين هالغرض من شنطتك؟', bagReset: 'ترجعين القائمة الأساسية؟ تعديلاتك على الشنطة بتنمسح.', delItem: 'تبين تحذفين هالاقتراح من المدينة؟', delIdea: 'تبين تحذفين اقتراحك؟', delExp: 'تبين تحذفين هالمصروف؟', release: 'تبين تحررين هالاسم؟'};
   if (CONFIRM[a] && !confirm(CONFIRM[a])) return;
   if (a === 'spin') { b.classList.remove('spin'); void b.offsetWidth; b.classList.add('spin'); return; }
-  if (a === 'quote') { quoteIdx++; render(); return; }
-  if (a === 'stamp') { b.classList.remove('stamped'); void b.offsetWidth; b.classList.add('stamped'); burst(['🛂', '🎉', '✈️']); return; }
+  if (a === 'quote') { quoteIdx++; render(); const q = document.querySelector('.quote'); if (q) q.classList.add('swap'); return; }
+  if (a === 'pop') { b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); burst(['⏳', '✈️']); return; }
+  if (a === 'stamp') { if (e.target.closest('[data-act=pop]')) return; b.classList.remove('stamped'); void b.offsetWidth; b.classList.add('stamped'); burst(['🛂', '🎉', '✈️']); return; }
   if (a === 'pick') {
     if (!isOwner && v === 'سماهر') { document.getElementById('ownerBtn').hidden = false; toast('سجلي دخول صاحبة الرحلة من الزر اللي تحت'); return; }
     if (!window.__isGoogle) { toast('سجلي دخول بحساب Google أول'); return; }
@@ -1011,8 +1056,8 @@ document.addEventListener('click', async e => {
     return;
   }
   if (a === 'back') { picked = null; pickedIdx = -1; render(); window.scrollTo(0, 0); return; }
-  if (a === 'tab') { tab = v; render(); window.scrollTo({top: 0, behavior: 'smooth'}); return; }
-  if (a === 'tip') { tipIdx = Math.floor(Math.random() * DEFAULT_TIPS.length); render(); return; }
+  if (a === 'tab') { tab = v; render(); window.scrollTo({top: 0, behavior: 'smooth'}); burst(TAB_FX[v]); return; }
+  if (a === 'tip') { tipIdx = (tipIdx + 1 + Math.floor(Math.random() * (DEFAULT_TIPS.length - 1))) % DEFAULT_TIPS.length; render(); const d = document.querySelector('.dice'); if (d) d.classList.add('spin'); return; }
   if (a === 'filter') { catFilter = v; render(); return; }
   if ((a === 'toggleDo' || a === 'delItem') && isOwner && id) {
     const [cid, iid] = id.split('|');
