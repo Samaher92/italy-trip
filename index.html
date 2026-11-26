@@ -513,16 +513,15 @@ function tickCd(){
   showClock('clk-it', 'Europe/Rome', 'it');
 }
 
-const DECIDE_LABEL = {true: '✅ نسويها', false: '❌ ما نسويها'};
+/* the route is final: places show no decision badge and there is no "change decision" button */
 function placeCard(c, i){
   const key = c.id + '|' + i.id;
-  const badge = DECIDE_LABEL[i.decided] ? `<span class="tag">${DECIDE_LABEL[i.decided]}</span>` : '<span class="tag">⏳ بنقرر</span>';
   const link = /^https?:\/\//.test(i.link || '') ? `<a href="${esc(i.link)}" target="_blank" rel="noopener" style="font-weight:700">📍 الموقع</a>` : '';
   return `<div class="fade" style="margin-top:8px;padding:10px 12px;border:1px solid var(--line);border-radius:14px">
-    <div class="row" style="justify-content:space-between;align-items:center;gap:6px"><strong>${esc(i.text)}</strong>${badge}</div>
+    <div class="row" style="justify-content:space-between;align-items:center;gap:6px"><strong>${esc(i.text)}</strong></div>
     ${i.details ? `<p class="hint" style="margin:6px 0 0;white-space:pre-line">${esc(i.details)}</p>` : ''}
     <div class="row" style="gap:8px;margin-top:6px;flex-wrap:wrap">${link}
-      ${isOwner ? `<button class="btn sm" data-act="toggleDo" data-id="${esc(key)}">تغيير القرار</button><button class="del" aria-label="حذف" data-act="delItem" data-id="${esc(key)}">🗑️</button>` : ''}
+      ${isOwner ? `<button class="del" aria-label="حذف" data-act="delItem" data-id="${esc(key)}">🗑️</button>` : ''}
     </div></div>`;
 }
 function cityTags(c){
