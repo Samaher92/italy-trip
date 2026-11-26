@@ -669,10 +669,15 @@ function viewBudget(){
       ${isOwner ? `<input class="in" style="width:110px;height:44px;text-align:center" type="number" inputmode="decimal" min="0" step="0.01" value="${Number(l.amount || 0)}" data-field="amount" data-id="${esc(l.id)}" aria-label="مبلغ ${esc(l.label)}">` : `<strong class="num">${fmt(l.amount)}</strong>`}
     </div>`;
   return `<section class="card">${H('wallet', 'الميزانية الكلية')}
-    <label class="form"><span class="muted" style="display:inline-flex;align-items:center;gap:6px">المبلغ الكلي للرحلة (ريال) ${ic('lock')} مقفل</span>
-      <input class="in num" type="number" inputmode="decimal" min="0" step="0.01" value="${Number(budget.total || 0)}" data-field="total" disabled style="font-size:22px;font-weight:800">
-    </label>
-    <p class="hint" style="margin:8px 0 0">مبلغ المشاركة للمسافر: <span class="num">${fmt(c.share)}</span> ريال</p>
+    ${isOwner ? `<div class="form">
+      <label class="form"><span class="muted">المبلغ الكلي للرحلة (ريال)</span>
+        <input class="in num" type="number" inputmode="decimal" min="0" step="1" value="${Number(budget.total || 0)}" data-field="total" style="font-size:22px;font-weight:800"></label>
+      <label class="form"><span class="muted">ينقسم على كم مسافرة؟</span>
+        <input class="in num" type="number" inputmode="numeric" min="1" step="1" value="${Number(plan.travelers || 5)}" data-field="travelers" style="font-weight:800"></label>
+      <p class="hint" style="margin:0">التعديل يتحفظ أول ما تطلعين من الخانة، ويشوفه الكل.</p>
+    </div>` : `<label class="form"><span class="muted" style="display:inline-flex;align-items:center;gap:6px">المبلغ الكلي للرحلة (ريال) ${ic('lock')} مقفل</span>
+      <input class="in num" type="number" value="${Number(budget.total || 0)}" disabled style="font-size:22px;font-weight:800"></label>`}
+    <p class="hint" style="margin:10px 0 0">مبلغ المشاركة للمسافر: <span class="num">${fmt(c.share)}</span> ريال</p>
   </section>
   <section class="card">${H('bed', 'السكن والتذاكر')}${lines.map(lineRow).join('') || '<p class="muted">لا توجد حجوزات</p>'}
     ${isOwner ? (addingLine ? `<form id="lineForm" class="row" style="margin-top:12px;flex-wrap:wrap"><input class="in" name="label" placeholder="اسم الحجز" required style="flex:2;min-width:140px"><input class="in" name="amount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="المبلغ" required style="flex:1;min-width:90px"><button class="btn primary" type="submit">حفظ</button></form>` : `<button class="btn primary" style="width:100%;margin-top:12px" data-act="addLine">${ic('sparkle')} إضافة حجز</button>`) : ''}
@@ -1045,7 +1050,8 @@ document.addEventListener('change', async e => {
   const f = e.target.dataset.field;
   if (!f) return;
   const v = Number(e.target.value) || 0;
-  if (f === 'total' && isOwner) { budget.total = v; await saveBudget(); }
+  if (f === 'total' && isOwner) { budget.total = v; await saveBudget(); toast('تم حفظ المبلغ الكلي'); }
+  if (f === 'travelers' && isOwner) { const n = Math.round(v); if (n >= 1) { plan.travelers = n; await savePlan(); toast('تم حفظ عدد المسافرات'); } else render(); }
   if (f === 'amount' && isOwner) { const id = e.target.dataset.id; budget.lines = budget.lines.map(l => l.id === id ? {...l, amount: v} : l); await saveBudget(); }
 });
 
