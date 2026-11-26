@@ -236,7 +236,8 @@ button.st{cursor:pointer;min-height:34px}
 .fx-cur{flex:1;text-align:center;font-weight:800;font-size:17px}
 .fx-swap{width:50px;height:50px;border:0;border-radius:50%;background:var(--pink);color:#fff;display:grid;place-items:center;cursor:pointer}
 .fx-swap.spin{animation:spinG .45s cubic-bezier(.16,1,.3,1)}
-.fx-amt{height:60px;font-size:26px;font-weight:800;text-align:center}
+.fx-amt{height:60px;font-size:26px;font-weight:800;text-align:center;cursor:text}
+.fx-amt[readonly],.fx-rate .in[readonly]{background:#FFFAFC;color:var(--ink)}
 .fx-quick{justify-content:center}
 .fx-out{margin:0;font-size:18px;text-align:center;font-weight:700}
 .fx-out strong{font-size:30px;font-weight:900;color:var(--pink)}
@@ -693,6 +694,17 @@ function buildFx(){
     <p class="hint" style="text-align:center;margin:6px 0 0">عدّلي سعر الصرف حسب سعر اليوم، ويُحفظ على جهازك.</p>
   </div>`);
   $('#fxRate').value = fxRate();
+  /* phones open the keyboard for any focused field, so the fields stay read-only until the finger
+     actually lands on one; opening the sheet or tapping a quick amount can never raise the keyboard */
+  ['#fxAmt', '#fxRate'].forEach(sel => {
+    const el = $(sel);
+    el.readOnly = true;
+    const unlock = () => { el.readOnly = false; };
+    el.addEventListener('pointerdown', unlock);
+    el.addEventListener('touchstart', unlock, {passive: true});
+    el.addEventListener('keydown', unlock);
+    el.addEventListener('blur', () => { el.readOnly = true; });
+  });
   document.addEventListener('click', e => { if (e.target.closest('#fxFab')) fxOpen(true); });
   $('#fxClose').addEventListener('click', () => fxOpen(false));
   $('#fxBack').addEventListener('click', () => fxOpen(false));
@@ -705,7 +717,7 @@ function buildFx(){
 }
 function fxOpen(on){
   $('#fxSheet').hidden = $('#fxBack').hidden = !on;
-  if (on) { updateFx(); $('#fxSheet').focus({preventScroll: true}); } else { const f = $('#fxFab'); if (f) f.focus(); }
+  if (on) { updateFx(); if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); $('#fxSheet').focus({preventScroll: true}); } else { const f = $('#fxFab'); if (f) f.focus(); }
 }
 function fxSync(){ buildFx(); if (!picked && !$('#fxSheet').hidden) fxOpen(false); }
 const fxParse = v => Number(String(v || '').replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[٫,]/g, '.')) || 0;
