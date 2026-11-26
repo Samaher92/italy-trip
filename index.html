@@ -203,6 +203,26 @@ button.st{cursor:pointer;min-height:34px}
 .wx-day .ic{width:24px;height:24px;color:var(--c,var(--pink))}
 .wx-day b{font-size:17px;font-weight:900}
 .wx-day small{font-size:12px;color:var(--muted);font-weight:700}
+.city-tabs{margin:0 -16px;padding:4px 16px 8px;scrollbar-width:none}
+.city-tabs::-webkit-scrollbar,.kind-chips::-webkit-scrollbar{display:none}
+.kind-chips{scrollbar-width:none}
+.city-tab{flex:0 0 auto;scroll-snap-align:start;display:flex;align-items:center;gap:8px;min-height:56px;padding:8px 14px;border:1.5px solid color-mix(in srgb,var(--c) 30%,#fff);border-radius:20px;background:#fff;color:var(--ink);font:inherit;cursor:pointer;text-align:start;transition:background .2s,transform .15s}
+.city-tab .ic{color:var(--c)}
+.city-tab span{display:flex;flex-direction:column;line-height:1.25}
+.city-tab b{font-size:16px;font-weight:900}
+.city-tab small{font-size:11px;font-weight:700;color:var(--muted)}
+.city-tab em,.kind-chips em{font-style:normal;font-size:12px;font-weight:900;min-width:22px;height:22px;padding:0 6px;border-radius:999px;display:inline-grid;place-items:center;background:color-mix(in srgb,var(--c,var(--pink)) 14%,#fff)}
+.city-tab[aria-selected=true]{background:color-mix(in srgb,var(--c) 18%,#fff);border-color:var(--c);transform:translateY(-2px);box-shadow:0 8px 18px -10px var(--c)}
+.city-tab:active{transform:scale(.96)}
+.city-panel{margin-bottom:0}
+.plain-h{margin:0 0 12px}
+.kind-chips .chip{display:inline-flex;align-items:center;gap:6px}
+.kind-chips .chip .ic{width:17px;height:17px}
+.kind-chips .chip[aria-pressed=true] em{background:rgba(255,255,255,.25);color:#fff}
+.route-search{margin-top:8px;height:44px}
+.places .place{background:var(--bg)}
+.place-t{display:flex;align-items:center;gap:8px}
+.place-t .ic{width:16px;height:16px}
 .place{margin-top:8px;padding:12px 14px;border-radius:var(--r-md);background:rgba(255,255,255,.85)}
 .place-actions{display:flex;gap:10px;align-items:center;margin-top:6px;flex-wrap:wrap}
 .place-actions a{display:inline-flex;align-items:center;gap:4px;font-weight:800}
@@ -594,7 +614,7 @@ function placeCard(c, i){
   const key = c.id + '|' + i.id;
   const link = /^https?:\/\//.test(i.link || '') ? `<a href="${esc(i.link)}" target="_blank" rel="noopener">${ic('pin')} الموقع</a>` : '';
   return `<div class="place">
-    <strong>${esc(i.text)}</strong>
+    <strong class="place-t"><span class="row-ic" style="width:32px;height:32px;--tint:color-mix(in srgb,var(--c) 16%,#fff);color:var(--c)">${ic(KIND_IC[i.kind] || 'pin')}</span>${esc(i.text)}</strong>
     ${i.details ? `<p class="hint" style="margin:4px 0 0;white-space:pre-line">${esc(i.details)}</p>` : ''}
     ${link || isOwner ? `<div class="place-actions">${link}${isOwner ? `<button class="del" aria-label="حذف" data-act="delItem" data-id="${esc(key)}">${ic('trash')}</button>` : ''}</div>` : ''}
   </div>`;
@@ -810,6 +830,7 @@ function updateFx(){
   $('#fxOut').innerHTML = rate ? `${fxNum(amt)} ${F.sym} = <strong>${fxNum(res)}</strong> ${T.name}` : 'أدخلي سعر الصرف';
 }
 document.addEventListener('input', e => {
+  if (e.target.dataset && 'routeSearch' in e.target.dataset) { routeQuery = e.target.value; render(); return; }
   const f = e.target.dataset && e.target.dataset.fx;
   if (!f) return;
   if (f === 'rate') { const r = fxParse(e.target.value); if (r > 0) { try { localStorage.setItem(FX_KEY, String(r)); } catch(_) {} } }
@@ -871,9 +892,50 @@ function updatesCard(){
     ${ups.length ? ups.map(u => { const [uic, utint] = updateIc(u); return `<div class="item"><span class="row-ic" style="--tint:${utint}">${ic(uic)}</span><div class="grow"><p>${u.by ? 'اقتراح من ' + esc(u.by) + ': ' : ''}${esc(u.text)}</p><span class="hint">${esc(new Date(u.at).toLocaleString('ar-SA',{dateStyle:'medium',timeStyle:'short'}))}</span></div></div>`; }).join('') : '<p class="muted" style="margin:0">ما فيه تحديثات لين الحين</p>'}
   </section>`;
 }
+/* route: one tab per city; inside a city, suggestions filter by kind and search */
+let routeCity = null, routeKind = 'all', routeQuery = '';
+const KINDS = [['all', 'الكل', 'sparkle'], ['activity', 'أنشطة', 'camera'], ['food', 'أكل', 'fork'], ['site', 'مواقع', 'landmark']];
+const KIND_IC = {activity: 'camera', food: 'fork', site: 'landmark'};
 function viewRoute(){
+  if (!plan.cities.some(c => c.id === routeCity)) routeCity = plan.currentCity || (plan.cities[0] || {}).id;
+  const c = plan.cities.find(x => x.id === routeCity);
+  const items = (c && c.items) || [];
+  const q = routeQuery.trim();
+  const shown = items.filter(i => (routeKind === 'all' || i.kind === routeKind) && (!q || (i.text + ' ' + (i.details || '')).includes(q)));
+  const count = k => k === 'all' ? items.length : items.filter(i => i.kind === k).length;
   return `
+  <div class="chips city-tabs" role="tablist" aria-label="مدن الرحلة">
+    ${plan.cities.map(x => `<button class="city-tab" role="tab" aria-selected="${x.id === routeCity}" style="--c:${x.color}" data-act="routeCity" data-v="${esc(x.id)}">
+      ${ic(plan.currentCity === x.id ? 'plane' : 'pin')}<span><b>${esc(x.name)}</b><small>${esc(sep(x.dates || '').split('،')[0])}</small></span><em>${(x.items || []).length}</em>
+    </button>`).join('')}
+  </div>
 
+  ${c ? `<article class="city city-panel${plan.currentCity === c.id ? ' now' : ''}" style="--c:${c.color}" role="tabpanel">
+    <div class="row" style="justify-content:space-between"><h3>${esc(c.name)}</h3>${plan.currentCity === c.id ? `<span class="tag">${ic('plane')} أنتم هنا</span>` : ''}</div>
+    <div class="tags"><span class="tag">${ic('clock')} ${esc(sep(c.dates || 'التواريخ تتحدد لاحقاً'))}</span></div>
+    <p style="margin:0;display:flex;gap:6px;align-items:center">${ic('bed')}<span>${esc(sep(c.desc))}</span></p>
+    ${wxDays(c)}
+    ${isOwner ? `<div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="btn sm" data-act="setCity" data-id="${c.id}">${ic('pin')} تحديد كمدينة حالية</button>${editingCity === c.id ? `<form id="dateForm" class="row" style="width:100%"><input type="hidden" name="id" value="${c.id}"><input class="in" name="dates" value="${esc(c.dates || '')}"><button class="btn primary" type="submit">حفظ</button></form>` : `<button class="btn sm" data-act="cityDates" data-id="${c.id}">${ic('pen')} تعديل التواريخ</button>`}</div>` : ''}
+  </article>
+
+  <section class="card places-card">
+    <div><h2 class="plain-h"><span class="h-ic">${ic('sparkle')}</span>المقترحات في ${esc(c.name)}</h2></div>
+    <div class="chips kind-chips" role="group" aria-label="نوع المقترح">${KINDS.map(([k, l, icn]) => `<button class="chip" aria-pressed="${routeKind === k}" data-act="routeKind" data-v="${k}">${ic(icn)} ${l} <em>${count(k)}</em></button>`).join('')}</div>
+    ${items.length > 3 ? `<input class="in route-search" id="routeq" name="routeq" type="search" value="${esc(routeQuery)}" placeholder="دوّري في المقترحات…" data-route-search autocomplete="off">` : ''}
+    <div class="places">${shown.length ? shown.map(i => placeCard(c, i)).join('') : `<p class="muted" style="margin:6px 0;text-align:center">${items.length ? 'ما فيه مقترحات بهالتصفية' : 'لسا ما فيه مقترحات لهالمدينة'}</p>`}</div>
+  </section>
+
+  ${isOwner ? `<section class="card">${H('sparkle', 'إضافة اقتراح')}
+    <form class="form" id="sugForm">
+      <input type="hidden" name="city" value="${esc(c.id)}">
+      <p class="hint" style="margin:0">ينضاف لـ <b>${esc(c.name)}</b>، غيّري المدينة من التبويبات فوق.</p>
+      <select class="sel" name="kind">${KINDS.slice(1).map(([k, l]) => `<option value="${k}" ${routeKind === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
+      <input class="in" name="text" placeholder="مثلاً: كاتدرائية الدومو" required>
+      <textarea class="ta" name="details" placeholder="التفاصيل: السعر، وش فيه، أفضل وقت (اختياري)"></textarea>
+      <input class="in" name="link" type="url" placeholder="رابط الموقع (اختياري)">
+      <button class="btn ink" type="submit">أضيفيه لـ ${esc(c.name)}</button>
+    </form>
+  </section>` : ''}` : '<p class="muted">ما فيه مدن في الخطة</p>'}
 
   ${me ? `<section class="card">${H('bulb', 'اقتراح نشاط')}
     <form class="form" id="ideaForm">
@@ -883,32 +945,12 @@ function viewRoute(){
     ${(mine().ideas || []).length ? (mine().ideas || []).slice().reverse().map(i => `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)"><span>${esc(i.text)}</span><button class="del" aria-label="حذف الاقتراح" data-act="delIdea" data-id="${esc(i.id)}">${ic('trash')}</button></div>`).join('') : ''}
   </section>` : '<p class="hint" style="text-align:center">اختاري اسمك أول عشان تقدرين تقترحين أنشطة</p>'}
 
-  <h2 class="sec">${ic('route')}خط الرحلة</h2>
-  <div class="tl">
-    ${plan.cities.map(c => `<article class="city${plan.currentCity === c.id ? ' now' : ''}" style="--c:${c.color}">
-      <span class="dot" aria-hidden="true">${ic(plan.currentCity === c.id ? 'plane' : 'pin')}</span>
-      <div class="row" style="justify-content:space-between"><h3>${esc(c.name)}</h3>${plan.currentCity === c.id ? `<span class="tag">${ic('plane')} أنتم هنا</span>` : ''}</div>
-      <div class="tags"><span class="tag">${ic('clock')} ${esc(sep(c.dates || 'التواريخ تتحدد لاحقاً'))}</span></div>
-      <p style="margin:0;display:flex;gap:6px;align-items:center">${ic('bed')}<span>${esc(sep(c.desc))}</span></p>
-      ${wxDays(c)}
-      ${cityTags(c) || '<p class="hint" style="margin:8px 0 0">المقترحات تنضاف قريب</p>'}
-      ${isOwner ? `<div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="btn sm" data-act="setCity" data-id="${c.id}">${ic('pin')} تحديد كمدينة حالية</button>${editingCity === c.id ? `<form id="dateForm" class="row" style="width:100%"><input type="hidden" name="id" value="${c.id}"><input class="in" name="dates" value="${esc(c.dates || '')}"><button class="btn primary" type="submit">حفظ</button></form>` : `<button class="btn sm" data-act="cityDates" data-id="${c.id}">${ic('pen')} تعديل التواريخ</button>`}</div>` : ''}
-    </article>`).join('')}
-  </div>
-  ${isOwner ? `<section class="card">${H('sparkle', 'إضافة اقتراح')}
-    <form class="form" id="sugForm">
-      <div class="two"><select class="sel" name="city">${plan.cities.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
-      <select class="sel" name="kind"><option value="activity">نشاط</option><option value="food">أكل</option><option value="site">موقع</option></select></div>
-      <input class="in" name="text" placeholder="مثلاً: كاتدرائية الدومو" required>
-      <textarea class="ta" name="details" placeholder="التفاصيل: السعر، وش فيه، أفضل وقت (اختياري)"></textarea>
-      <input class="in" name="link" type="url" placeholder="رابط الموقع (اختياري)">
-      <button class="btn ink" type="submit">أضيفيه للمدينة</button>
-    </form>
-    <form class="form" id="updForm" style="margin-top:16px">
+  ${isOwner ? `<section class="card">${H('megaphone', 'نشر تحديث')}
+    <form class="form" id="updForm">
       <textarea class="ta" name="text" placeholder="تحديث للمسافرين، مثلاً: الحجز تأكد ✅" required></textarea>
       <button class="btn primary" type="submit">انشري التحديث</button>
     </form>
-  </section>` : '<p class="hint" style="text-align:center">المقترحات والخطة تحددها صاحبة الرحلة</p>'}`;
+  </section>` : ''}`;
 }
 
 function viewBag(){
@@ -1091,6 +1133,8 @@ document.addEventListener('click', async e => {
   if (a === 'bagCancel') { editingBag = null; render(); return; }
   if (a === 'delBag' && me) { await saveMine({bag: bagItems().filter(i => i.id !== id), bagEdited: true}); return; }
   if (a === 'bagReset' && me) { await saveMine({bag: [], bagEdited: false}); return; }
+  if (a === 'routeCity') { routeCity = v; routeQuery = ''; render(); return; }
+  if (a === 'routeKind') { routeKind = v; render(); return; }
   if (a === 'setCity' && isOwner) { plan.currentCity = id; await savePlan(); return; }
   if (a === 'cityDates' && isOwner) { editingCity = id; render(); return; }
   if (a === 'addContrib') { const inp = $('#contrib'); if (inp && !inp.disabled) { inp.value = (Number(inp.value) || 0) + Number(v); inp.focus(); } return; }
@@ -1170,7 +1214,8 @@ document.addEventListener('submit', async e => {
     const c = plan.cities.find(x => x.id === fd.get('city'));
     if (!c) return;
     c.items = [...(c.items || []), {id: uid(), kind: fd.get('kind'), text: String(fd.get('text') || '').trim(), details: String(fd.get('details') || '').trim(), link: String(fd.get('link') || '').trim(), decided: null}];
-    form.reset(); await savePlan();
+    routeCity = c.id; routeKind = 'all'; routeQuery = '';
+    form.reset(); await savePlan(); toast('انضاف لـ ' + c.name);
   }
   if (fid === 'updForm' && isOwner) {
     e.preventDefault();
