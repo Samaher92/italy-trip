@@ -147,6 +147,8 @@ button.st{cursor:pointer;min-height:34px}
 .sum-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
 .sum-row strong{font-variant-numeric:tabular-nums}
 .who{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.contrib-edit{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:14px}
+.contrib-edit .in{width:110px;height:40px;text-align:center;font-weight:800}
 .who .avatar{width:40px;height:40px;font-size:19px;box-shadow:none;background:var(--pink-t);cursor:default}
 .bar{height:10px;border-radius:999px;background:var(--pink-t);overflow:hidden;margin-top:6px}
 .bar i{display:block;height:100%;border-radius:999px;background:var(--pink-hi);transition:width .8s cubic-bezier(.16,1,.3,1)}
@@ -632,7 +634,10 @@ function contribRows(c){
   if (!shown.length) return '<p class="muted" style="margin:0">لسا ما أحد ضاف مساهمته. أضيفيها من تبويب مساهمتي.</p>';
   return shown.map(id => {
     const m = members[id]; const pct = c.share ? Math.min(100, (Number(m.contributed || 0) / c.share) * 100) : 0;
-    return `<div class="who"><span class="avatar" aria-hidden="true">${emoOf(m.name)}</span><div class="grow"><div class="row" style="justify-content:space-between"><span style="font-weight:800">${esc(nameOf(id))}</span><span class="num" style="font-weight:700">${fmt(m.contributed)} ريال</span></div><div class="bar"><i style="width:${pct.toFixed(1)}%"></i></div></div></div>`;
+    const amount = isOwner
+      ? `<label class="contrib-edit"><input class="in num" type="number" inputmode="decimal" min="0" step="1" value="${Number(m.contributed || 0)}" data-field="contrib" data-id="${esc(id)}" aria-label="مساهمة ${esc(nameOf(id))} بالريال"><span>ريال</span></label>`
+      : `<span class="num" style="font-weight:700">${fmt(m.contributed)} ريال</span>`;
+    return `<div class="who"><span class="avatar" aria-hidden="true">${emoOf(m.name)}</span><div class="grow"><div class="row" style="justify-content:space-between"><span style="font-weight:800">${esc(nameOf(id))}</span>${amount}</div><div class="bar"><i style="width:${pct.toFixed(1)}%"></i></div></div></div>`;
   }).join('');
 }
 function headBar(){
@@ -734,6 +739,7 @@ function viewBudget(){
   ${isOwner ? `<section class="share"><div><small>المتاح للصرف</small><strong style="font-size:36px">${fmt(c.available)} <span>ريال</span></strong></div></section>` : ''}
   ${isOwner && c.available < 0 ? `<div class="alert">${ic('clock')} المصروف تجاوز الميزانية</div>` : ''}
   <section class="card">${H('coins', 'المساهمات')}
+    ${isOwner ? '<p class="hint" style="margin:0 0 10px">تقدرين تعدلين مساهمة أي وحدة لو حوّلت لك وما حدّثت صفحتها. التعديل يتحفظ أول ما تطلعين من الخانة.</p>' : ''}
     <div class="mini" style="margin-bottom:12px"><span>مجموع المساهمات</span><b>${fmt0(c.pool)} ريال</b></div>
     ${contribRows(c)}
   </section>`;
@@ -1096,6 +1102,13 @@ document.addEventListener('change', async e => {
   if (!f) return;
   const v = Number(e.target.value) || 0;
   if (f === 'total' && isOwner) { budget.total = v; await saveBudget(); toast('تم حفظ المبلغ الكلي'); }
+  if (f === 'contrib' && isOwner) {
+    /* owner records a transfer for a traveler who has not updated her own page */
+    const cid = e.target.dataset.id; const prev = members[cid] || {};
+    members[cid] = {...prev, contributed: v}; render();
+    if (db) { try { await db.doc('members/' + cid).set(members[cid]); toast('تم تحديث مساهمة ' + nameOf(cid)); } catch (err) { members[cid] = prev; render(); toast('ما قدرنا نحفظ المساهمة، جربي مرة ثانية'); } }
+    return;
+  }
   if (f === 'travelers' && isOwner) { const n = Math.round(v); if (n >= 1) { plan.travelers = n; await savePlan(); toast('تم حفظ عدد المسافرات'); } else render(); }
   if (f === 'amount' && isOwner) { const id = e.target.dataset.id; budget.lines = budget.lines.map(l => l.id === id ? {...l, amount: v} : l); await saveBudget(); }
 });
