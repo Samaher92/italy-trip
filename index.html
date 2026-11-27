@@ -785,7 +785,7 @@ const FLIGHTS = [
   {id: 'out', dir: 'الذهاب', airline: 'السعودية', no: 'SV 211', date: '2027-04-17', day: 'السبت ١٧ أبريل',
    from: {code: 'JED', city: 'جدة', time: '09:45', place: 'مطار الملك عبدالعزيز، صالة 1'},
    to: {code: 'MXP', city: 'ميلانو', time: '14:05', place: 'مطار مالبينسا، صالة 1'},
-   dur: '5 ساعات و20 دقيقة', stops: 'مباشرة', plane: 'إيرباص A330', bag: 'شنطتين 23 كجم', pax: ['سماهر', 'سمارا', 'منى']},
+   dur: '5 ساعات و20 دقيقة', stops: 'مباشرة', plane: 'إيرباص A330', bag: 'شنطتين 23 كجم', pax: ['سماهر', 'سمارا', 'منى', 'سحر']} /* سحر حجزت نفس الرحلة بحجز منفصل */,
   {id: 'back', dir: 'الرجوع', airline: '', no: '', date: '2027-04-29', day: '٢٩ أبريل',
    from: {code: 'FCO', city: 'روما', time: '', place: ''}, to: {code: 'JED', city: 'جدة', time: '', place: ''}, pending: true}
 ];
@@ -1025,7 +1025,7 @@ function flightCard(f){
   return `<div class="ticket"><div class="t-top"><span class="t-dir">${esc(f.dir)}</span><span class="num">${esc(f.no)}</span><span>${esc(f.airline)}</span></div>
     <div class="t-row"><div><b class="t-code">${f.from.code}</b><small>${esc(f.from.city)}</small><b class="t-time num">${f.from.time}</b></div><span class="t-line"><i></i>${ic('plane')}<i></i></span><div><b class="t-code">${f.to.code}</b><small>${esc(f.to.city)}</small><b class="t-time num">${f.to.time}</b></div></div>
     <div class="t-meta"><span>${ic('clock')} ${esc(f.day)}</span><span>${esc(f.stops)}، ${esc(f.dur)}</span><span>${ic('suitcase')} ${esc(f.bag)}</span></div>
-    <p class="t-note">${esc(f.from.place)} ← ${esc(f.to.place)}. على الحجز: ${f.pax.map(esc).join('، ')}. الأوقات بتوقيت كل مطار.</p></div>`;
+    <p class="t-note">${esc(f.from.place)} ← ${esc(f.to.place)}. المسافرات: ${f.pax.map(esc).join('، ')}. الأوقات بتوقيت كل مطار.</p></div>`;
 }
 function stopTiles(){
   return plan.cities.map(c => {
