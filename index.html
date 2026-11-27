@@ -2,7 +2,14 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F8F5EC">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="إيطاليا">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>عداد الرحلة · إيطاليا ✈️ (مشترك)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
@@ -16,7 +23,7 @@
   --peach:#FFF1DC; --lav:#EEE8FC; --mint:#E3F4EC; --sky:#E4F0FB;
   --green:#2E8656; --red:#C2304A; --olive:#2E8656;
   --r-xl:30px; --r-lg:24px; --r-md:18px;
-  --shadow:0 10px 26px -12px rgba(190,70,110,.28), 0 2px 6px rgba(190,70,110,.06);
+  --shadow:0 10px 26px -12px color-mix(in srgb,var(--pink) 28%,transparent), 0 2px 6px color-mix(in srgb,var(--pink) 6%,transparent);
 }
 *{box-sizing:border-box}
 html{background:var(--bg);-webkit-tap-highlight-color:transparent}
@@ -25,7 +32,7 @@ body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family
 input,textarea{caret-color:var(--pink)}
 *{scrollbar-width:thin;scrollbar-color:var(--pink-s) transparent}
 a{color:var(--pink);text-underline-offset:3px}
-:focus-visible{outline:3px solid var(--pink-s);outline-offset:2px;border-radius:12px}
+:focus-visible{outline:3px solid var(--pink-s);outline-offset:2px;border-radius:14px}
 .num,.cd b,.mini b,.share strong,.fx-out strong{font-variant-numeric:tabular-nums}
 .ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:middle}
 
@@ -52,20 +59,20 @@ h1,h2,h3{margin:0;line-height:1.25}
 /* hero: pink countdown card */
 .hero{position:relative;border-radius:var(--r-xl);padding:20px;background:var(--pink-s);color:var(--ink);overflow:hidden;box-shadow:var(--shadow);animation:rise .6s cubic-bezier(.16,1,.3,1) both}
 .hero{isolation:isolate}
-.hero::after{content:"";position:absolute;z-index:-1;inset-inline-end:-38px;top:-38px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.35)}
+.hero::after{content:"";position:absolute;z-index:-1;inset-inline-end:-38px;top:-38px;width:150px;height:150px;border-radius:50%;background:color-mix(in srgb,var(--card) 35%,transparent)}
 .hero-top{position:relative;display:flex;align-items:center;gap:12px}
 .pass{cursor:pointer;-webkit-user-select:none;user-select:none}
 .pass-route{position:relative;display:flex;align-items:center;gap:10px}
 .pass-route b{font-size:24px;font-weight:900}
 .pass-line{flex:1;display:flex;align-items:center;gap:6px;color:var(--pink)}
-.pass-line i{flex:1;border-bottom:2px dashed rgba(200,50,106,.45)}
+.pass-line i{flex:1;border-bottom:2px dashed color-mix(in srgb,var(--pink) 45%,transparent)}
 .pass-line .ic{width:28px;height:28px;transform:scaleX(-1);animation:glide 3.2s ease-in-out infinite}
 @keyframes glide{50%{transform:scaleX(-1) translate(6px,-4px) rotate(-4deg)}}
 .pass .hero-sub{margin:6px 0 0}
 .pass .stub{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.pass .stub small{display:block;font-size:11px;font-weight:700;color:#6E3A4E}
+.pass .stub small{display:block;font-size:12px;font-weight:700;color:var(--hero-ink)}
 .pass .stub b{font-size:14px;font-weight:900}
-.pass-stamp{position:absolute;inset-inline-end:18px;bottom:22px;display:inline-flex;align-items:center;gap:4px;border:3px solid var(--green);color:var(--green);background:rgba(255,255,255,.7);padding:4px 12px;border-radius:12px;font-weight:900;font-size:15px;transform:rotate(-12deg);opacity:0;pointer-events:none}
+.pass-stamp{position:absolute;inset-inline-end:18px;bottom:22px;display:inline-flex;align-items:center;gap:4px;border:3px solid var(--green);color:var(--green);background:color-mix(in srgb,var(--card) 70%,transparent);padding:4px 12px;border-radius:14px;font-weight:900;font-size:15px;transform:rotate(-12deg);opacity:0;pointer-events:none}
 .pass.stamped .pass-stamp{animation:stampIn .5s cubic-bezier(.16,1,.3,1) forwards}
 @keyframes stampIn{0%{opacity:0;transform:rotate(-12deg) scale(1.8)}100%{opacity:1;transform:rotate(-12deg) scale(1)}}
 .cd div{cursor:pointer}
@@ -76,35 +83,35 @@ h1,h2,h3{margin:0;line-height:1.25}
 .quote.swap span{animation:rise .45s cubic-bezier(.16,1,.3,1)}
 .quote:active{transform:scale(.98)}
 .stop-rail{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:10px -16px 0;padding:4px 16px 10px}
-.stop-tile{flex:0 0 132px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px;border:0;border-radius:var(--r-lg);background:color-mix(in srgb,var(--c) 16%,#fff);color:var(--ink);font:inherit;text-align:start;cursor:pointer;transition:transform .2s cubic-bezier(.16,1,.3,1)}
+.stop-tile{flex:0 0 132px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px;border:0;border-radius:var(--r-lg);background:color-mix(in srgb,var(--c) 16%,var(--card));color:var(--ink);font:inherit;text-align:start;cursor:pointer;transition:transform .2s cubic-bezier(.16,1,.3,1)}
 .stop-tile:active{transform:scale(.95)}
 .stop-tile b{font-size:18px;font-weight:900;margin-top:8px}
 .stop-tile small{font-size:12px;font-weight:700;color:var(--muted)}
-.stop-ic{width:38px;height:38px;border-radius:50%;background:#fff;color:var(--c);display:grid;place-items:center}
-.stop-tile.now .stop-ic{background:var(--pink);color:#fff}
+.stop-ic{width:38px;height:38px;border-radius:50%;background:var(--card);color:var(--c);display:grid;place-items:center}
+.stop-tile.now .stop-ic{background:var(--pink);color:var(--on-pink)}
 .stop-wx{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-weight:900;font-size:15px}
 .stop-wx .ic{width:18px;height:18px;color:var(--c)}
 .dice.spin{animation:spinG .5s cubic-bezier(.16,1,.3,1)}
 .hero-ic{width:52px;height:52px;border-radius:50%;background:var(--card);color:var(--pink);display:grid;place-items:center;flex:none}
 .hero-ic .ic{width:26px;height:26px}
 .hero-title{margin:0;font-size:26px;font-weight:900}
-.hero-sub{margin:0;font-weight:700;font-size:14px;color:#6E3A4E}
+.hero-sub{margin:0;font-weight:700;font-size:14px;color:var(--hero-ink)}
 .cd-label{position:relative;margin:16px 0 8px;font-weight:800;font-size:15px;display:flex;align-items:center;gap:6px}
 .cd-label .ic{width:18px;height:18px;color:var(--pink)}
-.stub{position:relative;display:flex;align-items:center;gap:10px;margin:16px -20px -20px;padding:14px 20px;border-top:2px dashed rgba(255,255,255,.9);background:rgba(255,255,255,.35);font-weight:900;font-size:15px}
+.stub{position:relative;display:flex;align-items:center;gap:10px;margin:16px -20px -20px;padding:14px 20px;border-top:2px dashed color-mix(in srgb,var(--card) 90%,transparent);background:color-mix(in srgb,var(--card) 35%,transparent);font-weight:900;font-size:15px}
 .stub::before,.stub::after{content:"";position:absolute;top:-11px;width:20px;height:20px;border-radius:50%;background:var(--bg)}
 .stub::before{inset-inline-start:-10px}.stub::after{inset-inline-end:-10px}
 .stub-line{flex:1;display:flex;align-items:center;gap:6px;color:var(--pink)}
-.stub-line i{flex:1;border-bottom:2px dotted rgba(200,50,106,.4)}
+.stub-line i{flex:1;border-bottom:2px dotted color-mix(in srgb,var(--pink) 40%,transparent)}
 .stub-line .ic{width:22px;height:22px;transform:scaleX(-1)}
 .cd{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.cd div{background:rgba(255,255,255,.78);border-radius:var(--r-md);padding:10px 4px;text-align:center}
+.cd div{background:color-mix(in srgb,var(--card) 78%,transparent);border-radius:var(--r-md);padding:10px 4px;text-align:center}
 .cd b{display:block;font-size:26px;font-weight:900;line-height:1.1}
-.cd span{font-size:12px;color:#6E3A4E;font-weight:700}
+.cd span{font-size:12px;color:var(--hero-ink);font-weight:700}
 
 /* share card */
 .share{display:flex;align-items:stretch;justify-content:space-between;gap:12px;background:var(--lav);border-radius:var(--r-xl);padding:18px}
-.share small{display:block;font-size:14px;color:#5A4A86;font-weight:700}
+.share small{display:block;font-size:14px;color:var(--share-ink);font-weight:700}
 .share strong{display:block;font-size:32px;font-weight:900;line-height:1.15;margin:4px 0}
 .share strong span{font-size:16px;font-weight:800}
 .share-stats{display:grid;gap:8px;align-content:center}
@@ -127,7 +134,7 @@ section.card.collapsed > h2{margin-bottom:0}
 
 /* tip */
 .tip{display:flex;gap:12px;align-items:center;background:var(--peach);border-radius:var(--r-lg);padding:14px 16px}
-.tipIcon{width:46px;height:46px;border-radius:50%;background:var(--card);color:#B8641E;display:grid;place-items:center;flex:none}
+.tipIcon{width:46px;height:46px;border-radius:50%;background:var(--card);color:var(--gold);display:grid;place-items:center;flex:none}
 .tip-text{margin:2px 0 0;font-weight:700;font-size:15px;line-height:1.6}
 
 /* lists */
@@ -139,45 +146,45 @@ section.card.collapsed > h2{margin-bottom:0}
 .line:last-of-type{border-bottom:0}
 .line-label{font-weight:800;font-size:16px;line-height:1.4}
 .line-st{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.st{display:inline-flex;align-items:center;gap:4px;border:0;border-radius:999px;padding:5px 11px;font:700 13px Tajawal,sans-serif;background:#F3EFF2;color:#5E5059}
+.st{display:inline-flex;align-items:center;gap:4px;border:0;border-radius:999px;padding:5px 11px;font:700 13px Tajawal,sans-serif;background:var(--line);color:var(--muted)}
 .st .ic{width:15px;height:15px}
-.st.on{background:var(--mint);color:#1F6B44}
-.st.off-paid{background:#FBE3E7;color:#9C2840}
+.st.on{background:var(--mint);color:var(--green)}
+.st.off-paid{background:var(--danger-t);color:var(--red)}
 button.st{cursor:pointer;min-height:34px}
 .sum-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
 .sum-row strong{font-variant-numeric:tabular-nums}
 .who{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .contrib-edit{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:14px}
 .contrib-edit .in{width:110px;height:40px;text-align:center;font-weight:800}
-.who .avatar{width:40px;height:40px;font-size:19px;box-shadow:none;background:var(--pink-t);cursor:default}
+.who .avatar{width:40px;height:40px;font-size:20px;box-shadow:none;background:var(--pink-t);cursor:default}
 .bar{height:10px;border-radius:999px;background:var(--pink-t);overflow:hidden;margin-top:6px}
 .bar i{display:block;height:100%;border-radius:999px;background:var(--pink-hi);transition:width .8s cubic-bezier(.16,1,.3,1)}
-.alert{display:flex;gap:8px;align-items:center;border-radius:var(--r-md);padding:12px 16px;background:#FBE3E7;color:var(--red);font-weight:800}
+.alert{display:flex;gap:8px;align-items:center;border-radius:var(--r-md);padding:12px 16px;background:var(--danger-t);color:var(--red);font-weight:800}
 
 /* controls */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1.5px solid var(--line);border-radius:999px;min-height:48px;padding:0 20px;font:800 16px Tajawal,sans-serif;color:var(--ink);background:var(--card);cursor:pointer;transition:transform .15s,background .2s}
 .btn:active{transform:scale(.97)}
-.btn.primary{background:var(--pink);border-color:var(--pink);color:#fff}
-.btn.ink{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.primary{background:var(--pink);border-color:var(--pink);color:var(--on-pink)}
+.btn.ink{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 .btn.sm{min-height:40px;padding:0 14px;font-size:14px}
 .btn:disabled{opacity:.45;cursor:not-allowed}
-.in,.sel{height:50px;border:1.5px solid var(--line);border-radius:16px;padding:0 16px;font:600 16px Tajawal,sans-serif;background:#FFFAFC;color:var(--ink);width:100%;min-width:0}
-.ta{border:1.5px solid var(--line);border-radius:16px;padding:12px 16px;font:600 16px Tajawal,sans-serif;background:#FFFAFC;color:var(--ink);width:100%;min-height:80px;resize:vertical}
-.in:focus,.sel:focus,.ta:focus{outline:none;border-color:var(--pink-hi);background:#fff}
-.in::placeholder,.ta::placeholder{color:#9A8791}
-.in:disabled{background:#F7F1F3;color:var(--muted)}
+.in,.sel{height:50px;border:1.5px solid var(--line);border-radius:14px;padding:0 16px;font:600 16px Tajawal,sans-serif;background:var(--field);color:var(--ink);width:100%;min-width:0}
+.ta{border:1.5px solid var(--line);border-radius:14px;padding:12px 16px;font:600 16px Tajawal,sans-serif;background:var(--field);color:var(--ink);width:100%;min-height:80px;resize:vertical}
+.in:focus,.sel:focus,.ta:focus{outline:none;border-color:var(--pink-hi);background:var(--card)}
+.in::placeholder,.ta::placeholder{color:var(--muted)}
+.in:disabled{background:var(--line);color:var(--muted)}
 .form{display:grid;gap:10px}
 .form .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 4px;scroll-snap-type:x proximity}
 .chip{flex:0 0 auto;min-height:40px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:700 15px Tajawal,sans-serif;cursor:pointer;scroll-snap-align:start}
-.chip[aria-pressed=true]{background:var(--pink);border-color:var(--pink);color:#fff}
-.del{width:40px;height:40px;border:0;border-radius:50%;background:#FBE3E7;color:var(--red);display:grid;place-items:center;cursor:pointer;flex:none}
+.chip[aria-pressed=true]{background:var(--pink);border-color:var(--pink);color:var(--on-pink)}
+.del{width:40px;height:40px;border:0;border-radius:50%;background:var(--danger-t);color:var(--red);display:grid;place-items:center;cursor:pointer;flex:none}
 .del .ic{width:18px;height:18px}
 .tag{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;border-radius:999px;padding:5px 12px;background:var(--pink-t);color:var(--ink)}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 
 /* my expenses */
-.exp{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:22px;padding:12px 14px;box-shadow:var(--shadow)}
+.exp{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:18px;padding:12px 14px;box-shadow:var(--shadow)}
 .exp strong{white-space:nowrap;font-variant-numeric:tabular-nums}
 .empty{border-radius:var(--r-xl);padding:26px 18px;text-align:center;background:var(--card);box-shadow:var(--shadow)}
 .empty-ic{width:64px;height:64px;margin:0 auto;border-radius:50%;background:var(--pink-t);color:var(--pink);display:grid;place-items:center}
@@ -186,50 +193,86 @@ button.st{cursor:pointer;min-height:34px}
 /* route timeline */
 .tl{position:relative;padding-inline-start:46px}
 .tl::before{content:"";position:absolute;top:14px;bottom:14px;inset-inline-start:17px;border-inline-start:2.5px dashed var(--pink-s)}
-.city{position:relative;border-radius:var(--r-lg);padding:16px;margin-bottom:14px;background:color-mix(in srgb,var(--c) 11%,#fff);box-shadow:var(--shadow)}
-.city h3{font-size:21px;font-weight:900}
-.card.here[style]{background:color-mix(in srgb,var(--c) 11%,#fff)}
-.card.here[style] .h-ic{background:#fff;color:var(--c)}
-.city .tag{background:#fff}
-.dot{position:absolute;inset-inline-start:-46px;top:14px;width:36px;height:36px;border-radius:50%;background:#fff;color:var(--c);border:2px solid color-mix(in srgb,var(--c) 45%,#fff);display:grid;place-items:center}
+.city{position:relative;border-radius:var(--r-lg);padding:16px;margin-bottom:14px;background:color-mix(in srgb,var(--c) 11%,var(--card));box-shadow:var(--shadow)}
+.city h3{font-size:22px;font-weight:900}
+.card.here[style]{background:color-mix(in srgb,var(--c) 11%,var(--card))}
+.card.here[style] .h-ic{background:var(--card);color:var(--c)}
+.city .tag{background:var(--card)}
+.dot{position:absolute;inset-inline-start:-46px;top:14px;width:36px;height:36px;border-radius:50%;background:var(--card);color:var(--c);border:2px solid color-mix(in srgb,var(--c) 45%,var(--card));display:grid;place-items:center}
 .dot .ic{width:18px;height:18px}
-.city.now .dot{background:var(--pink);color:#fff;border-color:var(--pink)}
+.city.now .dot{background:var(--pink);color:var(--on-pink);border-color:var(--pink)}
 .wx-t{font-size:22px;font-weight:900}
 .wx-now{display:flex;align-items:center;gap:6px;margin:6px 0 0;font-weight:700;color:var(--ink)}
 .wx-now .ic{color:var(--c,var(--pink))}
 .wx-days{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;margin:12px -4px 4px;padding:2px 4px 6px}
-.wx-day{flex:0 0 74px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 6px;border-radius:var(--r-md);background:rgba(255,255,255,.88);text-align:center}
+.wx-day{flex:0 0 74px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 6px;border-radius:var(--r-md);background:color-mix(in srgb,var(--card) 88%,transparent);text-align:center}
 .wx-day span{font-size:12px;font-weight:700;color:var(--muted)}
 .wx-day .ic{width:24px;height:24px;color:var(--c,var(--pink))}
-.wx-day b{font-size:17px;font-weight:900}
+.wx-day b{font-size:18px;font-weight:900}
 .wx-day small{font-size:12px;color:var(--muted);font-weight:700}
 .city-tabs{margin:0 -16px;padding:4px 16px 8px;scrollbar-width:none}
 .city-tabs::-webkit-scrollbar,.kind-chips::-webkit-scrollbar{display:none}
 .kind-chips{scrollbar-width:none}
-.city-tab{flex:0 0 auto;scroll-snap-align:start;display:flex;align-items:center;gap:8px;min-height:56px;padding:8px 14px;border:1.5px solid color-mix(in srgb,var(--c) 30%,#fff);border-radius:20px;background:#fff;color:var(--ink);font:inherit;cursor:pointer;text-align:start;transition:background .2s,transform .15s}
+.city-tab{flex:0 0 auto;scroll-snap-align:start;display:flex;align-items:center;gap:8px;min-height:56px;padding:8px 14px;border:1.5px solid color-mix(in srgb,var(--c) 30%,var(--card));border-radius:18px;background:var(--card);color:var(--ink);font:inherit;cursor:pointer;text-align:start;transition:background .2s,transform .15s}
 .city-tab .ic{color:var(--c)}
 .city-tab span{display:flex;flex-direction:column;line-height:1.25}
 .city-tab b{font-size:16px;font-weight:900}
-.city-tab small{font-size:11px;font-weight:700;color:var(--muted)}
-.city-tab em,.kind-chips em{font-style:normal;font-size:12px;font-weight:900;min-width:22px;height:22px;padding:0 6px;border-radius:999px;display:inline-grid;place-items:center;background:color-mix(in srgb,var(--c,var(--pink)) 14%,#fff)}
-.city-tab[aria-selected=true]{background:color-mix(in srgb,var(--c) 18%,#fff);border-color:var(--c);transform:translateY(-2px);box-shadow:0 8px 18px -10px var(--c)}
+.city-tab small{font-size:12px;font-weight:700;color:var(--muted)}
+.city-tab em,.kind-chips em{font-style:normal;font-size:12px;font-weight:900;min-width:22px;height:22px;padding:0 6px;border-radius:999px;display:inline-grid;place-items:center;background:color-mix(in srgb,var(--c,var(--pink)) 14%,var(--card))}
+.city-tab[aria-selected=true]{background:color-mix(in srgb,var(--c) 18%,var(--card));border-color:var(--c);transform:translateY(-2px);box-shadow:0 8px 18px -10px var(--c)}
 .city-tab:active{transform:scale(.96)}
 .city-panel{margin-bottom:0}
 .plain-h{margin:0 0 12px}
 .kind-chips .chip{display:inline-flex;align-items:center;gap:6px}
 .kind-chips .chip .ic{width:17px;height:17px}
-.kind-chips .chip[aria-pressed=true] em{background:rgba(255,255,255,.25);color:#fff}
+.kind-chips .chip[aria-pressed=true] em{background:color-mix(in srgb,var(--card) 25%,transparent);color:var(--on-pink)}
 .route-search{margin-top:8px;height:44px}
 .places .place{background:var(--bg)}
 .place-t{display:flex;align-items:center;gap:8px}
 .place-t .ic{width:16px;height:16px}
-.place{margin-top:8px;padding:12px 14px;border-radius:var(--r-md);background:rgba(255,255,255,.85)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:999px;background:var(--bg);margin-bottom:12px}
+.seg button,.seg label span{display:flex;align-items:center;justify-content:center;gap:4px;min-height:40px;border:0;border-radius:999px;background:transparent;color:var(--muted);font:800 13px Tajawal,sans-serif;cursor:pointer;transition:background .2s,color .2s;padding:0 6px;white-space:nowrap}
+.seg .ic{width:16px;height:16px}
+.seg em{font-style:normal;font-size:12px;font-weight:900;opacity:.75}
+.seg button[aria-pressed=true],.seg input:checked + span{background:var(--card);color:var(--pink);box-shadow:0 4px 10px -4px color-mix(in srgb,var(--pink) 35%,transparent)}
+.seg label{display:block}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg-3{margin:0}
+.pl-list{display:grid;gap:8px}
+.pl{border-radius:18px;background:var(--bg);overflow:hidden;transition:background .2s}
+.pl.open{background:color-mix(in srgb,var(--k) 55%,var(--card))}
+.pl-main{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border:0;background:transparent;font:inherit;color:var(--ink);text-align:start;cursor:pointer}
+.pl-ic{width:40px;height:40px;border-radius:14px;background:var(--k);display:grid;place-items:center;flex:none}
+.pl-ic .ic{width:19px;height:19px}
+.pl-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pl-txt b{font-size:15px;font-weight:800;line-height:1.4}
+.pl-txt small{font-size:12px;font-weight:700;color:var(--muted)}
+.clamp{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.pl-badge{color:var(--pink);display:grid}
+.pl-badge .ic{width:16px;height:16px}
+.pl-chev{width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(135deg);transition:transform .25s;flex:none;margin-inline-start:2px}
+.pl.open .pl-chev{transform:rotate(45deg) translateY(-2px)}
+.pl-more{padding:0 14px 12px 14px;animation:rise .35s cubic-bezier(.16,1,.3,1)}
+.pl-more p{margin:0 0 10px;font-size:14px;line-height:1.7;white-space:pre-line}
+.pl-acts{display:flex;gap:8px;flex-wrap:wrap}
+.pl-acts .btn{background:var(--card)}
+.pl-del{color:var(--red);border-color:var(--danger-t)}
+.pl-empty{display:grid;justify-items:center;gap:6px;padding:18px 8px;color:var(--muted);text-align:center}
+.pl-empty .ic{width:30px;height:30px;color:var(--pink-s)}
+.pl-empty p{margin:0;font-weight:700}
+.add-sug{width:100%;margin-top:12px}
+.sug-form{margin-top:12px;padding:14px;border-radius:18px;background:var(--pink-t);animation:rise .35s cubic-bezier(.16,1,.3,1)}
+.sug-form .in,.sug-form .ta{background:var(--card)}
+.sug-form .seg{background:var(--card)}
+.sug-title{display:flex;align-items:center;gap:6px;margin:0;font-weight:900}
+.sug-title .ic{color:var(--pink)}
+.place{margin-top:8px;padding:12px 14px;border-radius:var(--r-md);background:color-mix(in srgb,var(--card) 85%,transparent)}
 .place-actions{display:flex;gap:10px;align-items:center;margin-top:6px;flex-wrap:wrap}
 .place-actions a{display:inline-flex;align-items:center;gap:4px;font-weight:800}
 
 /* bag */
 .ring{position:relative;width:112px;height:112px;border-radius:50%;flex:0 0 112px}
-.ring > div{position:absolute;inset:12px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center}
+.ring > div{position:absolute;inset:12px;border-radius:50%;background:var(--card);display:grid;place-items:center;text-align:center}
 .ck{display:flex;align-items:center;gap:12px;min-height:56px;font-size:16px;font-weight:700;cursor:pointer;border-bottom:1px solid var(--line)}
 .ck:last-child{border-bottom:0}
 .ck-row{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
@@ -238,18 +281,18 @@ button.st{cursor:pointer;min-height:34px}
 .mini-btn{width:40px;height:40px;box-shadow:none;background:var(--pink-t);color:var(--pink)}
 .mini-btn .ic{width:18px;height:18px}
 .bag-edit{padding:10px 0;border-bottom:1px solid var(--line)}
-.ck input{appearance:none;-webkit-appearance:none;width:26px;height:26px;margin:0;border-radius:50%;border:2px solid var(--pink-s);background:#fff;flex:none;cursor:pointer;display:grid;place-items:center}
+.ck input{appearance:none;-webkit-appearance:none;width:26px;height:26px;margin:0;border-radius:50%;border:2px solid var(--pink-s);background:var(--card);flex:none;cursor:pointer;display:grid;place-items:center}
 .ck input:checked{background:var(--pink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/15px no-repeat;border-color:var(--pink)}
 .ck input:checked + span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--pink-s)}
 
 /* bottom nav */
 .navwrap{position:fixed;bottom:0;left:0;right:0;z-index:9;display:flex;justify-content:center;pointer-events:none}
-.nav{pointer-events:auto;display:flex;gap:2px;width:min(480px,100%);background:var(--card);border-radius:28px 28px 0 0;padding:8px 8px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -8px 26px -10px rgba(190,70,110,.25)}
+.nav{pointer-events:auto;display:flex;gap:2px;width:min(480px,100%);background:var(--card);border-radius:28px 28px 0 0;padding:8px 8px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -8px 26px -10px color-mix(in srgb,var(--pink) 25%,transparent)}
 .nav:empty{display:none}
 .nav button{flex:1;min-width:0;min-height:58px;border:0;background:transparent;color:var(--muted);font:700 12px Tajawal,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border-radius:18px}
 .nav .i{display:grid;place-items:center;width:46px;height:30px;border-radius:999px;transition:background .25s}
 .nav .ic{width:22px;height:22px}
-.nav .i{background:color-mix(in srgb,var(--tc) 40%,#fff)}
+.nav .i{background:color-mix(in srgb,var(--tc) 40%,var(--card))}
 .nav button{color:var(--ink)}
 .nav button:active .i{transform:scale(.9)}
 .nav button[aria-current=page]{color:var(--ink);font-weight:900}
@@ -257,7 +300,7 @@ button.st{cursor:pointer;min-height:34px}
 .nav .i{transition:background .25s,width .3s cubic-bezier(.16,1,.3,1),transform .15s}
 
 /* welcome */
-.wel{background:var(--card);border-radius:34px;padding:22px 18px;box-shadow:var(--shadow);animation:rise .6s cubic-bezier(.16,1,.3,1) both}
+.wel{background:var(--card);border-radius:28px;padding:22px 18px;box-shadow:var(--shadow);animation:rise .6s cubic-bezier(.16,1,.3,1) both}
 .wel-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .wel-hi{margin:0;color:var(--muted);font-weight:800;font-size:15px}
 .wel-title{font-size:46px;font-weight:900;color:var(--pink);line-height:1.1}
@@ -267,12 +310,12 @@ button.st{cursor:pointer;min-height:34px}
 .wel .cd div{background:var(--pink-t)}
 .wel .cd span{color:var(--muted)}
 .wel-list{margin-top:16px;display:grid;gap:10px}
-.wel-bar{display:flex;align-items:center;gap:12px;width:100%;min-height:58px;border:1.5px solid var(--line);border-radius:20px;background:#FFFAFC;padding:0 14px;font:800 18px Tajawal,sans-serif;color:var(--ink);cursor:pointer;text-align:start;transition:background .2s,border-color .2s}
+.wel-bar{display:flex;align-items:center;gap:12px;width:100%;min-height:58px;border:1.5px solid var(--line);border-radius:18px;background:var(--field);padding:0 14px;font:800 18px Tajawal,sans-serif;color:var(--ink);cursor:pointer;text-align:start;transition:background .2s,border-color .2s}
 .wel-bar:not(:disabled):hover,.wel-bar:not(:disabled):active{background:var(--pink-t);border-color:var(--pink-s)}
 .wel-bar:disabled{opacity:.55;cursor:not-allowed}
-.wel-emo{width:38px;height:38px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:20px;flex:none}
+.wel-emo{width:38px;height:38px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:20px;flex:none}
 .wel-name{flex:1}
-.wel-tag{font-size:13px;font-weight:700;color:var(--muted);background:#fff;border-radius:999px;padding:4px 12px}
+.wel-tag{font-size:13px;font-weight:700;color:var(--muted);background:var(--card);border-radius:999px;padding:4px 12px}
 .wel-tag button{border:0;background:none;color:var(--pink);font:800 13px Tajawal,sans-serif;text-decoration:underline;cursor:pointer;padding:0}
 .clocks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .clk{border-radius:var(--r-lg);padding:12px;text-align:center;display:flex;flex-direction:column;gap:2px;cursor:pointer;background:var(--sky)}
@@ -280,43 +323,206 @@ button.st{cursor:pointer;min-height:34px}
 .clk > span{font-size:13px;color:var(--muted);font-weight:700}
 .clk b{font-size:24px;font-weight:900;direction:ltr;white-space:nowrap;font-variant-numeric:tabular-nums}
 .clk b{display:inline-flex;align-items:center;justify-content:center;gap:6px}
-.clk b .ic{width:20px;height:20px;color:#B8641E}
+.clk b .ic{width:20px;height:20px;color:var(--gold)}
 .clk.flip{animation:flipC .6s ease}
 
 /* sign-in buttons */
-.g-btn{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:60;display:inline-flex;align-items:center;gap:8px;border:0;background:var(--ink);color:#fff;border-radius:999px;padding:12px 20px;font:800 15px Tajawal,sans-serif;cursor:pointer;box-shadow:var(--shadow);white-space:nowrap}
+.g-btn{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:60;display:inline-flex;align-items:center;gap:8px;border:0;background:var(--ink);color:var(--bg);border-radius:999px;padding:12px 20px;font:800 15px Tajawal,sans-serif;cursor:pointer;box-shadow:var(--shadow);white-space:nowrap}
 .owner-btn{position:fixed;bottom:14px;left:14px;z-index:60;display:inline-flex;align-items:center;gap:6px;border:0;background:var(--card);color:var(--ink);border-radius:999px;padding:8px 14px;font:800 13px Tajawal,sans-serif;cursor:pointer;box-shadow:var(--shadow)}
 .g-btn[hidden],.owner-btn[hidden]{display:none}
 
 /* feedback */
-.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;z-index:70;white-space:nowrap}
+.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:700;z-index:70;white-space:nowrap}
 .fx{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
 .bfx{position:absolute;bottom:-40px;font-size:28px;animation:floatUp 2s ease-out forwards}
 .shake{animation:shake .5s}
 
 /* currency converter: floating button + bottom sheet */
-.nav .fx-fab{flex:0 0 58px;width:58px;height:58px;min-height:0;align-self:center;margin-top:-22px;border-radius:50%;border:4px solid var(--bg);background:var(--pink);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 22px -8px rgba(200,50,106,.6)}
+.nav .fx-fab{flex:0 0 58px;width:58px;height:58px;min-height:0;align-self:center;margin-top:-22px;border-radius:50%;border:4px solid var(--bg);background:var(--pink);color:var(--on-pink);display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 22px -8px color-mix(in srgb,var(--pink) 60%,transparent)}
 .nav .fx-fab .ic{width:24px;height:24px}
 .fx-fab:active{transform:scale(.92)}
-.fx-back{position:fixed;inset:0;z-index:30;background:rgba(58,42,51,.35)}
-.fx-sheet{position:fixed;left:0;right:0;bottom:0;z-index:31;max-width:480px;margin:0 auto;background:var(--card);border-radius:30px 30px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -14px 34px rgba(58,42,51,.18);display:grid;gap:12px;animation:sheetUp .3s cubic-bezier(.16,1,.3,1)}
+.fx-back{position:fixed;inset:0;z-index:30;background:color-mix(in srgb,var(--ink) 35%,transparent)}
+.fx-sheet{position:fixed;left:0;right:0;bottom:0;z-index:31;max-width:480px;margin:0 auto;background:var(--card);border-radius:30px 30px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -14px 34px color-mix(in srgb,var(--ink) 18%,transparent);display:grid;gap:12px;animation:sheetUp .3s cubic-bezier(.16,1,.3,1)}
 .fx-sheet[hidden],.fx-back[hidden]{display:none}
 .fx-amt::-webkit-outer-spin-button,.fx-amt::-webkit-inner-spin-button,.fx-rate .in::-webkit-inner-spin-button,.fx-rate .in::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .fx-amt,.fx-rate .in{-moz-appearance:textfield}
 .fx-sheet h2{margin:0}
 .fx-sheet:focus{outline:none}
 .fx-dir{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--pink-t);border-radius:999px;padding:6px}
-.fx-cur{flex:1;text-align:center;font-weight:800;font-size:17px}
-.fx-swap{width:50px;height:50px;border:0;border-radius:50%;background:var(--pink);color:#fff;display:grid;place-items:center;cursor:pointer}
+.fx-cur{flex:1;text-align:center;font-weight:800;font-size:18px}
+.fx-swap{width:50px;height:50px;border:0;border-radius:50%;background:var(--pink);color:var(--on-pink);display:grid;place-items:center;cursor:pointer}
 .fx-swap.spin{animation:spinG .45s cubic-bezier(.16,1,.3,1)}
 .fx-amt{height:60px;font-size:26px;font-weight:800;text-align:center;cursor:text}
-.fx-amt[readonly],.fx-rate .in[readonly]{background:#FFFAFC;color:var(--ink)}
+.fx-amt[readonly],.fx-rate .in[readonly]{background:var(--field);color:var(--ink)}
 .fx-quick{justify-content:center}
 .fx-out{margin:0;font-size:18px;text-align:center;font-weight:700}
 .fx-out strong{font-size:30px;font-weight:900;color:var(--pink)}
 .fx-rate{justify-content:center;gap:8px}
 .fx-rate .in{width:100px;height:42px;text-align:center}
 
+/* ===== animated progress (rings + bars) ===== */
+@property --p{syntax:'<number>';inherits:false;initial-value:0}
+.ring.anim{background:conic-gradient(var(--pink) calc(var(--p) * 1%),var(--pink-t) 0);animation:ringIn 1.2s cubic-bezier(.16,1,.3,1) both}
+@keyframes ringIn{from{--p:0}}
+.ring.anim > div{inset:11px}
+.ring.anim small{display:block;font-size:12px}
+.bar i{position:relative;overflow:hidden;animation:barIn 1s cubic-bezier(.16,1,.3,1) both}
+.bar i::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,color-mix(in srgb,var(--card) 55%,transparent) 50%,transparent 70%);background-size:220% 100%;animation:shine 2.4s ease-in-out infinite}
+@keyframes barIn{from{width:0}}
+@keyframes shine{from{background-position:120% 0}to{background-position:-120% 0}}
+/* ===== money ===== */
+.money-seg{margin:0}
+.money-seg button{min-height:46px;font-size:14px}
+.big{font-size:30px;font-weight:900;line-height:1.15}
+.big span{font-size:15px;font-weight:800}
+.mine-stats{display:flex;gap:14px;margin-top:4px;font-size:14px;font-weight:700;color:var(--muted)}
+.mine-stats b{color:var(--ink)}
+.money-minis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.money-minis div{background:var(--bg);border-radius:14px;padding:8px;text-align:center}
+.money-minis span{display:block;font-size:12px;font-weight:700;color:var(--muted)}
+.money-minis b{font-size:17px;font-weight:900}
+.mine-top.done{background:color-mix(in srgb,var(--mint) 70%,var(--card))}
+.done-line{display:flex;align-items:center;gap:6px;margin:12px 0 0;font-weight:900;color:var(--green)}
+.avail{display:flex;flex-direction:column;gap:6px}
+.amt-row{display:flex;gap:8px;align-items:center}
+.amt-row .in{flex:1}
+.seg-cur{flex:0 0 auto;margin:0}
+.seg-cur span{min-height:42px;padding:0 12px}
+.exp-group{display:grid;gap:8px}
+.exp-head{display:flex;justify-content:space-between;align-items:baseline;padding:6px 4px 0;font-size:14px}
+.exp-head b{font-size:16px;font-weight:900}
+.exp-head span{color:var(--muted);font-weight:800}
+.exp-amt{display:flex;flex-direction:column;align-items:flex-end}
+.exp-amt span{font-size:12px}
+.eur{color:var(--muted);font-weight:700;font-size:12px}
+.link-btn{border:0;background:none;padding:0;font:inherit;font-weight:800;color:var(--pink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+/* ===== currency tab in the bottom bar ===== */
+.nav .fx-tab{flex:1;min-width:0;min-height:58px;border:0;background:transparent;color:var(--ink);font:800 12px Tajawal,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer}
+.fx-ball{width:50px;height:50px;margin-top:-22px;border-radius:50%;background:var(--pink);color:var(--on-pink);border:4px solid var(--bg);display:grid;place-items:center;font:900 22px Tajawal,sans-serif;box-shadow:0 10px 20px -8px color-mix(in srgb,var(--pink) 60%,transparent);transition:transform .15s}
+.fx-tab:active .fx-ball{transform:scale(.9)}
+/* ===== flights ===== */
+.flights{display:grid;gap:10px}
+.flights > h2{margin-bottom:4px}
+.ticket{position:relative;border-radius:18px;padding:14px;background:var(--bg);border:1.5px dashed var(--line)}
+.ticket::before{content:"";position:absolute;top:0;inset-inline:16px;height:4px;border-radius:0 0 4px 4px;background:var(--flag)}
+.ticket.pending{opacity:.8}
+.t-top{display:flex;gap:10px;align-items:center;font-size:13px;font-weight:800;color:var(--muted)}
+.t-dir{background:var(--pink-t);color:var(--pink);border-radius:999px;padding:2px 10px}
+.t-row{display:flex;align-items:center;gap:10px;margin-top:8px}
+.t-row > div{display:flex;flex-direction:column;align-items:center;min-width:64px}
+.t-code{font-size:24px;font-weight:900;letter-spacing:.02em}
+.t-row small{font-size:12px;font-weight:700;color:var(--muted)}
+.t-time{font-size:18px;font-weight:900;color:var(--pink)}
+.t-line{flex:1;display:flex;align-items:center;gap:6px;color:var(--pink)}
+.t-line i{flex:1;border-bottom:2px dashed color-mix(in srgb,var(--pink) 40%,transparent)}
+.t-line .ic{transform:scaleX(-1)}
+.t-meta{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:10px;font-size:13px;font-weight:700}
+.t-meta span{display:inline-flex;align-items:center;gap:4px}
+.t-meta .ic{width:15px;height:15px;color:var(--pink)}
+.t-note{margin:8px 0 0;font-size:12px;color:var(--muted);line-height:1.6;display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.t-note .ic{width:14px;height:14px}
+/* ===== trip-day home ===== */
+.today .today-city{font-size:34px;font-weight:900;margin:2px 0 6px}
+.today-wx{display:flex;align-items:center;gap:6px;margin:0;font-weight:800}
+.today-wx .ic{color:var(--c)}
+/* flag ribbon on the boarding pass */
+.pass::before{content:"";position:absolute;top:0;inset-inline:22px;height:5px;border-radius:0 0 5px 5px;background:var(--flag);z-index:1}
+/* ===== bag ===== */
+.bag-group{padding:12px 18px 4px}
+.bag-head{display:flex;align-items:center;gap:10px;margin-bottom:2px}
+.bag-head b{font-size:16px;font-weight:900}
+.bag-head small{margin-inline-start:auto;color:var(--muted);font-weight:800}
+.bag-head .h-ic{width:32px;height:32px}
+.bag-quick{display:flex;align-items:center;gap:8px;margin:6px 0 12px;padding:6px 6px 6px 10px;border-radius:18px;background:var(--bg);border:1.5px dashed var(--line)}
+.bag-quick:focus-within{border-style:solid;border-color:var(--pink-hi);background:var(--card)}
+.bag-quick .in{height:42px;border:0;background:transparent;padding:0 4px}
+.bag-quick .in:focus{background:transparent}
+.bq-plus{color:var(--pink);display:grid;flex:none}
+.bq-plus .ic{width:18px;height:18px}
+.bag-quick .btn{min-height:38px}
+.empty-group .bag-head{opacity:.75}
+.sp-flagbar{display:block;width:64px;height:6px;margin:16px auto 0;border-radius:6px;background:var(--flag)}
+:root[data-theme=dark] .nav .i{background:color-mix(in srgb,var(--tc) 14%,var(--card))}
+:root[data-theme=dark] .nav button[aria-current=page] .i{background:color-mix(in srgb,var(--tc) 38%,var(--card))}
+:root[data-theme=dark] .nav button[aria-current=page]{color:var(--ink)}
+/* maiolica tile background in the palette colour */
+:root[data-pattern=on] body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:var(--pink);opacity:.07;-webkit-mask:var(--tile) center/96px repeat;mask:var(--tile) center/96px repeat}
+:root[data-theme=dark][data-pattern=on] body::before{opacity:.09}
+body{position:relative;z-index:0}
+/* ===== settings ===== */
+.settings{padding:0;overflow:hidden}
+.settings > h2{padding:18px 18px 0}
+.set-group{padding:6px 18px 14px}
+.set-label{display:block;margin:10px 0 8px;font-size:13px;font-weight:800;color:var(--muted)}
+.palettes{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.pal{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:12px;border:1.5px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink);font:inherit;text-align:start;cursor:pointer;overflow:hidden;transition:border-color .2s,transform .15s}
+.pal:active{transform:scale(.97)}
+.pal[aria-pressed=true]{border-color:var(--sw);box-shadow:0 0 0 3px color-mix(in srgb,var(--sw) 25%,transparent)}
+.pal-dots{display:flex}
+.pal-dots i{width:22px;height:22px;border-radius:50%;border:2px solid var(--card);margin-inline-end:-6px}
+.pal b{font-size:15px;font-weight:900}
+.pal small{font-size:12px;color:var(--muted);font-weight:700}
+.pal .pal-check{position:absolute;top:10px;inset-inline-end:10px;width:22px;height:22px;border-radius:50%;background:var(--sw);color:#fff;display:none;place-items:center}
+.pal[aria-pressed=true] .pal-check{display:grid}
+.pal-check .ic{width:14px;height:14px}
+.set-row{display:flex;align-items:center;gap:12px;width:100%;min-height:58px;padding:0 18px;border:0;border-top:1px solid var(--line);background:transparent;color:var(--ink);font:800 15px Tajawal,sans-serif;text-align:start;cursor:pointer}
+.set-row .h-ic{width:34px;height:34px;background:var(--bg);color:var(--ink)}
+.set-row span.grow small{display:block;font-size:12px;font-weight:700;color:var(--muted)}
+.switch{position:relative;width:48px;height:28px;border-radius:999px;background:var(--line);flex:none;transition:background .2s}
+.switch::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:22px;height:22px;border-radius:50%;background:var(--card);box-shadow:0 2px 6px rgba(0,0,0,.2);transition:inset-inline-start .2s cubic-bezier(.16,1,.3,1)}
+.switch.on{background:var(--green)}
+.switch.on::after{inset-inline-start:23px}
+/* rotating tips card: fixed size, the timer runs around its border */
+@property --t{syntax:'<number>';inherits:false;initial-value:0}
+.tipbox{position:relative;height:112px;border-radius:24px;padding:12px 14px;background:var(--peach);cursor:pointer;-webkit-user-select:none;user-select:none;transition:background .5s ease;overflow:hidden}
+.tipbox.k-phrase{background:var(--mint)}
+.tipbox.k-fact{background:var(--sky)}
+.tipbox.k-quote{background:var(--card);box-shadow:var(--shadow)}
+.tipbox:active{transform:scale(.985)}
+.tipbox::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:2.5px;pointer-events:none;background:conic-gradient(from 0deg,var(--pink) calc(var(--t) * 1%),color-mix(in srgb,var(--pink) 12%,transparent) 0);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.tipbox.ring-run::before{animation:tipRing 7s linear both}
+@keyframes tipRing{from{--t:0}to{--t:100}}
+.tb-head{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--muted);padding-inline-end:22px}
+.tb-ic{width:28px;height:28px;border-radius:50%;background:var(--card);color:var(--pink);display:grid;place-items:center;flex:none}
+.tb-ic .ic{width:15px;height:15px}
+.tb-text{margin:6px 0 0;font-weight:800;font-size:15px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tb-quote{font-size:16px}
+.tb-body{height:100%;display:flex;flex-direction:column}
+.tb-phrase{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin:auto 0}
+.tb-phrase b{font-size:26px;font-weight:900;color:var(--pink);font-family:Georgia,'Times New Roman',serif;font-style:italic;line-height:1.2}
+.tb-phrase span{font-weight:800;font-size:14px;color:var(--muted)}
+.tipbox.swap .tb-body{animation:tipIn .45s cubic-bezier(.16,1,.3,1)}
+@keyframes tipIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+.tb-next{position:absolute;top:14px;inset-inline-end:14px;color:var(--muted);display:grid;opacity:.7}
+.tb-next .ic{width:15px;height:15px}
+/* night switch next to the name */
+.night-btn{width:50px;height:50px;color:var(--pink)}
+.night-btn .ic{width:24px;height:24px;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.night-btn:active .ic{transform:rotate(-40deg) scale(.85)}
+.theme-fade,.theme-fade *{transition:background-color .6s ease,color .6s ease,border-color .6s ease!important}
+/* loading screen */
+.splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--bg);transition:opacity .45s ease,visibility .45s}
+.splash.out{opacity:0;visibility:hidden}
+.sp-card{width:min(320px,86vw);text-align:center;animation:rise .6s cubic-bezier(.16,1,.3,1) both}
+.sp-sky{position:relative;width:260px;height:130px;margin:0 auto;max-width:100%}
+.sp-arc{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.sp-arc path{fill:none;stroke:var(--pink-s);stroke-width:2.5;stroke-dasharray:4 9;stroke-linecap:round;animation:dash 1.2s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-26}}
+.sp-pin{position:absolute;top:104px;width:16px;height:16px;border-radius:50%;background:var(--card);border:4px solid var(--pink-s)}
+.sp-from{right:12px}.sp-to{left:12px;border-color:var(--pink)}
+.sp-plane{position:absolute;left:0;top:0;width:46px;height:46px;margin:-23px 0 0 -23px;border:0;border-radius:50%;background:var(--pink);color:var(--on-pink);display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 20px -8px color-mix(in srgb,var(--pink) 60%,transparent);offset-path:path('M240 112 Q130 -26 20 112');offset-rotate:0deg;animation:fly-arc 2.6s cubic-bezier(.45,.05,.35,1) infinite}
+.sp-plane .ic{width:24px;height:24px;transform:scaleX(-1)}
+.sp-plane.loop .ic{animation:spinG .7s cubic-bezier(.16,1,.3,1)}
+@keyframes fly-arc{0%{offset-distance:0%;opacity:0;transform:scale(.6)}12%{opacity:1;transform:none}88%{opacity:1;transform:none}100%{offset-distance:100%;opacity:0;transform:scale(.6)}}
+.sp-ends{display:flex;justify-content:space-between;margin-top:6px;font-weight:800;font-size:13px;color:var(--muted)}
+.sp-title{margin:18px 0 4px;font-size:40px;font-weight:900;color:var(--pink);line-height:1.1}
+.sp-msg{margin:0;min-height:28px;font-weight:800;font-size:18px}
+.sp-msg.swap{animation:rise .4s cubic-bezier(.16,1,.3,1)}
+.sp-dots{display:flex;justify-content:center;gap:6px;margin-top:12px}
+.sp-dots i{width:8px;height:8px;border-radius:50%;background:var(--pink-s);animation:dotb 1.2s ease-in-out infinite}
+.sp-dots i:nth-child(2){animation-delay:.15s}.sp-dots i:nth-child(3){animation-delay:.3s}
+@keyframes dotb{40%{transform:translateY(-6px);background:var(--pink)}}
+@media (prefers-reduced-motion: reduce){.sp-plane{offset-distance:50%}}
 /* legacy blocks no longer drawn */
 .gate,.sky,.night,.fade-legacy{display:none}
 
@@ -330,6 +536,94 @@ button.st{cursor:pointer;min-height:34px}
 @media (min-width:900px){.app{max-width:520px}}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
+<script>
+/* ============ COUNTRY THEME ============
+   Everything that gives the app its country's feel lives here: colours (light + dark), flag,
+   city colours, tab colours, celebration emojis and loading lines. For another trip, copy this
+   block, change the values, and the whole app follows. */
+window.COUNTRY = {
+  id: 'italy', name: 'إيطاليا', flag: '🇮🇹', home: 'السعودية',
+  flagColors: ['#009246', '#F4F1EA', '#CE2B37'],
+  /* Tuscany: olive groves, wheat, cypress, terracotta roofs, warm stone */
+  light: {bg:'#F8F5EC', card:'#FFFFFF', field:'#FFFDF7', ink:'#2F3324', muted:'#6B6D5A', line:'#E6E1CF',
+    pink:'#56702A', 'pink-hi':'#7E9A45', 'pink-s':'#DDE5C3', 'pink-t':'#EEF2DF', 'on-pink':'#FFFFFF',
+    peach:'#F5E6BE', lav:'#E4E9D6', mint:'#E3EBCF', sky:'#ECE5D3', green:'#4D6B25', red:'#A9462C', gold:'#8A6512',
+    'hero-ink':'#34461A', 'share-ink':'#3E4E22', 'danger-t':'#F5DED3', olive:'#4D6B25'},
+  dark: {bg:'#14160F', card:'#1E2117', field:'#191C13', ink:'#EEEFE2', muted:'#B1B39C', line:'#30352A',
+    pink:'#B5CF7C', 'pink-hi':'#C6DB95', 'pink-s':'#2D391B', 'pink-t':'#222A16', 'on-pink':'#141710',
+    peach:'#342D19', lav:'#252B1E', mint:'#26301A', sky:'#2B271D', green:'#A9C979', red:'#E58C6E', gold:'#E2BE6A',
+    'hero-ink':'#E2ECC6', 'share-ink':'#D6E2B8', 'danger-t':'#3E241B', olive:'#A9C979'},
+  palettes: {tuscany: {light: {}, dark: {}}},
+  defaultPalette: 'tuscany',
+  /* maiolica tile drawn as a mask, so it takes the theme colour */
+  pattern: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M48 20c8 10 8 18 0 28c-8-10-8-18 0-28zM48 76c8-10 8-18 0-28c-8 10-8 18 0 28zM20 48c10-8 18-8 28 0c-10 8-18 8-28 0zM76 48c-10-8-18-8-28 0c10 8 18 8 28 0z'/%3E%3Ccircle cx='48' cy='48' r='4'/%3E%3Cpath d='M0 14a14 14 0 0 0 14-14M82 0a14 14 0 0 0 14 14M96 82a14 14 0 0 0-14 14M14 96A14 14 0 0 0 0 82'/%3E%3C/g%3E%3C/svg%3E\")",
+  cityColors: {milan:'#5E7E8A', bologna:'#B0532E', florence:'#B8862A', rome:'#6F8A3A'},
+  cityFallback: ['#5E7E8A', '#B0532E', '#B8862A', '#6F8A3A', '#8A6A8E'],
+  tabColors: {home:'var(--pink-s)', route:'var(--sky)', money:'var(--peach)', bag:'var(--lav)'},
+  fx: {home:['🇮🇹','🍕','✈️'], route:['🛵','📍','🏛️'], money:['💶','🍝','🪙'], bag:['🧳','🍋','👒'],
+    stamp:['🛂','🇮🇹','🍕'], pick:['🎈','🍝','🇮🇹'], pop:['⏳','✈️','🍦'], love:['💖','🍦','🍋'], done:['🎉','🍕','🇮🇹','🍦'], clock:['🕒','☕']},
+  /* home tips card: rotates on its own; city tips come first while you're in that city */
+  tips: [
+    {k:'phrase', ar:'مرحبا', it:'Ciao', say:'تشاو'},
+    {k:'tip', city:'ميلانو', icon:'fork', text:'جربي الريزوتو ألا ميلانيزي، الطبق الأشهر في المدينة.'},
+    {k:'quote', text:'الرحلة الحلوة تبدأ بخطوة… وأحلى خطوة تبدأ الحين ✈️'},
+    {k:'phrase', ar:'شكراً', it:'Grazie', say:'قراتسيه'},
+    {k:'tip', city:'', icon:'train', text:'تذكرة القطار الإقليمي الورقية لازم تختمينها في الماكينة الخضراء قبل تركبين، وإلا فيه غرامة.'},
+    {k:'fact', city:'بولونيا', icon:'landmark', text:'بولونيا فيها حوالي ٤٠ كم أروقة مغطاة، تمشين تحتها حتى لو المطر نازل.'},
+    {k:'phrase', ar:'صباح الخير', it:'Buongiorno', say:'بونجورنو'},
+    {k:'tip', city:'ميلانو', icon:'camera', text:'زوري دير سانتا ماريا ديلي غراتسي، فيه لوحة العشاء الأخير، والحجز لازم يكون مسبق.'},
+    {k:'quote', text:'إيطاليا تنتظركم: بيتزا، أزقة، وقهوة على الرصيف ☕'},
+    {k:'phrase', ar:'كم السعر؟', it:'Quanto costa?', say:'كوانتو كوستا؟'},
+    {k:'tip', city:'', icon:'fork', text:'في المطاعم بتلقين بالفاتورة «coperto»، رسوم الطاولة، وهذا شي طبيعي عندهم.'},
+    {k:'tip', city:'بولونيا', icon:'fork', text:'ذوقي التالياتيلي بالراغو، والمدينة مشهورة فيه.'},
+    {k:'phrase', ar:'الحساب لو سمحت', it:'Il conto, per favore', say:'إل كونتو، بير فافوري'},
+    {k:'fact', city:'فلورنسا', icon:'landmark', text:'فلورنسا مهد عصر النهضة، وفيها ديفيد مايكل أنجلو.'},
+    {k:'tip', city:'', icon:'sparkle', text:'الكنايس تمنع الأكتاف المكشوفة، خلي معك شال خفيف دايم.'},
+    {k:'phrase', ar:'ما آكل لحم خنزير', it:'Non mangio maiale', say:'نون مانجو مايالي'},
+    {k:'tip', city:'بولونيا', icon:'landmark', text:'امشي في الأروقة حول بيازا ماجوري بعد العصر.'},
+    {k:'quote', text:'خفّفوا الحقايب، وثقّلوا الذكريات 🧳'},
+    {k:'phrase', ar:'بدون كحول', it:'Senza alcol', say:'سينتسا ألكول'},
+    {k:'tip', city:'روما', icon:'cup', text:'ماي النوافير الصغيرة في روما (nasoni) صالح للشرب ومجاني، عبّي قارورتك.'},
+    {k:'tip', city:'فلورنسا', icon:'fork', text:'جربي البيستيكا فيورنتينا، ستيك على الفحم.'},
+    {k:'phrase', ar:'وين الحمام؟', it:'Dov’è il bagno?', say:'دوفيه إل بانيو؟'},
+    {k:'tip', city:'', icon:'cup', text:'القهوة وانتي واقفة عند البار أرخص من الجلسة على الطاولة.'},
+    {k:'fact', city:'روما', icon:'landmark', text:'يقولون اللي يرمي عملة في نافورة تريفي بيرجع لروما مرة ثانية 🪙'},
+    {k:'phrase', ar:'لذيذ مرة!', it:'Buonissimo!', say:'بونيسيمو!'},
+    {k:'tip', city:'فلورنسا', icon:'landmark', text:'اطلعي على قبة الدومو، والحجز يكون بوقت مسبق.'},
+    {k:'tip', city:'', icon:'clock', text:'كثير محلات تسكّر الظهر (riposo) من ١ لـ ٤، رتّبوا التسوق قبل أو بعد.'},
+    {k:'phrase', ar:'لو سمحت', it:'Per favore', say:'بير فافوري'},
+    {k:'tip', city:'روما', icon:'pin', text:'زوري حي ترستيفيري في المساء، وتوقفي عند نافورة تريفي.'},
+    {k:'tip', city:'', icon:'bag', text:'انتبهوا للنشّالين في المترو والأماكن الزحمة، الشنطة قدّام دايم.'},
+    {k:'phrase', ar:'ماي بدون غاز', it:'Acqua naturale', say:'أكوا ناتورالي'},
+    {k:'quote', text:'كل شارع في إيطاليا له قصة، وأنتم اللي تكتبونها 📖'},
+    {k:'tip', city:'', icon:'cup', text:'الكابتشينو بعد الظهر ما يشربونه الإيطاليين، اطلبيه الصبح بس.'},
+    {k:'phrase', ar:'آسفة، عن إذنك', it:'Scusi', say:'سكوزي'},
+    {k:'fact', city:'ميلانو', icon:'bag', text:'ميلانو عاصمة الموضة، وأسبوع الموضة فيها من أشهر الأسابيع بالعالم.'},
+    {k:'tip', city:'', icon:'clock', text:'العشاء عندهم متأخر، أغلب المطاعم تفتح الساعة ٧ المسا.'},
+    {k:'phrase', ar:'مع السلامة', it:'Arrivederci', say:'أريفيديرتشي'}
+  ],
+  loading: ['نجهز الشنط…', 'نطبع التذاكر…', 'نسخّن البيتزا…', 'نحجز مكان للجيلاتو…', 'نلبس النظارات الشمسية…', 'نربط الأحزمة…'],
+  loadingFun: ['ويييي ✈️', 'لفة كمان؟ 🍕', 'الكابتن يسلّم عليك 👋', 'Andiamo! 🇮🇹']
+};
+(function(){
+  var C = window.COUNTRY, root = document.documentElement;
+  var pref = 'light'; try { pref = localStorage.getItem('italyTripTheme') || 'light'; } catch (e) {}
+  window.__themeColors = function(){ return {light: C.light.bg, dark: C.dark.bg}; };
+  var dark = pref === 'dark' || (pref === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+  root.dataset.theme = dark ? 'dark' : 'light';
+  var pal = C.defaultPalette;
+  root.dataset.palette = pal; root.dataset.pattern = 'on';
+  var merge = function(a, b){ var o = {}; Object.keys(a).forEach(function(k){ o[k] = a[k]; }); Object.keys(b || {}).forEach(function(k){ o[k] = b[k]; }); return o; };
+  var P = C.palettes[pal]; var L = merge(C.light, P.light), D = merge(C.dark, P.dark);
+  var vars = function(o){ return Object.keys(o).map(function(k){ return '--' + k + ':' + o[k]; }).join(';'); };
+  var st = document.createElement('style'); st.id = 'countryVars';
+  st.textContent = 'html:root{' + vars(L) + ';--tile:' + C.pattern + ';--flag:linear-gradient(90deg,' + C.flagColors[0] + ' 0 33.3%,' + C.flagColors[1] + ' 0 66.6%,' + C.flagColors[2] + ' 0)}' +
+    'html:root[data-theme=dark]{' + vars(D) + '}';
+  document.head.appendChild(st);
+  var tc = document.querySelector('meta[name=theme-color]'); if (tc) tc.content = dark ? D.bg : L.bg;
+  window.__applyTheme = function(){ location.reload(); };
+})();
+</script>
 </head>
 <body>
 <button id="ownerBtn" class="owner-btn" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="11" width="15" height="10" rx="2.5"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg> دخول صاحبة الرحلة</button>
@@ -341,7 +635,7 @@ window.claude = { use: async (n) => (await window.__fbReady)[n] };
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import { getAuth, onAuthStateChanged, signInAnonymously, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
-import { getFirestore, doc, collection, onSnapshot, setDoc } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+import { initializeFirestore, persistentLocalCache, getFirestore, doc, collection, onSnapshot, setDoc } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
 
 const OWNER_EMAIL = 'd.a.samaher@gmail.com';
 const firebaseConfig = {
@@ -354,7 +648,7 @@ const firebaseConfig = {
 };
 const fbApp = initializeApp(firebaseConfig);
 const auth = getAuth(fbApp);
-const fs = getFirestore(fbApp);
+let fs; try { fs = initializeFirestore(fbApp, {localCache: persistentLocalCache()}); } catch (e) { fs = getFirestore(fbApp); }
 
 const isOwnerUser = u => !!u && !u.isAnonymous && u.email === OWNER_EMAIL;
 
@@ -381,6 +675,36 @@ document.getElementById('gBtn').hidden = window.__isGoogle;
 document.getElementById('ownerBtn').addEventListener('click', signIn);
 document.getElementById('gBtn').addEventListener('click', signIn);
 </script>
+<div class="splash" id="splash" role="status" aria-live="polite">
+  <div class="sp-card">
+    <div class="sp-sky">
+      <svg class="sp-arc" viewBox="0 0 260 130" aria-hidden="true"><path d="M240 112 Q130 -26 20 112"/></svg>
+      <span class="sp-pin sp-from" aria-hidden="true"></span><span class="sp-pin sp-to" aria-hidden="true"></span>
+      <button class="sp-plane" id="spPlane" type="button" aria-label="الطيارة، اضغطي عليها"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></button>
+    </div>
+    <div class="sp-ends"><span>السعودية</span><span>إيطاليا</span></div>
+    <span class="sp-flagbar" aria-hidden="true"></span><p class="sp-title">إيطاليا 🇮🇹</p>
+    <p class="sp-msg" id="spMsg">نجهز الشنط…</p>
+    <div class="sp-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+  </div>
+</div>
+<script>
+(function(){
+  /* loading screen: rotating trip messages; tap the plane for a loop; hides itself once the trip data arrives */
+  var el = document.getElementById('splash'), msg = document.getElementById('spMsg'), plane = document.getElementById('spPlane');
+  var C = window.COUNTRY || {}; var lines = C.loading || ['نجهز الشنط…']; var fun = C.loadingFun || ['ويييي ✈️'];
+  var n = 0, start = Date.now(), done = false;
+  var tick = setInterval(function(){ n = (n + 1) % lines.length; msg.classList.remove('swap'); void msg.offsetWidth; msg.textContent = lines[n]; msg.classList.add('swap'); }, 1500);
+  var slow = setTimeout(function(){ if (!done) { clearInterval(tick); msg.textContent = 'النت شوي بطيء، لحظة وتوصلين…'; } }, 7000);
+  plane.addEventListener('click', function(){ plane.classList.remove('loop'); void plane.offsetWidth; plane.classList.add('loop'); msg.textContent = fun[Math.floor(Math.random() * fun.length)]; });
+  window.__hideSplash = function(){
+    if (done || !el) return; done = true;
+    var wait = Math.max(0, 900 - (Date.now() - start));
+    setTimeout(function(){ clearInterval(tick); clearTimeout(slow); el.classList.add('out'); setTimeout(function(){ if (el.parentNode) el.parentNode.removeChild(el); }, 500); }, wait);
+  };
+  setTimeout(function(){ window.__hideSplash(); }, 12000);
+})();
+</script>
 <div class="app" id="app" aria-live="polite"></div>
 <nav class="navwrap" aria-label="التبويبات"><div class="nav" id="nav"></div></nav>
 
@@ -392,7 +716,7 @@ const fmt = n => Number(n || 0).toLocaleString('en-US', {minimumFractionDigits: 
 const fmt0 = n => Number(n || 0).toLocaleString('en-US', {maximumFractionDigits: 0});
 const sum = a => a.reduce((s, x) => s + Number(x.amount || 0), 0);
 const uid = () => Math.random().toString(36).slice(2, 9);
-const TAKEOFF = Date.parse('2027-04-17T14:05:00+03:00');
+const TAKEOFF = Date.parse('2027-04-17T09:45:00+03:00'); /* SV 211 departs Jeddah 09:45 (lands Milan 14:05 local) */
 const RETURN = Date.parse('2027-04-29T00:00:00+03:00');
 const PEOPLE = ['منى','سحر','سماهر','سمارا'];
 /* العضوة الخامسة: حضورها مو مؤكد. لما يتأكد، غيّري null إلى {name: 'الاسم'}.
@@ -400,7 +724,7 @@ const PEOPLE = ['منى','سحر','سماهر','سمارا'];
 const GUEST = null;
 const TRAVELERS = PEOPLE.length + (GUEST ? 1 : 0);
 const PEOPLE_EMO = ['🦋','🌸','🌻','🌙','🐬','🍓','🦩','🌴'];
-const TAB_FX = {home:['📍','✈️','🗺️'], budget:['🎫','🧳','🎫'], mine:['💸','💰','🪙'], route:['📍','✈️','🗺️'], bag:['🧳','🎫','🧳']};
+const TAB_FX = window.COUNTRY.fx;
 const TRAVEL_LINES = ['الرحلة الحلوة تبدأ بخطوة… وأحلى خطوة تبدأ الحين ✈️', 'إيطاليا تنتظركم: بيتزا، أزقة، وقهوة على الرصيف ☕', 'خفّفوا الحقايب، وثقّلوا الذكريات 🧳', 'كل شارع في إيطاليا له قصة، وأنتم اللي تكتبونها 📖', 'الدنيا واسعة، والسفر أحلى علاج للروح 🌍', 'يلا نعد للإقلاع، والعداد يعد معنا ⏳'];
 let quoteIdx = 0;
 let addingLine = false, editingCity = null;
@@ -444,14 +768,27 @@ const IC = {
   snow:'<path d="M17.5 15H8a5 5 0 1 1 1-9.9 6 6 0 0 1 11.3 2.9A3.5 3.5 0 0 1 17.5 15Z"/><path d="M8 19h.01M12 20.5h.01M16 19h.01"/>',
   storm:'<path d="M17.5 15H8a5 5 0 1 1 1-9.9 6 6 0 0 1 11.3 2.9A3.5 3.5 0 0 1 17.5 15Z"/><path d="m12.5 15-2 3.5h3.5l-2 3.5"/>',
   cloudSun:'<path d="M12 2v2M4.9 4.9l1.4 1.4M2 12h2M19.1 4.9l-1.4 1.4"/><path d="M15.9 8.6A4 4 0 0 0 8.1 10"/><path d="M17.5 21H9a4 4 0 1 1 .9-7.9 5 5 0 0 1 9.4 2.4A3 3 0 0 1 17.5 21Z"/>',
+  heart:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/>',
+  chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/>',
   landmark:'<path d="M3 21h18M5 21v-9M9.5 21v-9M14.5 21v-9M19 21v-9M3 9.5 12 4l9 5.5z"/>'
 };
 const ic = name => `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${IC[name] || ''}</svg>`;
 const H = (icon, text) => `<h2><span class="h-ic">${ic(icon)}</span>${text}</h2>`;
 const TIP_IC = {'🍚':'fork','🍝':'fork','🥩':'fork','🎨':'camera','🏛️':'landmark','⛪':'landmark','⛲':'landmark','☕':'cup'};
 const CAT_IC = {'هدايا':'gift','تسوق شخصي':'bag','أكل وشرب':'fork','قهوة وحلويات':'cup','مواصلات محلية':'train','تذاكر ومتاحف':'ticket','متفرقات':'sparkle'};
-const TAB_IC = {home:'home', budget:'wallet', mine:'coins', route:'route', bag:'suitcase'};
-const TAB_COL = {home:'#F9C3D1', budget:'#DCD2FA', mine:'#CDEBDC', route:'#CFE3F7', bag:'#FFDDB5'};
+const COUNTRY = window.COUNTRY;
+const TAB_IC = {home:'home', route:'route', money:'wallet', bag:'suitcase'};
+const TAB_COL = COUNTRY.tabColors;
+const cityColor = c => (c && (COUNTRY.cityColors[c.id] || c.color)) || COUNTRY.cityFallback[0];
+/* flights: public details only (no booking reference, ticket or loyalty numbers: this repo is public) */
+const FLIGHTS = [
+  {id: 'out', dir: 'الذهاب', airline: 'السعودية', no: 'SV 211', date: '2027-04-17', day: 'السبت ١٧ أبريل',
+   from: {code: 'JED', city: 'جدة', time: '09:45', place: 'مطار الملك عبدالعزيز، صالة 1'},
+   to: {code: 'MXP', city: 'ميلانو', time: '14:05', place: 'مطار مالبينسا، صالة 1'},
+   dur: '5 ساعات و20 دقيقة', stops: 'مباشرة', plane: 'إيرباص A330', bag: 'شنطتين 23 كجم', pax: ['سماهر', 'سمارا', 'منى']},
+  {id: 'back', dir: 'الرجوع', airline: '', no: '', date: '2027-04-29', day: '٢٩ أبريل',
+   from: {code: 'FCO', city: 'روما', time: '', place: ''}, to: {code: 'JED', city: 'جدة', time: '', place: ''}, pending: true}
+];
 const greetWord = () => new Date().getHours() < 12 ? 'صباح الخير' : 'مساء الخير';
 const sep = t => String(t ?? '').replace(/(\S)\s*·\s*(\S)/g, (m, a, b) => /[\u0600-\u06FF]/.test(a + b) ? a + '، ' + b : a + ' · ' + b);
 const emoOf = name => PEOPLE_EMO[PEOPLE.indexOf(name)] || '✈️';
@@ -475,7 +812,7 @@ function burst(list){
   });
 }
 const CATS = ['هدايا','تسوق شخصي','أكل وشرب','قهوة وحلويات','مواصلات محلية','تذاكر ومتاحف','متفرقات'];
-const CAT_COLOR = {'هدايا':'#FDE8EE','تسوق شخصي':'#FFF1DC','أكل وشرب':'#FFE6D6','قهوة وحلويات':'#F3EBDD','مواصلات محلية':'#E4F0FB','تذاكر ومتاحف':'#EEE8FC','متفرقات':'#E3F4EC'};
+const CAT_COLOR = {'هدايا':'var(--pink-t)','تسوق شخصي':'var(--peach)','أكل وشرب':'var(--sky)','قهوة وحلويات':'var(--peach)','مواصلات محلية':'var(--lav)','تذاكر ومتاحف':'var(--mint)','متفرقات':'var(--lav)'};
 const AV_COLORS = ['#BFDDF0','#F8D9B8','#D8CBF2','#C6E3CF','#F7C9D0','#F2E4A8'];
 const DEFAULT_PLAN = {
   travelers: 5,
@@ -521,7 +858,18 @@ const DEFAULT_BUDGET = {
 };
 const bagItems = () => { const m = mine(); return (m.bagEdited || (m.bag && m.bag.length)) ? (m.bag || []) : DEFAULT_BAG.map((t, i) => ({id: 'd' + i, t, done: false})); };
 let editingBag = null;
-const DEFAULT_BAG = ['جواز السفر','تذاكر الطيران','إثبات التأشيرة (نسخة مطبوعة)','بطاقات بنكية + شيء من اليورو','محوّل كهرباء إيطالي','أدوية شخصية','حذاء مريح للمشي','شاحن جوال + بطارية متنقلة'];
+const BAG_CATS = ['مستندات', 'ملابس', 'إلكترونيات', 'صحة وعناية', 'أغراض ثانية'];
+const BAG_CAT_IC = {'مستندات': 'ticket', 'ملابس': 'bag', 'إلكترونيات': 'sparkle', 'صحة وعناية': 'sun', 'أغراض ثانية': 'suitcase'};
+function bagCat(i){
+  if (i.cat && BAG_CATS.includes(i.cat)) return i.cat;
+  const t = i.t || '';
+  if (/جواز|تذاكر|تذكرة|تأشيرة|بطاقة|بطاقات|يورو|تأمين|حجز/.test(t)) return 'مستندات';
+  if (/شاحن|محول|محوّل|كهرباء|سماعة|جوال|كاميرا|بطارية/.test(t)) return 'إلكترونيات';
+  if (/دواء|أدوية|عناية|كريم|واقي|شامبو|فرشاة/.test(t)) return 'صحة وعناية';
+  if (/حذاء|عباية|ملابس|جاكيت|شنطة|نظارة|قبعة|طرحة|بيجامة/.test(t)) return 'ملابس';
+  return 'أغراض ثانية';
+}
+const DEFAULT_BAG = ['جواز السفر']; /* one example; everyone adds her own */
 
 let db = null, user = null, me = null, isOwner = false;
 let plan = structuredClone(DEFAULT_PLAN), budget = structuredClone(DEFAULT_BUDGET);
@@ -533,7 +881,7 @@ const rows = s => s && s.docs ? s.docs.map(d => ({id: d.id, data: typeof d.data 
 async function init(){
   try { db = await claude.use('db'); } catch(e) { db = null; }
   try { user = await claude.use('user'); } catch(e) { user = null; }
-  if (user) { try { me = await user.id(); isOwner = !!(await user.isOwner()); } catch(e) {} }
+  if (user) { try { me = await user.id(); ownerReal = !!(await user.isOwner()); isOwner = ownerReal; } catch(e) {} }
   if (db) {
     try {
       db.doc('trip/plan').onSnapshot(s => { const d = val(s); if (d) plan = {...DEFAULT_PLAN, ...d}; render(); });
@@ -541,11 +889,13 @@ async function init(){
       db.collection('members').onSnapshot(s => {
         members = {};
         rows(s).forEach(r => members[r.id] = r.data || {});
+        if (window.__hideSplash) window.__hideSplash();
         render(); resolveNames(); syncPicker();
       });
     } catch(e) {}
   }
   render();
+  if (!db && window.__hideSplash) window.__hideSplash();
   setInterval(tickCd, 1000);
 }
 
@@ -663,28 +1013,52 @@ function contribRows(c){
 function headBar(){
   return `<header class="head">
     <div><p class="head-hi">${greetWord()}،</p><h1 class="head-name">${esc(picked)}!</h1></div>
-    <div class="head-actions"><button class="icon-btn" data-act="back" aria-label="الرجوع لاختيار الاسم">${ic('back')}</button><button class="avatar emo-tap" data-emo="${PEOPLE_EMO[pickedIdx]}" aria-label="${esc(picked)}">${PEOPLE_EMO[pickedIdx]}</button></div>
+    <div class="head-actions"><button class="icon-btn night-btn" data-act="night" aria-pressed="${document.documentElement.dataset.theme === 'dark'}" aria-label="${document.documentElement.dataset.theme === 'dark' ? 'رجّعي الوضع النهاري' : 'الوضع الليلي'}">${ic(document.documentElement.dataset.theme === 'dark' ? 'sun' : 'moon')}</button></div>
   </header>`;
+}
+const romeDay = (t = Date.now()) => new Intl.DateTimeFormat('en-CA', {timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit'}).format(new Date(t));
+/* the city whose dates include today (Italy time); null before or after the trip */
+function todayCity(){ const d = romeDay(); return plan.cities.find(c => tripDays(c).includes(d)) || null; }
+const tripOn = () => Date.now() >= TAKEOFF && Date.now() < RETURN + 86400000;
+function flightCard(f){
+  if (f.pending) return `<div class="ticket pending"><div class="t-row"><div><b class="t-code">${f.from.code}</b><small>${esc(f.from.city)}</small></div><span class="t-line"><i></i>${ic('plane')}<i></i></span><div><b class="t-code">${f.to.code}</b><small>${esc(f.to.city)}</small></div></div><p class="t-note">${ic('clock')} ${esc(f.dir)}، ${esc(f.day)}: لسه ما انحجز</p></div>`;
+  return `<div class="ticket"><div class="t-top"><span class="t-dir">${esc(f.dir)}</span><span class="num">${esc(f.no)}</span><span>${esc(f.airline)}</span></div>
+    <div class="t-row"><div><b class="t-code">${f.from.code}</b><small>${esc(f.from.city)}</small><b class="t-time num">${f.from.time}</b></div><span class="t-line"><i></i>${ic('plane')}<i></i></span><div><b class="t-code">${f.to.code}</b><small>${esc(f.to.city)}</small><b class="t-time num">${f.to.time}</b></div></div>
+    <div class="t-meta"><span>${ic('clock')} ${esc(f.day)}</span><span>${esc(f.stops)}، ${esc(f.dur)}</span><span>${ic('suitcase')} ${esc(f.bag)}</span></div>
+    <p class="t-note">${esc(f.from.place)} ← ${esc(f.to.place)}. على الحجز: ${f.pax.map(esc).join('، ')}. الأوقات بتوقيت كل مطار.</p></div>`;
 }
 function stopTiles(){
   return plan.cities.map(c => {
     const w = cityWx[geoKey(c)];
     const now = plan.currentCity === c.id;
     const d = sep(c.dates || '').split('،')[0];
-    return `<button class="stop-tile${now ? ' now' : ''}" style="--c:${c.color}" data-act="tab" data-v="route" aria-label="${esc(c.name)}، ${esc(d)}">
+    return `<button class="stop-tile${now ? ' now' : ''}" style="--c:${cityColor(c)}" data-act="tab" data-v="route" aria-label="${esc(c.name)}، ${esc(d)}">
       <span class="stop-ic">${ic(now ? 'plane' : 'pin')}</span>
       <b>${esc(c.name)}</b><small>${esc(d)}</small>
       ${w ? `<span class="stop-wx">${ic(wxInfo(w.now.code)[0])}<span class="num">${Math.round(w.now.t)}°</span></span>` : ''}
     </button>`;
   }).join('');
 }
+function todayCard(){
+  const c = todayCity() || plan.cities.find(x => x.id === plan.currentCity);
+  if (!c) return '';
+  const w = cityWx[geoKey(c)]; const f = w && w.days[romeDay()];
+  const n = citySuggestions(c).length;
+  const idx = plan.cities.indexOf(c); const next = plan.cities[idx + 1];
+  return `<section class="hero today" style="--c:${cityColor(c)}">
+    <p class="hero-sub">اليوم في</p><h2 class="today-city">${esc(c.name)}</h2>
+    ${f ? `<p class="today-wx">${ic(wxInfo(f.code)[0])} <b class="num">${Math.round(f.max)}°</b> / <span class="num">${Math.round(f.min)}°</span>، ${wxInfo(f.code)[1]}</p>` : wxNowLine(c)}
+    <div class="stub"><div><small>المقترحات</small><b>${ARD(n)} مكان</b></div><div><small>بعدها</small><b>${next ? esc(next.name) : 'الرجعة 🏠'}</b></div><div><small>${ic('pin')}</small><b><button class="link-btn" data-act="tab" data-v="route">افتحي الخط</button></b></div></div>
+  </section>`;
+}
 function viewHome(){
   const cityNow = plan.cities.find(x => x.id === plan.currentCity);
   const tip = DEFAULT_TIPS[tipIdx % DEFAULT_TIPS.length];
+  if (tripOn()) return `${headBar()}${todayCard()}` + homeRest(cityNow, tip);
   return `${headBar()}
   <section class="hero pass" data-act="stamp" role="button" tabindex="0" aria-label="تذكرة رحلتنا، اضغطي عشان تنختم">
     <div class="pass-route"><b>السعودية</b><span class="pass-line"><i></i>${ic('plane')}<i></i></span><b>إيطاليا</b></div>
-    <p class="hero-sub">١٧ – ${ARD(RET_DAY)} أبريل ٢٠٢٧، ميلانو ← روما</p>
+    <p class="hero-sub">${FLIGHTS[0].no}، ${FLIGHTS[0].day} <span class="num">${FLIGHTS[0].from.time}</span> من جدة، توصلون ميلانو <span class="num">${FLIGHTS[0].to.time}</span></p>
     <p class="cd-label" id="cd-label"></p>
     <div class="cd" role="timer" aria-label="الوقت المتبقي للإقلاع">
       <div data-act="pop"><b id="cd-d">--</b><span>يوم</span></div>
@@ -700,9 +1074,50 @@ function viewHome(){
     <span class="pass-stamp" aria-hidden="true">${ic('check')} جاهزة للإقلاع</span>
   </section>
 
-  <p class="quote" data-act="quote" role="button" tabindex="0">${ic('sparkle')}<span>${esc(TRAVEL_LINES[quoteIdx % TRAVEL_LINES.length])}</span></p>
+` + homeRest(cityNow, tip);
+}
+/* ---------- rotating tips: phrases, tips, facts and travel lines in one card ---------- */
+let tipPos = Math.floor(Math.random() * 1000), tipTimer = null;
+const TIP_MS = 7000;
+function tipList(){
+  const all = COUNTRY.tips || [];
+  const c = todayCity();
+  return c ? [...all.filter(t => t.city === c.name), ...all.filter(t => t.city !== c.name)] : all;
+}
+function tipInner(t){
+  if (t.k === 'phrase') return `<div class="tb-head"><span class="tb-ic">${ic('chat')}</span><span>قولي «${esc(t.ar)}» بالإيطالي</span></div>
+    <p class="tb-phrase"><b dir="ltr" lang="it">${esc(t.it)}</b><span>تنطق: ${esc(t.say)}</span></p>`;
+  const label = t.k === 'quote' ? 'عبارة سفر' : t.k === 'fact' ? (t.city ? `تعرفين؟ عن ${esc(t.city)}` : 'تعرفين؟') : (t.city ? `نصيحة من ${esc(t.city)}` : 'نصيحة سفر');
+  const icn = t.k === 'quote' ? 'sparkle' : t.k === 'fact' ? 'compass' : (t.icon || 'compass');
+  return `<div class="tb-head"><span class="tb-ic">${ic(icn)}</span><span>${label}</span></div><p class="tb-text${t.k === 'quote' ? ' tb-quote' : ''}">${esc(t.text)}</p>`;
+}
+function tipBoxHTML(){
+  const L = tipList(); if (!L.length) return '';
+  const t = L[tipPos % L.length];
+  return `<section class="tipbox k-${t.k}" id="tipBox" data-act="tipNext" role="button" tabindex="0" aria-label="نصيحة، اضغطي للي بعدها" aria-live="polite">
+    <div class="tb-body">${tipInner(t)}</div>
+    <span class="tb-next" aria-hidden="true">${ic('refresh')}</span>
+  </section>`;
+}
+function showTip(step = 1){
+  const box = document.getElementById('tipBox'); const L = tipList(); if (!box || !L.length) return;
+  tipPos += step; const t = L[tipPos % L.length];
+  box.className = 'tipbox k-' + t.k;
+  box.querySelector('.tb-body').innerHTML = tipInner(t);
+  box.classList.remove('swap'); void box.offsetWidth; box.classList.add('swap');
+  startTipTimer();
+}
+function startTipTimer(){
+  clearInterval(tipTimer);
+  const box = document.getElementById('tipBox');
+  if (box) { box.classList.remove('ring-run'); void box.offsetWidth; box.classList.add('ring-run'); }
+  tipTimer = setInterval(() => { if (!document.hidden && document.getElementById('tipBox')) showTip(1); }, TIP_MS);
+}
+function homeRest(cityNow, tip){
+  return `
+  ${tipBoxHTML()}
 
-  ${cityNow ? `<section class="card here" style="--c:${cityNow.color}">${H('pin', 'أنتم هنا')}
+  ${cityNow ? `<section class="card here" style="--c:${cityColor(cityNow)}">${H('pin', 'أنتم هنا')}
     <strong style="font-size:20px">${esc(cityNow.name)}</strong>${wxNowLine(cityNow)}<p class="muted" style="margin:4px 0 0">${esc(sep(cityNow.dates || ''))}${cityNow.desc ? '، ' + esc(sep(cityNow.desc)) : ''}</p>
   </section>` : ''}
 
@@ -713,13 +1128,33 @@ function viewHome(){
 
   ${updatesCard()}
 
-  <section class="tip" aria-label="نصيحة للسفر">
-    <div class="tipIcon">${ic(TIP_IC[tip.icon] || 'compass')}</div>
-    <div class="grow"><div class="muted">نصيحة من ${esc(tip.city)}</div><p class="tip-text">${esc(tip.text)}</p></div>
-    <button class="icon-btn dice" data-act="tip" aria-label="نصيحة ثانية">${ic('refresh')}</button>
-  </section>`;
+  `;
 }
 
+function viewMoney(){
+  return `<div class="seg money-seg" role="tablist" aria-label="الفلوس">
+    <button role="tab" aria-pressed="${moneyView === 'group'}" data-act="moneyView" data-v="group">${ic('wallet')}<span>ميزانية الرحلة</span></button>
+    <button role="tab" aria-pressed="${moneyView === 'mine'}" data-act="moneyView" data-v="mine">${ic('coins')}<span>مساهمتي ومصاريفي</span></button>
+  </div>` + (moneyView === 'mine' ? viewMine() : viewBudget());
+}
+function budgetSummary(c){
+  const total = Number(budget.total || 0);
+  const pct = total ? Math.round(Math.min(100, c.pool / total * 100)) : 0;
+  return `<section class="card money-top">
+    <div class="row" style="gap:16px;align-items:center">
+      ${ringHTML(pct, `<b class="num" style="font-size:24px">${pct}%</b><small class="muted">انجمع</small>`)}
+      <div class="grow">
+        <small class="muted">ميزانية الرحلة</small><div class="big num">${fmt0(total)} <span>ريال</span></div>
+        <div class="mine-stats"><span>انجمع <b class="num">${fmt0(c.pool)}</b></span><span>باقي <b class="num">${fmt0(Math.max(0, total - c.pool))}</b></span></div>
+      </div>
+    </div>
+    <div class="money-minis">
+      <div><span>للشخص</span><b class="num">${fmt0(c.share)}</b></div>
+      <div><span>حجوزات مدفوعة</span><b class="num">${fmt0(c.paid)}</b></div>
+      <div><span>غير مدفوعة</span><b class="num">${fmt0(c.unpaid)}</b></div>
+    </div>
+  </section>`;
+}
 function viewBudget(){
   const c = calc();
   const lines = budget.lines || [];
@@ -737,7 +1172,7 @@ function viewBudget(){
       <div class="grow"><div class="line-label">${esc(l.label)}</div><div class="line-st">${status(l, 'booked', !!l.booked, 'تم الحجز', 'لم يُحجز')}${status(l, 'paid', !!l.paid, 'تم الدفع', 'لم يُدفع')}</div></div>
       ${isOwner ? `<input class="in" style="width:110px;height:44px;text-align:center" type="number" inputmode="decimal" min="0" step="0.01" value="${Number(l.amount || 0)}" data-field="amount" data-id="${esc(l.id)}" aria-label="مبلغ ${esc(l.label)}">` : `<strong class="num">${fmt(l.amount)}</strong>`}
     </div>`;
-  return `<section class="card">${H('wallet', 'الميزانية الكلية')}
+  return `${budgetSummary(c)}<section class="card">${H('wallet', 'الميزانية الكلية')}
     ${isOwner ? `<div class="form">
       <label class="form"><span class="muted">المبلغ الكلي للرحلة (ريال)</span>
         <input class="in num" type="number" inputmode="decimal" min="0" step="1" value="${Number(budget.total || 0)}" data-field="total" style="font-size:22px;font-weight:800"></label>
@@ -751,12 +1186,8 @@ function viewBudget(){
   <section class="card">${H('bed', 'السكن والتذاكر')}${lines.map(lineRow).join('') || '<p class="muted">لا توجد حجوزات</p>'}
     ${isOwner ? (addingLine ? `<form id="lineForm" class="row" style="margin-top:12px;flex-wrap:wrap"><input class="in" name="label" placeholder="اسم الحجز" required style="flex:2;min-width:140px"><input class="in" name="amount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="المبلغ" required style="flex:1;min-width:90px"><button class="btn primary" type="submit">حفظ</button></form>` : `<button class="btn primary" style="width:100%;margin-top:12px" data-act="addLine">${ic('sparkle')} إضافة حجز</button>`) : ''}
   </section>
-  <section class="card">${H('ticket', 'ملخص الحجوزات')}
-    <div class="sum-row"><span>الحجوزات المدفوعة</span><strong>${fmt(c.paid)} ريال</strong></div>
-    <div class="sum-row"><span>الحجوزات غير المدفوعة</span><strong>${fmt(c.unpaid)} ريال</strong></div>
-    ${isOwner ? `<div class="sum-row"><span>المصروفات</span><strong>${fmt(c.spent)} ريال</strong></div>` : ''}
-  </section>
-  ${isOwner ? `<section class="share"><div><small>المتاح للصرف</small><strong style="font-size:36px">${fmt(c.available)} <span>ريال</span></strong></div></section>` : ''}
+
+  ${isOwner ? `<section class="card avail"><div><small class="muted">المتاح للصرف (لك بس)</small><div class="big num">${fmt(c.available)} <span>ريال</span></div></div><small class="muted">المصروفات: <span class="num">${fmt(c.spent)}</span> ريال</small></section>` : ''}
   ${isOwner && c.available < 0 ? `<div class="alert">${ic('clock')} المصروف تجاوز الميزانية</div>` : ''}
   <section class="card">${H('coins', 'المساهمات')}
     ${isOwner ? '<p class="hint" style="margin:0 0 10px">تقدرين تعدلين مساهمة أي وحدة لو حوّلت لك وما حدّثت صفحتها. التعديل يتحفظ أول ما تطلعين من الخانة.</p>' : ''}
@@ -769,7 +1200,25 @@ function viewBudget(){
    A floating 💱 button on every page opens a bottom sheet. The ⇄ button flips the direction.
    It lives outside #app, so re-renders never reset what you typed. Rate is saved on this device. */
 const FX_KEY = 'italyTripFxRate';
-const fxRate = () => { try { const r = Number(localStorage.getItem(FX_KEY)); return r > 0 ? r : 4.3; } catch(_) { return 4.3; } };
+const FX_LIVE = 'italyTripFxLive', FX_MANUAL = 'italyTripFxManual', FX_AMT = 'italyTripFxAmt';
+const lsGet = k => { try { return localStorage.getItem(k); } catch(_) { return null; } };
+const lsSet = (k, v) => { try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch(_) {} };
+const fxLive = () => { try { const o = JSON.parse(lsGet(FX_LIVE) || 'null'); return o && o.rate > 0 ? o : null; } catch(_) { return null; } };
+const fxManual = () => lsGet(FX_MANUAL) === '1';
+/* rate in use: a manual rate if she set one, otherwise today's live rate, otherwise the last saved one, otherwise 4.3 */
+const fxRate = () => { const m = Number(lsGet(FX_KEY)); if (fxManual() && m > 0) return m; const l = fxLive(); if (l) return l.rate; return m > 0 ? m : 4.3; };
+async function loadFxRate(){
+  try {
+    const r = await fetch('https://open.er-api.com/v6/latest/EUR'); const d = await r.json();
+    const rate = d && d.rates && Number(d.rates.SAR);
+    if (rate > 0) { lsSet(FX_LIVE, JSON.stringify({rate: Math.round(rate * 1000) / 1000, at: Date.now()})); if (!fxManual() && $('#fxRate')) { $('#fxRate').value = fxRate(); updateFx(); } }
+  } catch (e) { /* offline: keep the last rate */ }
+}
+function fxSource(){
+  if (fxManual()) return `سعر يدوي <button type="button" class="link-btn" id="fxAuto">رجّعي السعر التلقائي</button>`;
+  const l = fxLive();
+  return l ? `سعر اليوم التلقائي، تحدّث ${new Date(l.at).toLocaleDateString('ar-SA', {day: 'numeric', month: 'long'})}` : 'سعر تقريبي، بيتحدّث أول ما يتوفر نت';
+}
 const FX_UNITS = {eur: {name: 'يورو', sym: '€', quick: [5, 10, 20, 50, 100]}, sar: {name: 'ريال', sym: 'ر.س', quick: [50, 100, 200, 500]}};
 let fxFrom = 'eur';
 const fxTo = () => fxFrom === 'eur' ? 'sar' : 'eur';
@@ -789,9 +1238,11 @@ function buildFx(){
     <div class="chips fx-quick" id="fxQuick" role="group" aria-label="مبالغ سريعة"></div>
     <div class="fx-out" id="fxOut" aria-live="polite"></div>
     <div class="row fx-rate"><span class="muted">1 يورو =</span><input class="in" id="fxRate" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" autocomplete="off" enterkeyhint="done" min="0" step="0.01" data-fx="rate" aria-label="سعر الصرف"><span class="muted">ريال</span></div>
-    <p class="hint" style="text-align:center;margin:6px 0 0">عدّلي سعر الصرف حسب سعر اليوم، ويُحفظ على جهازك.</p>
+    <p class="hint" id="fxSrc" style="text-align:center;margin:6px 0 0"></p>
   </div>`);
   $('#fxRate').value = fxRate();
+  const lastAmt = lsGet(FX_AMT); if (lastAmt) $('#fxAmt').value = lastAmt;
+  $('#fxSheet').addEventListener('click', e => { if (e.target.id === 'fxAuto') { lsSet(FX_MANUAL, null); $('#fxRate').value = fxRate(); updateFx(); } });
   /* phones open the keyboard for any focused field, so the fields stay read-only until the finger
      actually lands on one; opening the sheet or tapping a quick amount can never raise the keyboard */
   ['#fxAmt', '#fxRate'].forEach(sel => {
@@ -820,6 +1271,7 @@ function fxOpen(on){
 function fxSync(){ buildFx(); if (!picked && !$('#fxSheet').hidden) fxOpen(false); }
 const fxParse = v => Number(String(v || '').replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[٫,]/g, '.')) || 0;
 function updateFx(){
+  if ($('#fxSrc')) $('#fxSrc').innerHTML = fxSource();
   const amt = fxParse(($('#fxAmt') || {}).value);
   const rate = fxParse(($('#fxRate') || {}).value);
   const F = FX_UNITS[fxFrom], T = FX_UNITS[fxTo()];
@@ -831,48 +1283,69 @@ function updateFx(){
 }
 document.addEventListener('input', e => {
   if (e.target.dataset && 'routeSearch' in e.target.dataset) { routeQuery = e.target.value; render(); return; }
+  if (e.target.dataset && 'expCur' in e.target.dataset) { const amt = (document.querySelector('#expForm [name=amount]') || {}).value; expCur = e.target.value; render(); const a2 = document.querySelector('#expForm [name=amount]'); if (a2 && amt) a2.value = amt; return; }
   const f = e.target.dataset && e.target.dataset.fx;
   if (!f) return;
-  if (f === 'rate') { const r = fxParse(e.target.value); if (r > 0) { try { localStorage.setItem(FX_KEY, String(r)); } catch(_) {} } }
+  if (f === 'rate') { const r = fxParse(e.target.value); if (r > 0) { lsSet(FX_KEY, String(r)); lsSet(FX_MANUAL, '1'); } }
+  if (f === 'amt') lsSet(FX_AMT, e.target.value);
   updateFx();
 });
 
 function viewMine(){
   const m = mine();
-  const exps = (m.expenses || []).filter(e => catFilter === 'الكل' || e.cat === catFilter);
-  const spent = sum(m.expenses || []);
+  const all = m.expenses || [];
+  const exps = all.filter(e => catFilter === 'الكل' || e.cat === catFilter);
   const share = calc().share;
-  const left = share - Number(m.contributed || 0);
-  return `<section class="card">${H('wallet', 'مساهمتي')}
-    <div class="share inset"><div><small>مبلغ المشاركة (ثابت)</small><strong>${fmt0(share)} <span style="font-size:18px">ريال</span></strong></div></div>
-    <p class="muted" style="margin:0 0 6px">كم دفعتِ لحد الحين</p>
-    <div class="row"><input class="in" type="number" inputmode="decimal" min="0" step="0.01" id="contrib" value="${Number(m.contributed || 0)}" aria-label="مبلغ مساهمتي" ${me ? '' : 'disabled'}><button class="btn primary" data-act="saveContrib" ${me ? '' : 'disabled'}>حفظ</button></div>
-    ${me ? `<div class="chips" role="group" aria-label="إضافة سريعة للمبلغ" style="margin-top:10px">${[100, 500, 1000].map(n => `<button class="chip" data-act="addContrib" data-v="${n}">+${fmt0(n)}</button>`).join('')}</div><p class="hint" style="margin:6px 0 0">الأزرار تزيد الرقم بس، واضغطي حفظ بعدها.</p>` : ''}
-    <div class="row" style="justify-content:space-between;margin-top:12px"><span class="muted">باقي عليك</span><strong style="color:${left < 0 ? 'var(--red)' : 'var(--green)'}">${fmt(left)} ريال</strong></div>
+  const paid = Number(m.contributed || 0);
+  const left = share - paid;
+  const pct = share ? Math.round(Math.min(100, paid / share * 100)) : 0;
+  const done = share > 0 && left <= 0;
+  const byCity = {};
+  exps.slice().reverse().forEach(e => { (byCity[e.city || 'بدون مدينة'] = byCity[e.city || 'بدون مدينة'] || []).push(e); });
+  const eur = e => e.cur === 'EUR' ? `<small class="eur num">${fmt(e.orig)} €</small>` : '';
+  return `<section class="card mine-top${done ? ' done' : ''}">
+    <div class="row" style="gap:16px;align-items:center">
+      ${ringHTML(pct, `<b class="num" style="font-size:24px">${pct}%</b><small class="muted">من مبلغك</small>`)}
+      <div class="grow">
+        <small class="muted">مبلغ المشاركة</small><div class="big num">${fmt0(share)} <span>ريال</span></div>
+        <div class="mine-stats"><span>دفعتِ <b class="num">${fmt0(paid)}</b></span><span>${done ? 'كمّلتي 🎉' : `باقي <b class="num">${fmt0(Math.max(0, left))}</b>`}</span></div>
+      </div>
+    </div>
+    ${done ? `<p class="done-line">${ic('check')} كمّلتي مساهمتك، تستاهلين بيتزا 🍕</p>` : ''}
+    <div class="form" style="margin-top:14px">
+      <span class="muted">كم دفعتِ لحد الحين؟</span>
+      <div class="row"><input class="in num" type="number" inputmode="decimal" min="0" step="0.01" id="contrib" value="${paid}" aria-label="مبلغ مساهمتي" ${me ? '' : 'disabled'}><button class="btn primary" data-act="saveContrib" ${me ? '' : 'disabled'}>حفظ</button></div>
+      ${me ? `<div class="chips" role="group" aria-label="إضافة سريعة للمبلغ">${[100, 500, 1000].map(n => `<button class="chip" data-act="addContrib" data-v="${n}">+${fmt0(n)}</button>`).join('')}</div><p class="hint" style="margin:0">الأزرار تزيد الرقم بس، واضغطي حفظ بعدها.</p>` : ''}
+    </div>
   </section>
   <section class="card">${H('pen', 'مصروف جديد')}
     <form class="form" id="expForm">
-      <input class="in" name="amount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="المبلغ (ريال)" required>
+      <div class="amt-row"><input class="in num" name="amount" type="text" inputmode="decimal" placeholder="المبلغ" required autocomplete="off">
+        <div class="seg seg-cur" role="radiogroup" aria-label="العملة">${[['EUR', '€ يورو'], ['SAR', 'ريال']].map(([k, l]) => `<label><input type="radio" name="cur" value="${k}" ${expCur === k ? 'checked' : ''} data-exp-cur><span>${l}</span></label>`).join('')}</div></div>
+      <p class="hint" style="margin:-4px 0 0">${expCur === 'EUR' ? `بنحوّله للريال بسعر ${fxRate()} وينحفظ الاثنين` : 'المبلغ بالريال'}</p>
       <div class="two">
         <select class="sel" name="cat">${CATS.map(c => `<option>${c}</option>`).join('')}</select>
-        <select class="sel" name="city">${plan.cities.map(c => `<option>${esc(c.name)}</option>`).join('')}</select>
+        <select class="sel" name="city">${plan.cities.map(c => `<option ${todayCity() && todayCity().id === c.id ? 'selected' : ''}>${esc(c.name)}</option>`).join('')}</select>
       </div>
       <input class="in" name="note" placeholder="ملاحظة، مثلاً: عشاء بيتزا">
       <button class="btn ink" type="submit" ${me ? '' : 'disabled'}>أضيفي المصروف</button>
     </form>
   </section>
-  <div class="chips" role="group" aria-label="فلترة حسب القسم">${['الكل', ...CATS].map(c => `<button class="chip" aria-pressed="${catFilter === c}" data-act="filter" data-v="${esc(c)}">${esc(c)}</button>`).join('')}</div>
-  ${exps.length ? exps.slice().reverse().map(e => `<div class="exp">
-      <span class="row-ic" style="--tint:${CAT_COLOR[e.cat] || 'var(--pink-t)'}">${ic(CAT_IC[e.cat] || 'sparkle')}</span>
-      <div class="grow"><div style="font-weight:800;font-size:16px">${esc(e.note || e.cat)}</div><div class="muted">${esc(e.cat)}، ${esc(e.city)}</div></div>
-      <strong style="white-space:nowrap">${fmt(e.amount)} <span style="font-size:13px">ريال</span></strong>
-      <button class="del" aria-label="حذف المصروف" data-act="delExp" data-id="${esc(e.id)}">${ic('trash')}</button>
-    </div>`).join('') : `<div class="empty"><div class="empty-ic">${ic('suitcase')}</div><p style="font-weight:800;font-size:18px;margin:8px 0 4px">شنطتك جاهزة؟ الرحلة قريبة!</p><p class="muted" style="margin:0">أول مصروف تسجلينه بيبدأ معنا العد الحقيقي لإيطاليا، يلا نبدأ</p></div>`}`;
+  ${all.length ? `<div class="chips" role="group" aria-label="فلترة حسب القسم">${['الكل', ...CATS].map(c => `<button class="chip" aria-pressed="${catFilter === c}" data-act="filter" data-v="${esc(c)}">${esc(c)}</button>`).join('')}</div>` : ''}
+  ${exps.length ? Object.entries(byCity).map(([city, list]) => `<section class="exp-group">
+      <div class="exp-head"><b>${esc(city)}</b><span class="num">${fmt(sum(list))} ريال</span></div>
+      ${list.map(e => `<div class="exp">
+        <span class="row-ic" style="--tint:${CAT_COLOR[e.cat] || 'var(--pink-t)'}">${ic(CAT_IC[e.cat] || 'sparkle')}</span>
+        <div class="grow"><div style="font-weight:800;font-size:16px">${esc(e.note || e.cat)}</div><div class="muted">${esc(e.cat)}</div></div>
+        <div class="exp-amt"><strong class="num">${fmt(e.amount)} <span>ريال</span></strong>${eur(e)}</div>
+        <button class="del" aria-label="حذف المصروف" data-act="delExp" data-id="${esc(e.id)}">${ic('trash')}</button>
+      </div>`).join('')}
+    </section>`).join('') : `<div class="empty"><div class="empty-ic">${ic('suitcase')}</div><p style="font-weight:800;font-size:18px;margin:8px 0 4px">شنطتك جاهزة؟ الرحلة قريبة!</p><p class="muted" style="margin:0">أول مصروف تسجلينه بيبدأ معنا العد الحقيقي لإيطاليا، يلا نبدأ</p></div>`}`;
 }
 
 function allUpdates(){
   const owner = (plan.updates || []).map(u => ({...u, by: ''}));
-  const ideas = Object.values(members).filter(Boolean).flatMap(m => (m.ideas || []).map(i => ({text: i.text, at: i.at, by: m.name || ''})));
+  const ideas = Object.values(members).filter(Boolean).flatMap(m => (m.ideas || []).map(i => { const city = (plan.cities.find(x => x.id === i.city) || {}).name; return {text: i.text + (city ? ' في ' + city : ''), at: i.at, by: m.name || ''}; }));
   return [...owner, ...ideas].sort((a, b) => (b.at || 0) - (a.at || 0));
 }
 /* each update gets a travel mark read from its own words; the stored data is unchanged */
@@ -893,24 +1366,51 @@ function updatesCard(){
   </section>`;
 }
 /* route: one tab per city; inside a city, suggestions filter by kind and search */
-let routeCity = null, routeKind = 'all', routeQuery = '';
+/* animated progress ring: --p animates from 0 to the value (see @property --p) */
+const ringHTML = (pct, inner, size = 112) => `<div class="ring anim" style="--p:${Math.max(0, Math.min(100, pct))};width:${size}px;height:${size}px;flex-basis:${size}px" aria-hidden="true"><div>${inner}</div></div>`;
+let moneyView = 'group', expCur = 'EUR', ownerReal = false;
+let editMode = (() => { try { return localStorage.getItem('italyTripEdit') !== '0'; } catch(_) { return true; } })();
+let routeCity = null, routeKind = 'all', routeQuery = '', addingSug = false, openPlace = null;
+const KIND_TINT = {activity: 'var(--lav)', food: 'var(--peach)', site: 'var(--mint)'};
+/* one list per city: the owner's places (trip/plan) plus every traveler's suggestions for that city (members/{uid}.ideas) */
+function citySuggestions(c){
+  const own = (c.items || []).map(i => ({...i, key: c.id + '|' + i.id, by: '', mine: false}));
+  const ideas = Object.entries(members).flatMap(([uid, m]) => ((m && m.ideas) || []).filter(i => i.city === c.id).map(i => ({...i, kind: i.kind || 'activity', key: 'idea|' + uid + '|' + i.id, by: m.name || '', mine: uid === me})));
+  return [...own, ...ideas].sort((a, b) => (b.at || 0) - (a.at || 0));
+}
+function placeRow(c, i){
+  const canDel = isOwner || i.mine;
+  const link = /^https?:\/\//.test(i.link || '') ? i.link : '';
+  const open = openPlace === i.key;
+  const hasMore = true;
+  return `<div class="pl${open ? ' open' : ''}" style="--k:${KIND_TINT[i.kind] || 'var(--pink-t)'}">
+    <button class="pl-main" ${hasMore ? `data-act="placeOpen" data-id="${esc(i.key)}" aria-expanded="${open}"` : 'tabindex="-1"'}>
+      <span class="pl-ic">${ic(KIND_IC[i.kind] || 'pin')}</span>
+      <span class="pl-txt"><b>${esc(i.text)}</b>${i.by ? `<small>${emoOf(i.by)} اقترحته ${esc(i.by)}</small>` : (i.details && !open ? `<small class="clamp">${esc(i.details)}</small>` : '')}</span>
+      ${link && !open ? `<span class="pl-badge" aria-label="فيه رابط">${ic('pin')}</span>` : ''}
+      ${hasMore ? '<span class="pl-chev" aria-hidden="true"></span>' : ''}
+    </button>
+    ${open ? `<div class="pl-more">${i.details ? `<p>${esc(i.details)}</p>` : ''}<div class="pl-acts"><a class="btn sm" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(i.text + ' ' + c.name + ' Italy')}" target="_blank" rel="noopener">${ic('pin')} الخرائط</a>${link ? `<a class="btn sm" href="${esc(link)}" target="_blank" rel="noopener">${ic('compass')} الرابط</a>` : ''}${canDel ? `<button class="btn sm pl-del" data-act="delPlace" data-id="${esc(i.key)}">${ic('trash')} حذف</button>` : ''}</div></div>` : ''}
+  </div>`;
+}
 const KINDS = [['all', 'الكل', 'sparkle'], ['activity', 'أنشطة', 'camera'], ['food', 'أكل', 'fork'], ['site', 'مواقع', 'landmark']];
 const KIND_IC = {activity: 'camera', food: 'fork', site: 'landmark'};
 function viewRoute(){
   if (!plan.cities.some(c => c.id === routeCity)) routeCity = plan.currentCity || (plan.cities[0] || {}).id;
   const c = plan.cities.find(x => x.id === routeCity);
-  const items = (c && c.items) || [];
+  const all = c ? citySuggestions(c) : [];
   const q = routeQuery.trim();
-  const shown = items.filter(i => (routeKind === 'all' || i.kind === routeKind) && (!q || (i.text + ' ' + (i.details || '')).includes(q)));
-  const count = k => k === 'all' ? items.length : items.filter(i => i.kind === k).length;
+  const shown = all.filter(i => (routeKind === 'all' || i.kind === routeKind) && (!q || (i.text + ' ' + (i.details || '') + ' ' + (i.by || '')).includes(q)));
+  const count = k => k === 'all' ? all.length : all.filter(i => i.kind === k).length;
   return `
+  <section class="card flights">${H('plane', 'الطيران')}${FLIGHTS.map(flightCard).join('')}</section>
   <div class="chips city-tabs" role="tablist" aria-label="مدن الرحلة">
-    ${plan.cities.map(x => `<button class="city-tab" role="tab" aria-selected="${x.id === routeCity}" style="--c:${x.color}" data-act="routeCity" data-v="${esc(x.id)}">
-      ${ic(plan.currentCity === x.id ? 'plane' : 'pin')}<span><b>${esc(x.name)}</b><small>${esc(sep(x.dates || '').split('،')[0])}</small></span><em>${(x.items || []).length}</em>
+    ${plan.cities.map(x => `<button class="city-tab" role="tab" aria-selected="${x.id === routeCity}" style="--c:${cityColor(x)}" data-act="routeCity" data-v="${esc(x.id)}">
+      ${ic(plan.currentCity === x.id ? 'plane' : 'pin')}<span><b>${esc(x.name)}</b><small>${esc(sep(x.dates || '').split('،')[0])}</small></span><em>${citySuggestions(x).length}</em>
     </button>`).join('')}
   </div>
 
-  ${c ? `<article class="city city-panel${plan.currentCity === c.id ? ' now' : ''}" style="--c:${c.color}" role="tabpanel">
+  ${c ? `<article class="city city-panel${plan.currentCity === c.id ? ' now' : ''}" style="--c:${cityColor(c)}" role="tabpanel">
     <div class="row" style="justify-content:space-between"><h3>${esc(c.name)}</h3>${plan.currentCity === c.id ? `<span class="tag">${ic('plane')} أنتم هنا</span>` : ''}</div>
     <div class="tags"><span class="tag">${ic('clock')} ${esc(sep(c.dates || 'التواريخ تتحدد لاحقاً'))}</span></div>
     <p style="margin:0;display:flex;gap:6px;align-items:center">${ic('bed')}<span>${esc(sep(c.desc))}</span></p>
@@ -920,30 +1420,20 @@ function viewRoute(){
 
   <section class="card places-card">
     <div><h2 class="plain-h"><span class="h-ic">${ic('sparkle')}</span>المقترحات في ${esc(c.name)}</h2></div>
-    <div class="chips kind-chips" role="group" aria-label="نوع المقترح">${KINDS.map(([k, l, icn]) => `<button class="chip" aria-pressed="${routeKind === k}" data-act="routeKind" data-v="${k}">${ic(icn)} ${l} <em>${count(k)}</em></button>`).join('')}</div>
-    ${items.length > 3 ? `<input class="in route-search" id="routeq" name="routeq" type="search" value="${esc(routeQuery)}" placeholder="دوّري في المقترحات…" data-route-search autocomplete="off">` : ''}
-    <div class="places">${shown.length ? shown.map(i => placeCard(c, i)).join('') : `<p class="muted" style="margin:6px 0;text-align:center">${items.length ? 'ما فيه مقترحات بهالتصفية' : 'لسا ما فيه مقترحات لهالمدينة'}</p>`}</div>
-  </section>
-
-  ${isOwner ? `<section class="card">${H('sparkle', 'إضافة اقتراح')}
-    <form class="form" id="sugForm">
+    <div class="seg" role="group" aria-label="نوع المقترح">${KINDS.map(([k, l, icn]) => `<button aria-pressed="${routeKind === k}" data-act="routeKind" data-v="${k}">${ic(icn)}<span>${l}</span><em>${count(k)}</em></button>`).join('')}</div>
+    ${all.length > 3 ? `<input class="in route-search" id="routeq" name="routeq" type="search" value="${esc(routeQuery)}" placeholder="دوّري في المقترحات…" data-route-search autocomplete="off">` : ''}
+    <div class="pl-list">${shown.length ? shown.map(i => placeRow(c, i)).join('') : `<div class="pl-empty">${ic(all.length ? 'compass' : 'sparkle')}<p>${all.length ? 'ما فيه مقترحات بهالتصفية' : `لسا ما فيه مقترحات لـ ${esc(c.name)}، أضيفي أول واحد`}</p></div>`}</div>
+    ${me ? (addingSug ? `<form class="form sug-form" id="sugForm">
       <input type="hidden" name="city" value="${esc(c.id)}">
-      <p class="hint" style="margin:0">ينضاف لـ <b>${esc(c.name)}</b>، غيّري المدينة من التبويبات فوق.</p>
-      <select class="sel" name="kind">${KINDS.slice(1).map(([k, l]) => `<option value="${k}" ${routeKind === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
-      <input class="in" name="text" placeholder="مثلاً: كاتدرائية الدومو" required>
+      <p class="sug-title">${ic('sparkle')} اقتراح جديد لـ ${esc(c.name)}</p>
+      <div class="seg seg-3" role="radiogroup" aria-label="النوع">${KINDS.slice(1).map(([k, l, icn], n) => `<label><input type="radio" name="kind" value="${k}" ${(routeKind === k || (routeKind === 'all' && n === 0)) ? 'checked' : ''}><span>${ic(icn)}${l}</span></label>`).join('')}</div>
+      <input class="in" name="text" placeholder="وش الاقتراح؟ مثلاً: كاتدرائية الدومو" required>
       <textarea class="ta" name="details" placeholder="التفاصيل: السعر، وش فيه، أفضل وقت (اختياري)"></textarea>
-      <input class="in" name="link" type="url" placeholder="رابط الموقع (اختياري)">
-      <button class="btn ink" type="submit">أضيفيه لـ ${esc(c.name)}</button>
-    </form>
-  </section>` : ''}` : '<p class="muted">ما فيه مدن في الخطة</p>'}
-
-  ${me ? `<section class="card">${H('bulb', 'اقتراح نشاط')}
-    <form class="form" id="ideaForm">
-      <input class="in" name="text" placeholder="مثلاً: زيارة سوق ريالتو" required>
-      <button class="btn ink" type="submit">أرسليه للتحديثات</button>
-    </form>
-    ${(mine().ideas || []).length ? (mine().ideas || []).slice().reverse().map(i => `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)"><span>${esc(i.text)}</span><button class="del" aria-label="حذف الاقتراح" data-act="delIdea" data-id="${esc(i.id)}">${ic('trash')}</button></div>`).join('') : ''}
-  </section>` : '<p class="hint" style="text-align:center">اختاري اسمك أول عشان تقدرين تقترحين أنشطة</p>'}
+      <input class="in" name="link" type="url" inputmode="url" placeholder="رابط الموقع (اختياري)">
+      <div class="row"><button class="btn primary grow" type="submit">أضيفيه</button><button class="btn" type="button" data-act="sugCancel">إلغاء</button></div>
+    </form>` : `<button class="btn primary add-sug" data-act="sugOpen">${ic('sparkle')} أضيفي اقتراح لـ ${esc(c.name)}</button>`) : ''}
+  </section>
+  ` : '<p class="muted">ما فيه مدن في الخطة</p>'}
 
   ${isOwner ? `<section class="card">${H('megaphone', 'نشر تحديث')}
     <form class="form" id="updForm">
@@ -954,19 +1444,20 @@ function viewRoute(){
 }
 
 function viewBag(){
-  const m = mine();
   const items = bagItems();
   const done = items.filter(i => i.done).length;
   const pct = items.length ? Math.round((done / items.length) * 100) : 0;
+  const row = i => editingBag === i.id
+    ? `<form class="row bag-edit" id="bagEditForm"><input type="hidden" name="id" value="${esc(i.id)}"><input class="in" name="t" value="${esc(i.t)}" aria-label="تعديل العنصر" required><button class="btn primary sm" type="submit">حفظ</button><button class="icon-btn" type="button" data-act="bagCancel" aria-label="إلغاء" style="box-shadow:none;background:var(--pink-t)">${ic('x')}</button></form>`
+    : `<div class="ck-row"><label class="ck"><input type="checkbox" ${i.done ? 'checked' : ''} data-act="bag" data-id="${esc(i.id)}"><span class="grow">${esc(i.t)}</span></label>${me ? `<button class="icon-btn mini-btn" data-act="bagEdit" data-id="${esc(i.id)}" aria-label="تعديل ${esc(i.t)}">${ic('pen')}</button><button class="del" data-act="delBag" data-id="${esc(i.id)}" aria-label="حذف ${esc(i.t)}">${ic('trash')}</button>` : ''}</div>`;
+  const groups = BAG_CATS.map(cat => [cat, items.filter(i => bagCat(i) === cat)]);
+  const addRow = cat => me ? `<form class="bag-quick" data-bag-add="${esc(cat)}"><span class="bq-plus" aria-hidden="true">${ic('sparkle')}</span><input class="in" name="t" placeholder="أضيفي لـ ${esc(cat)}…" aria-label="غرض جديد في ${esc(cat)}" autocomplete="off" enterkeyhint="done"><button class="btn primary sm" type="submit" aria-label="إضافة لـ ${esc(cat)}">إضافة</button></form>` : '';
   return `
   <section class="card" style="display:flex;align-items:center;gap:16px">
-    <div class="ring" aria-hidden="true" style="background:conic-gradient(var(--pink) 0 ${pct * 3.6}deg,var(--pink-t) ${pct * 3.6}deg 360deg)"><div><div><b class="num" style="font-size:24px">${pct}%</b><div class="muted">${done} من ${items.length}</div></div></div></div>
-    <div><h2 style="margin:0"><span class="h-ic">${ic('suitcase')}</span>تجهيز الحقيبة</h2><p class="muted" style="margin:6px 0 0;line-height:1.6">كل ما تعلّمين عنصر، الدائرة تتحدث</p></div>
+    ${ringHTML(pct, `<b class="num" style="font-size:24px">${pct}%</b><small class="muted">${done} من ${items.length}</small>`)}
+    <div><h2 style="margin:0"><span class="h-ic">${ic('suitcase')}</span>تجهيز الشنطة</h2><p class="muted" style="margin:6px 0 0;line-height:1.6">${pct === 100 && items.length > 1 ? 'شنطتك جاهزة 100%! 🎉' : items.length <= 1 ? 'جواز السفر مثال، أضيفي أغراضك في الأقسام تحت' : 'كل ما تعلّمين غرض، الدائرة تكبر'}</p></div>
   </section>
-  <section class="card" style="padding:4px 18px">${items.length ? items.map(i => editingBag === i.id
-    ? `<form class="row bag-edit" id="bagEditForm"><input type="hidden" name="id" value="${esc(i.id)}"><input class="in" name="t" value="${esc(i.t)}" aria-label="تعديل العنصر" required><button class="btn primary sm" type="submit">حفظ</button><button class="icon-btn" type="button" data-act="bagCancel" aria-label="إلغاء" style="box-shadow:none;background:var(--pink-t)">${ic('x')}</button></form>`
-    : `<div class="ck-row"><label class="ck"><input type="checkbox" ${i.done ? 'checked' : ''} data-act="bag" data-id="${esc(i.id)}"><span class="grow">${esc(i.t)}</span></label>${me ? `<button class="icon-btn mini-btn" data-act="bagEdit" data-id="${esc(i.id)}" aria-label="تعديل ${esc(i.t)}">${ic('pen')}</button><button class="del" data-act="delBag" data-id="${esc(i.id)}" aria-label="حذف ${esc(i.t)}">${ic('trash')}</button>` : ''}</div>`).join('') : '<p class="muted" style="margin:14px 0;text-align:center">الشنطة فاضية، أضيفي أغراضك من تحت</p>'}</section>
-  <form class="row" id="bagForm"><input class="in" name="t" placeholder="أضيفي عنصر جديد…" ${me ? '' : 'disabled'}><button class="btn primary" type="submit" ${me ? '' : 'disabled'}>إضافة</button></form>
+  ${groups.map(([cat, list]) => `<section class="card bag-group${list.length ? '' : ' empty-group'}"><div class="bag-head"><span class="h-ic">${ic(BAG_CAT_IC[cat])}</span><b>${cat}</b><small class="num">${list.length ? `${list.filter(i => i.done).length}/${list.length}` : 'فاضي'}</small></div>${list.map(row).join('')}${addRow(cat)}</section>`).join('')}
   ${me && mine().bagEdited ? `<button class="btn sm" style="align-self:center" data-act="bagReset">${ic('refresh')} رجّعي القائمة الأساسية</button>` : ''}`;
 }
 
@@ -987,7 +1478,7 @@ function viewWelcome(){
       <div><b id="cd-s">--</b><span>ثانية</span></div>
     </div>
     <div class="wel-list">
-      ${PEOPLE.map((p, i) => `<button class="wel-bar" data-act="pick" data-v="${p}" ${taken.has(p) && !isOwner ? 'disabled' : ''}><span class="wel-emo" aria-hidden="true">${PEOPLE_EMO[i]}</span><span class="wel-name">${p}</span><span class="wel-tag">${p === ((members[me] || {}).name) ? 'أنتِ' : taken.has(p) ? (isOwner ? `<span data-act="release" data-id="${esc(idOf(p))}" role="button" style="color:var(--pink);text-decoration:underline">تحرير</span>` : 'محجوز') : 'اختاري'}</span></button>`).join('')}
+      ${PEOPLE.map((p, i) => `<button class="wel-bar" data-act="pick" data-v="${p}" ${taken.has(p) && !ownerReal ? 'disabled' : ''}><span class="wel-emo" aria-hidden="true">${PEOPLE_EMO[i]}</span><span class="wel-name">${p}</span><span class="wel-tag">${p === ((members[me] || {}).name) ? 'أنتِ' : taken.has(p) ? (ownerReal ? `<span data-act="release" data-id="${esc(idOf(p))}" role="button" style="color:var(--pink);text-decoration:underline">تحرير</span>` : 'محجوز') : 'اختاري'}</span></button>`).join('')}
     </div>
   </section>
   <div class="clocks">
@@ -1013,8 +1504,8 @@ function viewPick(){
     <span class="stamp" aria-hidden="true">✔ جاهزة للإقلاع</span>
   </section>`;
 }
-const VIEWS = {home: viewHome, budget: viewBudget, mine: viewMine, route: viewRoute, bag: viewBag};
-const TABS = [['home','🏠','الرئيسية'],['budget','💰','المجموع'],['mine','🧾','مساهمتي'],['route','🗺️','الخط'],['bag','🧳','الحقيبة']];
+const VIEWS = {home: viewHome, route: viewRoute, money: viewMoney, bag: viewBag};
+const TABS = [['home','','الرئيسية'],['route','','الخط'],['money','','الفلوس'],['bag','','شنطتي']];
 
 function render(){
   const app = $('#app');
@@ -1022,11 +1513,13 @@ function render(){
   const act = document.activeElement;
   const focusKey = act && (act.id || act.name);
   const typed = act && (act.tagName === 'INPUT' || act.tagName === 'TEXTAREA') ? act.value : null;
+  if (tab === 'budget' || tab === 'mine') { moneyView = tab === 'mine' ? 'mine' : 'group'; tab = 'money'; }
   const tabLabel = (TABS.find(t => t[0] === tab) || [])[2];
-  app.innerHTML = picked ? (tab === 'home' || tab === 'mine' ? '' : `<h1 class="page-title"><span class="h-ic">${ic(TAB_IC[tab])}</span>${tabLabel}</h1>`) + VIEWS[tab]() : viewWelcome();
-  $('#nav').innerHTML = !picked ? '' : TABS.map(([k, , l]) => `<button data-act="tab" data-v="${k}" style="--tc:${TAB_COL[k]}" aria-current="${tab === k ? 'page' : 'false'}"><span class="i">${ic(TAB_IC[k])}</span>${l}</button>`).join('') + `<button class="fx-fab" id="fxFab" aria-label="محول العملة" aria-haspopup="dialog">${ic('exchange')}</button>`;
+  app.innerHTML = picked ? (tab === 'home' ? '' : `<h1 class="page-title"><span class="h-ic">${ic(TAB_IC[tab])}</span>${tabLabel}</h1>`) + VIEWS[tab]() : viewWelcome();
+  $('#nav').innerHTML = !picked ? '' : TABS.map(([k, , l]) => `<button data-act="tab" data-v="${k}" style="--tc:${TAB_COL[k]}" aria-current="${tab === k ? 'page' : 'false'}"><span class="i">${ic(TAB_IC[k])}</span>${l}</button>`).join('') + `<button class="fx-tab" id="fxFab" aria-label="محوّل العملة" aria-haspopup="dialog"><span class="fx-ball">€</span>العملة</button>`;
   tickCd();
   fxSync();
+  if (document.getElementById('tipBox')) startTipTimer(); else clearInterval(tipTimer);
   if (focusKey) { const el = document.getElementById(focusKey) || document.querySelector('[name="' + focusKey + '"]'); if (el) { el.focus(); if (typed !== null) el.value = typed; } }
   applyCollapsed();
 }
@@ -1035,7 +1528,7 @@ function render(){
    The important sections start open; everything else starts closed.
    Saved state is {title: true|false}; an older saved list of open titles still works. */
 const OPEN_KEY = 'italyTripOpenSections';
-const DEFAULT_OPEN = new Set(['آخر التحديثات', 'أنتم هنا', 'مساهمتي', 'المساهمات', 'ملخص الحجوزات', 'الطقس في المدن']);
+const DEFAULT_OPEN = new Set(['الإعدادات', 'آخر التحديثات', 'أنتم هنا', 'المساهمات', 'الطقس في المدن', 'الميزانية الكلية', 'السكن والتذاكر', 'مصروف جديد', 'الطيران', 'الإعدادات']);
 function openState(){
   try {
     const raw = JSON.parse(localStorage.getItem(OPEN_KEY) || '{}');
@@ -1085,19 +1578,20 @@ document.addEventListener('click', async e => {
   const b = e.target.closest('[data-act]');
   if (!b) return;
   const a = b.dataset.act, id = b.dataset.id, v = b.dataset.v;
-  const CONFIRM = {delBag: 'تبين تحذفين هالغرض من شنطتك؟', bagReset: 'ترجعين القائمة الأساسية؟ تعديلاتك على الشنطة بتنمسح.', delItem: 'تبين تحذفين هالاقتراح من المدينة؟', delIdea: 'تبين تحذفين اقتراحك؟', delExp: 'تبين تحذفين هالمصروف؟', release: 'تبين تحررين هالاسم؟'};
+  const CONFIRM = {delPlace: 'تبين تحذفين هالاقتراح؟', delBag: 'تبين تحذفين هالغرض من شنطتك؟', bagReset: 'ترجعين القائمة الأساسية؟ تعديلاتك على الشنطة بتنمسح.', delItem: 'تبين تحذفين هالاقتراح من المدينة؟', delIdea: 'تبين تحذفين اقتراحك؟', delExp: 'تبين تحذفين هالمصروف؟', release: 'تبين تحررين هالاسم؟'};
   if (CONFIRM[a] && !confirm(CONFIRM[a])) return;
   if (a === 'spin') { b.classList.remove('spin'); void b.offsetWidth; b.classList.add('spin'); return; }
+  if (a === 'tipNext') { showTip(1); return; }
   if (a === 'quote') { quoteIdx++; render(); const q = document.querySelector('.quote'); if (q) q.classList.add('swap'); return; }
-  if (a === 'pop') { b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); burst(['⏳', '✈️']); return; }
-  if (a === 'stamp') { if (e.target.closest('[data-act=pop]')) return; b.classList.remove('stamped'); void b.offsetWidth; b.classList.add('stamped'); burst(['🛂', '🎉', '✈️']); return; }
+  if (a === 'pop') { b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); burst(TAB_FX.pop); return; }
+  if (a === 'stamp') { if (e.target.closest('[data-act=pop]')) return; b.classList.remove('stamped'); void b.offsetWidth; b.classList.add('stamped'); burst(TAB_FX.stamp); return; }
   if (a === 'pick') {
-    if (!isOwner && v === 'سماهر') { document.getElementById('ownerBtn').hidden = false; toast('سجلي دخول صاحبة الرحلة من الزر اللي تحت'); return; }
+    if (!ownerReal && v === 'سماهر') { document.getElementById('ownerBtn').hidden = false; toast('سجلي دخول صاحبة الرحلة من الزر اللي تحت'); return; }
     if (!window.__isGoogle) { toast('سجلي دخول بحساب Google أول'); return; }
-    if (Object.entries(members).some(([k, m]) => k !== me && m && m.name === v)) { if (!isOwner) return; toast('الاسم محجوز، حرّريه أول'); return; }
+    if (Object.entries(members).some(([k, m]) => k !== me && m && m.name === v)) { if (!ownerReal) return; toast('الاسم محجوز، حرّريه أول'); return; }
     pickName(v); return;
   }
-  if (a === 'release' && isOwner && id) {
+  if (a === 'release' && ownerReal && id) {
     const m = members[id] || {};
     members[id] = {...m, name: null}; render();
     if (db) { try { await db.doc('members/' + id).set({...m, name: null}); } catch(e) { toast('ما قدرنا نحرر الاسم'); } }
@@ -1133,12 +1627,39 @@ document.addEventListener('click', async e => {
   if (a === 'bagCancel') { editingBag = null; render(); return; }
   if (a === 'delBag' && me) { await saveMine({bag: bagItems().filter(i => i.id !== id), bagEdited: true}); return; }
   if (a === 'bagReset' && me) { await saveMine({bag: [], bagEdited: false}); return; }
-  if (a === 'routeCity') { routeCity = v; routeQuery = ''; render(); return; }
+  if (a === 'moneyView') { moneyView = v; render(); return; }
+  if (a === 'night') {
+    const dark = document.documentElement.dataset.theme !== 'dark';
+    document.documentElement.classList.add('theme-fade');
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    try { localStorage.setItem('italyTripTheme', dark ? 'dark' : 'light'); } catch(_) {}
+    const tc = document.querySelector('meta[name=theme-color]'); if (tc && window.__themeColors) tc.content = window.__themeColors()[dark ? 'dark' : 'light'];
+    render(); burst(dark ? ['🌙', '✨', '🌟'] : ['☀️', '🍋', '🌻']);
+    setTimeout(() => document.documentElement.classList.remove('theme-fade'), 700);
+    return;
+  }
+  if (a === 'routeCity') { routeCity = v; routeQuery = ''; addingSug = false; openPlace = null; render(); return; }
+  if (a === 'placeOpen') { openPlace = openPlace === id ? null : id; render(); return; }
+  if (a === 'sugOpen') { addingSug = true; render(); const t = document.querySelector('#sugForm [name=text]'); if (t) t.focus(); return; }
+  if (a === 'sugCancel') { addingSug = false; render(); return; }
+  if (a === 'delPlace' && id) {
+    const parts = id.split('|');
+    if (parts[0] === 'idea') {
+      const [, uid, iid] = parts; const m = members[uid] || {};
+      if (!(isOwner || uid === me)) return;
+      const next = {...m, ideas: (m.ideas || []).filter(x => x.id !== iid)};
+      if (uid === me) { await saveMine({ideas: next.ideas}); } else { members[uid] = next; render(); if (db) { try { await db.doc('members/' + uid).set(next); } catch (err) { toast('ما قدرنا نحذف'); } } }
+    } else if (isOwner) {
+      const c = plan.cities.find(x => x.id === parts[0]); if (!c) return;
+      c.items = (c.items || []).filter(x => x.id !== parts[1]); await savePlan();
+    }
+    openPlace = null; return;
+  }
   if (a === 'routeKind') { routeKind = v; render(); return; }
   if (a === 'setCity' && isOwner) { plan.currentCity = id; await savePlan(); return; }
   if (a === 'cityDates' && isOwner) { editingCity = id; render(); return; }
   if (a === 'addContrib') { const inp = $('#contrib'); if (inp && !inp.disabled) { inp.value = (Number(inp.value) || 0) + Number(v); inp.focus(); } return; }
-  if (a === 'saveContrib') { const n = Number(($('#contrib') || {}).value) || 0; await saveMine({contributed: n}); return; }
+  if (a === 'saveContrib') { const n = Number(($('#contrib') || {}).value) || 0; const share = calc().share; const was = Number(mine().contributed || 0) >= share; await saveMine({contributed: n}); if (share > 0 && n >= share && !was) { burst(TAB_FX.done); setTimeout(() => burst(TAB_FX.done), 400); } else toast('تم حفظ مساهمتك'); return; }
 });
 
 document.addEventListener('change', async e => {
@@ -1171,10 +1692,12 @@ document.addEventListener('submit', async e => {
   if (fid === 'expForm') {
     e.preventDefault();
     const fd = new FormData(form);
-    const amount = Number(fd.get('amount')) || 0;
+    const raw = fxParse(fd.get('amount'));
     if (!me) { toast('ما قدرنا نعرف حسابك، حدّثي الصفحة'); return; }
-    if (!amount) return;
-    const exp = {id: uid(), amount, cat: fd.get('cat'), city: fd.get('city'), note: String(fd.get('note') || '').trim(), at: Date.now()};
+    if (!raw) return;
+    const cur = fd.get('cur') || 'SAR'; const rate = fxRate();
+    const amount = cur === 'EUR' ? Math.round(raw * rate * 100) / 100 : raw;
+    const exp = {id: uid(), amount, cat: fd.get('cat'), city: fd.get('city'), note: String(fd.get('note') || '').trim(), at: Date.now(), ...(cur === 'EUR' ? {cur: 'EUR', orig: raw, rate} : {})};
     await saveMine({expenses: [...(mine().expenses || []), exp]});
     form.reset();
   }
@@ -1185,12 +1708,23 @@ document.addEventListener('submit', async e => {
     if (me && t) await saveMine({bag: bagItems().map(i => i.id === bid ? {...i, t} : i), bagEdited: true}); else render();
     return;
   }
+  if (form.dataset && form.dataset.bagAdd) {
+    e.preventDefault();
+    const t = String(new FormData(form).get('t') || '').trim();
+    if (!me) { toast('ما قدرنا نعرف حسابك، حدّثي الصفحة'); return; }
+    if (!t) return;
+    const cat = form.dataset.bagAdd;
+    await saveMine({bag: [...bagItems(), {id: uid(), t, done: false, cat}], bagEdited: true});
+    const again = document.querySelector(`[data-bag-add="${cat}"] [name=t]`); if (again) again.focus();
+    toast('انضاف لـ ' + cat);
+    return;
+  }
   if (fid === 'bagForm') {
     e.preventDefault();
     const t = String(new FormData(form).get('t') || '').trim();
     if (!me) { toast('ما قدرنا نعرف حسابك، حدّثي الصفحة'); return; }
     if (!t) return;
-    await saveMine({bag: [...bagItems(), {id: uid(), t, done: false}], bagEdited: true});
+    await saveMine({bag: [...bagItems(), {id: uid(), t, done: false, cat: String(new FormData(form).get('cat') || '')}], bagEdited: true});
     form.reset();
   }
   if (fid === 'lineForm' && isOwner) {
@@ -1208,12 +1742,16 @@ document.addEventListener('submit', async e => {
     if (c) c.dates = String(fd.get('dates') || '');
     editingCity = null; await savePlan();
   }
-  if (fid === 'sugForm' && isOwner) {
+  if (fid === 'sugForm') {
     e.preventDefault();
     const fd = new FormData(form);
     const c = plan.cities.find(x => x.id === fd.get('city'));
-    if (!c) return;
-    c.items = [...(c.items || []), {id: uid(), kind: fd.get('kind'), text: String(fd.get('text') || '').trim(), details: String(fd.get('details') || '').trim(), link: String(fd.get('link') || '').trim(), decided: null}];
+    const text = String(fd.get('text') || '').trim();
+    if (!c || !text || !me) return;
+    const entry = {id: uid(), kind: fd.get('kind') || 'activity', text, details: String(fd.get('details') || '').trim(), link: String(fd.get('link') || '').trim(), at: Date.now()};
+    addingSug = false; routeCity = c.id; routeKind = 'all'; routeQuery = '';
+    if (!isOwner) { await saveMine({ideas: [...(mine().ideas || []), {...entry, city: c.id}]}); toast('انضاف اقتراحك لـ ' + c.name); return; }
+    c.items = [...(c.items || []), {...entry, decided: null}];
     routeCity = c.id; routeKind = 'all'; routeQuery = '';
     form.reset(); await savePlan(); toast('انضاف لـ ' + c.name);
   }
@@ -1232,7 +1770,7 @@ function pickName(name){
   picked = name; pickedIdx = i;
   if (db && me) saveMine({name});
   render();
-  burst(['🎈', PEOPLE_EMO[i], '✨']);
+  burst([TAB_FX.pick[0], PEOPLE_EMO[i], ...TAB_FX.pick.slice(1)]);
   window.scrollTo(0, 0);
 }
 
@@ -1240,7 +1778,7 @@ document.addEventListener('click', e => {
   const t = e.target.closest('[data-emo]');
   if (!t) return;
   t.classList.remove('shake'); void t.offsetWidth; t.classList.add('shake');
-  burst([t.dataset.emo, '✨', '💖']);
+  burst([t.dataset.emo, ...TAB_FX.love]);
 });
 
 let booted = false;
@@ -1348,7 +1886,7 @@ function wxNowLine(c){
 function weatherCard(){
   const rows = plan.cities.filter(c => cityWx[geoKey(c)]).map(c => {
     const w = cityWx[geoKey(c)]; const [icn, lbl] = wxInfo(w.now.code);
-    return `<div class="item"><span class="row-ic" style="--tint:color-mix(in srgb,${c.color} 15%,#fff);color:${c.color}">${ic(icn)}</span><div class="grow"><p>${esc(c.name)}</p><span class="hint">${lbl}</span></div><strong class="wx-t num">${Math.round(w.now.t)}°</strong></div>`;
+    return `<div class="item"><span class="row-ic" style="--tint:color-mix(in srgb,${cityColor(c)} 15%,#fff);color:${cityColor(c)}">${ic(icn)}</span><div class="grow"><p>${esc(c.name)}</p><span class="hint">${lbl}</span></div><strong class="wx-t num">${Math.round(w.now.t)}°</strong></div>`;
   }).join('');
   if (!rows) return '';
   const anyForecast = plan.cities.some(c => forecastFor(c).length);
@@ -1385,10 +1923,13 @@ async function loadWeather(){
 }
 
 buildSky();
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === '127.0.0.1' || location.hostname === 'localhost')) { navigator.serviceWorker.register('sw.js').catch(() => {}); }
 loadWeather();
 setInterval(loadWeather, 15 * 60 * 1000);
 loadCityWeather();
 setInterval(loadCityWeather, 30 * 60 * 1000);
+loadFxRate();
+setInterval(loadFxRate, 6 * 60 * 60 * 1000);
 init();
 })();
 </script>
