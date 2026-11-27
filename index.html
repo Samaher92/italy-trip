@@ -47,7 +47,12 @@ h1,h2,h3{margin:0;line-height:1.25}
 
 /* greeting header */
 .head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 2px 2px}
-.head-hi{margin:0;color:var(--muted);font-weight:700;font-size:15px}
+.head-hi{display:block;margin:0;color:var(--muted);font-weight:700;font-size:15px}
+.head-who{border:0;background:none;padding:0;font:inherit;color:inherit;text-align:start;cursor:pointer}
+.head-who:active{transform:scale(.97)}
+.head-name{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.head-swap{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;background:var(--pink-t);color:var(--pink);font-size:12px;font-weight:800;vertical-align:middle}
+.head-swap .ic{width:14px;height:14px}
 .head-name{font-size:28px;font-weight:900;color:var(--pink)}
 .page-title{font-size:26px;font-weight:900;padding:6px 2px 0;display:flex;align-items:center;gap:10px}
 .page-title .h-ic{width:42px;height:42px}
@@ -304,6 +309,7 @@ button.st{cursor:pointer;min-height:34px}
 .wel-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .wel-hi{margin:0;color:var(--muted);font-weight:800;font-size:15px}
 .wel-title{font-size:46px;font-weight:900;color:var(--pink);line-height:1.1}
+.wel-title[lang=it]{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:36px;text-align:right;white-space:nowrap}
 .wel-badge{width:76px;height:76px;border-radius:50%;background:var(--pink-s);color:var(--pink);display:grid;place-items:center;cursor:pointer;flex:none}
 .wel-badge .ic{width:36px;height:36px}
 .wel-badge.spin{animation:fly .9s cubic-bezier(.16,1,.3,1)}
@@ -495,6 +501,14 @@ body{position:relative;z-index:0}
 @keyframes tipIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
 .tb-next{position:absolute;top:14px;inset-inline-end:14px;color:var(--muted);display:grid;opacity:.7}
 .tb-next .ic{width:15px;height:15px}
+/* mini clocks under the greeting */
+.clocks.mini{display:flex;gap:6px;margin-top:8px;grid-template-columns:none}
+.clocks.mini .clk{flex-direction:row;align-items:center;gap:6px;padding:4px 10px 4px 8px;border-radius:999px;background:var(--card);box-shadow:var(--shadow)}
+.clocks.mini .clk:last-child{background:var(--card)}
+.clocks.mini .clk > span{font-size:14px}
+.clocks.mini .clk b{font-size:13px;font-weight:900;gap:4px}
+.clocks.mini .clk b .ic{width:14px;height:14px}
+.head{align-items:flex-start}
 /* night switch next to the name */
 .night-btn{width:50px;height:50px;color:var(--pink)}
 .night-btn .ic{width:24px;height:24px;transition:transform .5s cubic-bezier(.16,1,.3,1)}
@@ -1012,7 +1026,11 @@ function contribRows(c){
 }
 function headBar(){
   return `<header class="head">
-    <div><p class="head-hi">${greetWord()}،</p><h1 class="head-name">${esc(picked)}!</h1></div>
+    <div class="head-left"><button class="head-who" data-act="back" aria-label="تبديل الاسم"><span class="head-hi">${greetWord()}،</span><span class="head-name">${esc(picked)}! <span class="head-swap">${ic('back')}<small>تبديل الاسم</small></span></span></button>
+      <div class="clocks mini" aria-label="الوقت الحين">
+        <div class="clk" role="button" tabindex="0" aria-label="الوقت في السعودية"><span>🇸🇦</span><b id="clk-sa">--:--</b></div>
+        <div class="clk" role="button" tabindex="0" aria-label="الوقت في إيطاليا"><span>🇮🇹</span><b id="clk-it">--:--</b></div>
+      </div></div>
     <div class="head-actions"><button class="icon-btn night-btn" data-act="night" aria-pressed="${document.documentElement.dataset.theme === 'dark'}" aria-label="${document.documentElement.dataset.theme === 'dark' ? 'رجّعي الوضع النهاري' : 'الوضع الليلي'}">${ic(document.documentElement.dataset.theme === 'dark' ? 'sun' : 'moon')}</button></div>
   </header>`;
 }
@@ -1467,24 +1485,14 @@ function viewWelcome(){
   return `
   <section class="wel" aria-label="اختيار الاسم">
     <div class="wel-top">
-      <div><h1 class="wel-title">إيطاليا</h1><p class="wel-hi">يلا نجهز ونروح</p></div>
+      <div><h1 class="wel-title" dir="ltr" lang="it">Ciao bella!</h1><p class="wel-hi">اختاري اسمك، ونطير لإيطاليا سوا 🇮🇹✈️</p></div>
       <span class="wel-badge" data-act="spin" role="button" tabindex="0" aria-label="طيارة">${ic('plane')}</span>
-    </div>
-    <p class="cd-label" id="cd-label"></p>
-    <div class="cd wel-cd" role="timer" aria-label="الوقت المتبقي">
-      <div><b id="cd-d">--</b><span>يوم</span></div>
-      <div><b id="cd-h">--</b><span>ساعة</span></div>
-      <div><b id="cd-m">--</b><span>دقيقة</span></div>
-      <div><b id="cd-s">--</b><span>ثانية</span></div>
     </div>
     <div class="wel-list">
       ${PEOPLE.map((p, i) => `<button class="wel-bar" data-act="pick" data-v="${p}" ${taken.has(p) && !ownerReal ? 'disabled' : ''}><span class="wel-emo" aria-hidden="true">${PEOPLE_EMO[i]}</span><span class="wel-name">${p}</span><span class="wel-tag">${p === ((members[me] || {}).name) ? 'أنتِ' : taken.has(p) ? (ownerReal ? `<span data-act="release" data-id="${esc(idOf(p))}" role="button" style="color:var(--pink);text-decoration:underline">تحرير</span>` : 'محجوز') : 'اختاري'}</span></button>`).join('')}
     </div>
-  </section>
-  <div class="clocks">
-    <div class="clk"><span>🇸🇦 السعودية</span><b id="clk-sa">--:--</b></div>
-    <div class="clk"><span>🇮🇹 إيطاليا</span><b id="clk-it">--:--</b></div>
-  </div>`;
+    <p class="hint" style="margin:14px 0 0;text-align:center">مرة وحدة بس، وبعدها نفتح لك العداد على طول 💛</p>
+  </section>`;
 }
 function viewPick(){
   const taken = new Set(Object.entries(members).filter(([id, m]) => id !== me && m && m.name).map(([, m]) => m.name));
@@ -1783,7 +1791,12 @@ document.addEventListener('click', e => {
 
 let booted = false;
 function syncPicker(){
-  if (!booted) { booted = true; picked = null; pickedIdx = -1; }
+  if (!booted) {
+    booted = true;
+    const saved = me && members[me] && members[me].name;
+    const i = PEOPLE.indexOf(saved);
+    if (i >= 0) { picked = saved; pickedIdx = i; } else { picked = null; pickedIdx = -1; }
+  }
   render();
 }
 
