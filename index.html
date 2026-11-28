@@ -10,7 +10,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="إيطاليا">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>عداد الرحلة · إيطاليا ✈️ (مشترك)</title>
+<title>إيطاليا ✈️</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -359,6 +359,16 @@ button.st{cursor:pointer;min-height:34px}
 .fx-sheet[hidden],.fx-back[hidden]{display:none}
 .fx-amt::-webkit-outer-spin-button,.fx-amt::-webkit-inner-spin-button,.fx-rate .in::-webkit-inner-spin-button,.fx-rate .in::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .fx-amt,.fx-rate .in{-moz-appearance:textfield}
+.nt-sheet{text-align:center;gap:10px;padding-top:26px}
+.nt-bell{width:68px;height:68px;margin:0 auto 2px;border-radius:50%;display:grid;place-items:center;background:var(--pink-t);color:var(--pink);animation:ntRing 2.4s ease-in-out infinite;transform-origin:50% 10%}
+.nt-bell .ic{width:34px;height:34px}
+@keyframes ntRing{0%,60%,100%{transform:rotate(0)}66%{transform:rotate(14deg)}74%{transform:rotate(-12deg)}82%{transform:rotate(8deg)}90%{transform:rotate(-4deg)}}
+.nt-sheet h2{font-size:22px;line-height:1.4}
+.nt-sheet p{margin:0;color:var(--muted);line-height:1.8;font-size:15px}
+.nt-flags{font-size:20px;letter-spacing:4px}
+.nt-acts{display:grid;gap:8px;margin-top:6px}
+.nt-later{background:none;border:0;color:var(--muted);font:700 14px Tajawal,sans-serif;padding:8px;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.nt-bell{animation:none}}
 .fx-sheet h2{margin:0}
 .fx-sheet:focus{outline:none}
 .fx-dir{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--pink-t);border-radius:999px;padding:6px}
@@ -538,6 +548,99 @@ body{position:relative;z-index:0}
 .ce-check input{width:22px;height:22px;accent-color:var(--pink)}
 .ce-check span{font-size:15px!important;color:var(--ink)!important}
 .h-count{font-style:normal;font-size:12px;font-weight:900;min-width:24px;height:24px;padding:0 7px;border-radius:999px;display:inline-grid;place-items:center;background:var(--pink-t);color:var(--pink)}
+/* prayer times */
+.pray{border-radius:24px;padding:14px;background:var(--card);box-shadow:var(--shadow)}
+.pray-head{display:flex;align-items:center;gap:10px}
+.pray-head b{display:block;font-size:16px;font-weight:900}
+.pray-head small{display:block;font-size:12px;font-weight:700;color:var(--muted)}
+.pray-head .ibtn{background:var(--pink-t)}
+.pray-next{margin:12px 0 0;font-weight:800;font-size:14px}
+.pray-next b{color:var(--pink)}
+.pray-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px}
+.pray-row div{border-radius:14px;padding:8px 2px;background:var(--bg);text-align:center}
+.pray-row small{display:block;font-size:12px;font-weight:800;color:var(--muted)}
+.pray-row b{display:block;font-size:13px;font-weight:900;white-space:nowrap}
+.pray-row .on{background:var(--pink);color:var(--on-pink)}
+.pray-row .on small{color:var(--on-pink);opacity:.85}
+.pray-cities{margin-top:10px}
+.pray-cities .chip{min-height:34px;font-size:13px;padding:0 12px}
+/* qibla */
+.qibla-sheet{justify-items:center}
+.qibla-sheet > .row{width:100%}
+.qdial{--n:0deg;position:relative;width:220px;height:220px;border-radius:50%;margin:6px auto;background:radial-gradient(circle,var(--card) 58%,var(--pink-t) 59%);border:2px solid var(--line);transition:box-shadow .3s}
+.qdial::before{content:"";position:absolute;inset:8px;border-radius:50%;border:2px dashed color-mix(in srgb,var(--pink) 30%,transparent);transform:rotate(var(--n))}
+.qdial.aligned{box-shadow:0 0 0 6px color-mix(in srgb,var(--green) 35%,transparent)}
+.q-n{position:absolute;top:10px;left:50%;transform:translateX(-50%) rotate(var(--n));transform-origin:50% 100px;font-weight:900;color:var(--red)}
+.q-arrow{position:absolute;inset:0;transition:transform .25s ease-out}
+.q-arrow::before{content:"";position:absolute;left:50%;top:26px;width:6px;height:84px;margin-left:-3px;border-radius:6px;background:var(--pink)}
+.q-arrow span{position:absolute;left:50%;top:2px;transform:translateX(-50%);font-size:26px}
+.q-center{position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--pink)}
+.q-deg{margin:0;font-weight:800;text-align:center}
+.q-deg b{color:var(--pink);font-size:20px}
+.qibla-sheet .btn{width:100%}
+/* home on a flight day + today prayer line */
+.fly-day .hero-sub{display:flex;align-items:center;gap:6px;margin:0 0 10px;font-weight:900}
+.fly-day .ticket{background:var(--card)}
+.today-pray{display:inline-flex;align-items:center;gap:8px;margin-top:12px;border:0;border-radius:999px;padding:8px 14px;background:color-mix(in srgb,var(--card) 80%,transparent);color:var(--ink);font:800 14px Tajawal,sans-serif;cursor:pointer}
+.today-pray .ic{width:18px;height:18px;color:var(--pink)}
+.today-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tchip{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;padding:7px 12px;background:color-mix(in srgb,var(--card) 80%,transparent);color:var(--ink);font:800 13px Tajawal,sans-serif;cursor:pointer}
+.tchip .ic{width:16px;height:16px;color:var(--c,var(--pink))}
+/* ticket carousel */
+.tix{margin:0}
+.tix-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 0 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tix-track::-webkit-scrollbar{display:none}
+.tix-slide{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;margin:0}
+.tix-slide.pending{background:color-mix(in srgb,var(--pink-s) 55%,var(--card))}
+.tix-top{position:relative;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--hero-ink);white-space:nowrap}
+.tix-top .num{direction:ltr}
+.tix-top .t-dir{background:var(--card);color:var(--pink)}
+.tix-route{position:relative;display:flex;align-items:center;gap:10px;margin-top:12px}
+.tix-end{display:flex;flex-direction:column;align-items:center;min-width:72px}
+.tix-end .t-code{font-size:34px;line-height:1}
+.tix-end small{font-size:12px;font-weight:800;color:var(--hero-ink)}
+.tix-end .t-time{font-size:20px}
+.tix-places{position:relative;display:flex;justify-content:space-between;gap:10px;margin-top:8px;font-size:11px;font-weight:700;color:var(--hero-ink)}
+.tix-places span:last-child{text-align:left}
+.tix-note{position:relative;display:flex;align-items:center;gap:6px;margin:10px 0 0;font-size:13px;font-weight:800;color:var(--hero-ink)}
+.tix-note .ic{width:16px;height:16px}
+.tix-slide .stub b{font-size:13px}
+.tix-foot{display:flex;justify-content:center;margin-top:12px}
+.tix-sw{position:relative;display:flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:6px 10px;background:var(--card);box-shadow:var(--shadow);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tix-sw:active{transform:scale(.96)}
+.sw-flag{font-size:18px;line-height:1;filter:grayscale(.7);opacity:.55;transition:filter .4s,opacity .4s,transform .4s}
+.tix-sw[data-dir="0"] .sw-flag.it,.tix-sw[data-dir="1"] .sw-flag.sa{filter:none;opacity:1;transform:scale(1.15)}
+.sw-track{position:relative;width:96px;height:24px}
+.sw-track::before{content:"";position:absolute;inset:50% 4px auto;border-top:2px dashed var(--line)}
+.sw-plane{position:absolute;top:50%;left:6px;width:22px;height:22px;margin-top:-11px;color:var(--pink);transition:left .6s cubic-bezier(.5,0,.3,1.3)}
+.sw-plane .ic{width:22px;height:22px;transition:transform .45s}
+.tix-sw[data-dir="0"] .sw-plane{left:6px}
+.tix-sw[data-dir="0"] .sw-plane .ic{transform:scaleX(-1)}
+.tix-sw[data-dir="1"] .sw-plane{left:calc(100% - 28px)}
+.tix-sw[data-dir="1"] .sw-plane .ic{transform:none}
+.tix-sw.pend[data-dir="1"] .sw-track::before{border-top-style:dotted}
+@media (prefers-reduced-motion:reduce){.sw-plane,.sw-plane .ic,.sw-flag{transition:none}}
+.clocks.mini{flex-wrap:wrap}
+.pray-pill{border:0;font:inherit;color:inherit;cursor:pointer}
+.pray-pill b{font-size:13px;font-weight:900;color:var(--pink)}
+.pray-pill small{font-size:12px;font-weight:800;color:var(--ink)}
+/* tools tab */
+.qibla-card{display:grid;justify-items:center}
+.qibla-card > h2{justify-self:stretch}
+.sos-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sos{display:flex;align-items:center;gap:10px;padding:12px;border-radius:18px;background:var(--bg);color:var(--ink);text-decoration:none}
+.sos .ic{width:22px;height:22px;color:var(--pink);flex:none}
+.sos b{display:block;font-size:15px;font-weight:900}
+.sos small{display:block;font-size:12px;color:var(--muted);font-weight:700}
+.sos.big{background:var(--danger-t)}
+.sos.big .ic{color:var(--red)}
+.sos.big b{font-size:24px;color:var(--red)}
+.sos-stays{display:flex;flex-wrap:wrap;gap:8px}
+.sos-stays .ibtn span{font:800 14px Tajawal,sans-serif}
+.bag-toggle{display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;border:1.5px dashed var(--line);border-radius:24px;background:transparent;color:var(--ink);font:inherit;text-align:start;cursor:pointer}
+.bag-toggle b{display:block;font-size:16px;font-weight:900}
+.bag-toggle small{display:block;font-size:12px;color:var(--muted);font-weight:700}
+.bag-toggle[aria-expanded=true] .pl-chev{transform:rotate(45deg) translateY(-2px)}
 /* night switch next to the name */
 .night-btn{width:50px;height:50px;color:var(--pink)}
 .night-btn .ic{width:24px;height:24px;transition:transform .5s cubic-bezier(.16,1,.3,1)}
@@ -602,8 +705,8 @@ window.COUNTRY = {
   pattern: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M48 20c8 10 8 18 0 28c-8-10-8-18 0-28zM48 76c8-10 8-18 0-28c-8 10-8 18 0 28zM20 48c10-8 18-8 28 0c-10 8-18 8-28 0zM76 48c-10-8-18-8-28 0c10 8 18 8 28 0z'/%3E%3Ccircle cx='48' cy='48' r='4'/%3E%3Cpath d='M0 14a14 14 0 0 0 14-14M82 0a14 14 0 0 0 14 14M96 82a14 14 0 0 0-14 14M14 96A14 14 0 0 0 0 82'/%3E%3C/g%3E%3C/svg%3E\")",
   cityColors: {milan:'#5E7E8A', bologna:'#B0532E', florence:'#B8862A', rome:'#6F8A3A'},
   cityFallback: ['#5E7E8A', '#B0532E', '#B8862A', '#6F8A3A', '#8A6A8E'],
-  tabColors: {home:'var(--pink-s)', route:'var(--sky)', money:'var(--peach)', bag:'var(--lav)'},
-  fx: {home:['🇮🇹','🍕','✈️'], route:['🛵','📍','🏛️'], money:['💶','🍝','🪙'], bag:['🧳','🍋','👒'],
+  tabColors: {home:'var(--pink-s)', route:'var(--sky)', money:'var(--peach)', tools:'var(--lav)', bag:'var(--lav)'},
+  fx: {home:['🇮🇹','🍕','✈️'], route:['🛵','📍','🏛️'], money:['💶','🍝','🪙'], bag:['🧳','🍋','👒'], tools:['🧭','🕌','🍋'],
     stamp:['🛂','🇮🇹','🍕'], pick:['🎈','🍝','🇮🇹'], pop:['⏳','✈️','🍦'], love:['💖','🍦','🍋'], done:['🎉','🍕','🇮🇹','🍦'], clock:['🕒','☕']},
   /* home tips card: rotates on its own; city tips come first while you're in that city */
   tips: [
@@ -708,7 +811,16 @@ const user = {
   profiles: async () => ({})
 };
 window.__isGoogle = !!cur && !cur.isAnonymous;
-window.__fbResolve({ db, user });
+/* push notifications: Firebase Messaging is loaded only when a member turns them on */
+const push = {
+  token: async (vapidKey) => {
+    const m = await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging.js');
+    if (!(await m.isSupported())) return null;
+    const reg = await navigator.serviceWorker.ready;
+    return m.getToken(m.getMessaging(fbApp), {vapidKey, serviceWorkerRegistration: reg});
+  }
+};
+window.__fbResolve({ db, user, push });
 
 const signIn = async () => {
   try { await signInWithPopup(auth, new GoogleAuthProvider()); location.reload(); }
@@ -775,6 +887,7 @@ const ARD = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
 
 /* ---------- travel icon set: one 24px grid, 1.8px rounded stroke ---------- */
 const IC = {
+  bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
   plane:'<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
   suitcase:'<rect x="5" y="7" width="14" height="13" rx="2.5"/><path d="M9 7V4.5h6V7M9.5 11v5M14.5 11v5M8.5 20v1.5M15.5 20v1.5"/>',
   pin:'<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
@@ -820,7 +933,7 @@ const H = (icon, text) => `<h2><span class="h-ic">${ic(icon)}</span>${text}</h2>
 const TIP_IC = {'🍚':'fork','🍝':'fork','🥩':'fork','🎨':'camera','🏛️':'landmark','⛪':'landmark','⛲':'landmark','☕':'cup'};
 const CAT_IC = {'هدايا':'gift','تسوق شخصي':'bag','أكل وشرب':'fork','قهوة وحلويات':'cup','مواصلات محلية':'train','تذاكر ومتاحف':'ticket','متفرقات':'sparkle'};
 const COUNTRY = window.COUNTRY;
-const TAB_IC = {home:'home', route:'route', money:'wallet', bag:'suitcase'};
+const TAB_IC = {home:'home', route:'route', money:'wallet', tools:'compass', bag:'suitcase'};
 const TAB_COL = COUNTRY.tabColors;
 const cityColor = c => (c && (COUNTRY.cityColors[c.id] || c.color)) || COUNTRY.cityFallback[0];
 /* flights: public details only (no booking reference, ticket or loyalty numbers: this repo is public) */
@@ -828,8 +941,9 @@ const FLIGHTS = [
   {id: 'out', dir: 'الذهاب', airline: 'السعودية', no: 'SV 211', date: '2027-04-17', day: 'السبت ١٧ أبريل',
    from: {code: 'JED', city: 'جدة', time: '09:45', place: 'مطار الملك عبدالعزيز، صالة 1'},
    to: {code: 'MXP', city: 'ميلانو', time: '14:05', place: 'مطار مالبينسا، صالة 1'},
+   departAt: '2027-04-17T09:45:00+03:00', arriveAt: '2027-04-17T14:05:00+02:00', durShort: '٥س ٢٠د',
    dur: '5 ساعات و20 دقيقة', stops: 'مباشرة', plane: 'إيرباص A330', bag: 'شنطتين 23 كجم', pax: ['سماهر', 'سمارا', 'منى', 'سحر']} /* سحر حجزت نفس الرحلة بحجز منفصل */,
-  {id: 'back', dir: 'الرجوع', airline: '', no: '', date: '2027-04-29', day: '٢٩ أبريل',
+  {id: 'back', dir: 'الرجوع', airline: '', no: '', date: '2027-04-29', day: '٢٩ أبريل', departAt: '2027-04-29T00:00:00+03:00',
    from: {code: 'FCO', city: 'روما', time: '', place: ''}, to: {code: 'JED', city: 'جدة', time: '', place: ''}, pending: true}
 ];
 const greetWord = () => new Date().getHours() < 12 ? 'صباح الخير' : 'مساء الخير';
@@ -982,15 +1096,24 @@ async function saveMine(patch){
   try { await db.doc('members/' + me).set(next); } catch(e) {}
 }
 
+let lastPrayMin = -1, lastPillMin = -1;
 function tickCd(){
+  const pmin = Math.floor(Date.now() / 60000); const pill = document.getElementById('prayPill');
+  if (pill && pmin !== lastPillMin) { lastPillMin = pmin; const c = hereCity() || plan.cities[0]; const p = c && prayGet(c.id, romeDay()); if (p) { const nx = nextPrayer(p.t); pill.dataset.k = nx.k; pill.innerHTML = `${nx.ar} <small class="num">${shortLeft(nx.left)}</small>`; } }
+  const pm = Math.floor(Date.now() / 60000); if (pm !== lastPrayMin && document.getElementById('prayNext')) { lastPrayMin = pm; const c = prayCityObj(); const p = c && prayGet(c.id, romeDay()); if (p) { const nx = nextPrayer(p.t); if (nx.k !== document.getElementById('prayNext').dataset.k) render(); else document.querySelector('#prayNext .num').textContent = leftText(nx.left); } }
   const nowT = Date.now();
-  const toReturn = nowT >= TAKEOFF;
-  const d = Math.max(0, (toReturn ? RETURN : TAKEOFF) - nowT);
-  const lbl = document.getElementById('cd-label');
-  if (lbl) lbl.textContent = nowT >= RETURN ? 'رجعتوا بالسلامة' : toReturn ? 'باقي على الرجعة للسعودية' : 'باقي على الإقلاع';
-  const days = Math.floor(d / 86400000), hrs = Math.floor(d / 3600000) % 24, mins = Math.floor(d / 60000) % 60, secs = Math.floor(d / 1000) % 60;
-  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = String(v).padStart(2, '0'); };
-  set('cd-d', days); set('cd-h', hrs); set('cd-m', mins); set('cd-s', secs);
+  document.querySelectorAll('.cd[data-to]').forEach(cd => {
+    const to = Number(cd.dataset.to), arr = Number(cd.dataset.arr) || 0;
+    const d = Math.max(0, to - nowT);
+    const days = Math.floor(d / 86400000), hrs = Math.floor(d / 3600000) % 24, mins = Math.floor(d / 60000) % 60, secs = Math.floor(d / 1000) % 60;
+    const put = (u, v) => { const b = cd.querySelector(`[data-u="${u}"]`); if (b) b.textContent = String(v).padStart(2, '0'); };
+    put('d', days); put('h', hrs); put('m', mins); put('s', secs);
+    const lbl = cd.parentElement.querySelector('[data-cd-label]');
+    if (lbl && d === 0) lbl.textContent = arr && nowT < arr ? 'في الجو الحين ✈️' : 'رحلة موفقة، وصلتوا بالسلامة 🤍';
+  });
+  /* once you land in Milan, bring the return ticket to the front (only if it is still showing the first one) */
+  const tr = document.getElementById('tixTrack');
+  if (tr && Number(tr.dataset.active) !== activeTicket()) { tr.dataset.active = activeTicket(); showTicket(activeTicket(), true); }
   const fmtT = tz => { const p = new Intl.DateTimeFormat('en-US', {timeZone: tz, hour: 'numeric', minute: '2-digit', hour12: true}).formatToParts(new Date()); const g = t => (p.find(x => x.type === t) || {}).value || ''; return `${g('hour')}:${g('minute')} ${g('dayPeriod') === 'AM' ? 'ص' : 'م'}`; };
   const showClock = (id, tz, key) => {
     const el = document.getElementById(id); if (!el) return;
@@ -1053,12 +1176,20 @@ function contribRows(c){
     return `<div class="who"><span class="avatar" aria-hidden="true">${emoOf(m.name)}</span><div class="grow"><div class="row" style="justify-content:space-between"><span style="font-weight:800">${esc(nameOf(id))}</span>${amount}</div><div class="bar"><i style="width:${pct.toFixed(1)}%"></i></div></div></div>`;
   }).join('');
 }
+const shortLeft = m => m >= 60 ? `${Math.floor(m / 60)}س ${m % 60}د` : `${m}د`;
+function prayPill(){
+  const c = hereCity() || plan.cities[0]; if (!c) return '';
+  const p = prayGet(c.id, romeDay()); if (!p) { loadPrayer(c); return ''; }
+  const nx = nextPrayer(p.t);
+  return `<button class="clk pray-pill" data-act="tab" data-v="tools" aria-label="الصلاة الجاية ${nx.ar} بعد ${leftText(nx.left)}"><span>🕌</span><b id="prayPill" data-k="${nx.k}">${nx.ar} <small class="num">${shortLeft(nx.left)}</small></b></button>`;
+}
 function headBar(){
   return `<header class="head">
     <div class="head-left"><button class="head-who" data-act="back" aria-label="تبديل الاسم"><span class="head-hi">${greetWord()}،</span><span class="head-name">${esc(picked)}! <span class="head-swap">${ic('back')}<small>تبديل الاسم</small></span></span></button>
       <div class="clocks mini" aria-label="الوقت الحين">
         <div class="clk" role="button" tabindex="0" aria-label="الوقت في السعودية"><span>🇸🇦</span><b id="clk-sa">--:--</b></div>
         <div class="clk" role="button" tabindex="0" aria-label="الوقت في إيطاليا"><span>🇮🇹</span><b id="clk-it">--:--</b></div>
+        ${prayPill()}
       </div></div>
     <div class="head-actions"><button class="icon-btn night-btn" data-act="night" aria-pressed="${document.documentElement.dataset.theme === 'dark'}" aria-label="${document.documentElement.dataset.theme === 'dark' ? 'رجّعي الوضع النهاري' : 'الوضع الليلي'}">${ic(document.documentElement.dataset.theme === 'dark' ? 'sun' : 'moon')}</button></div>
   </header>`;
@@ -1069,6 +1200,11 @@ function todayCity(){ const d = romeDay(); return plan.cities.filter(c => tripDa
 /* where the group is: Samaher's manual pick wins, otherwise the dates decide */
 function hereCity(){ return plan.cities.find(x => x.id === plan.currentCity) || todayCity(); }
 const isHere = c => { const h = hereCity(); return !!h && !!c && h.id === c.id; };
+/* on a flight day the home hero becomes that ticket (Saudi date for the way out, Italy date for the way back) */
+function flightToday(){
+  const sa = new Intl.DateTimeFormat('en-CA', {timeZone: 'Asia/Riyadh', year: 'numeric', month: '2-digit', day: '2-digit'}).format(new Date());
+  return FLIGHTS.find(f => !f.pending && (f.date === sa || f.date === romeDay())) || null;
+}
 const tripOn = () => Date.now() >= TAKEOFF && Date.now() < RETURN + 86400000;
 function flightCard(f){
   if (f.pending) return `<div class="ticket pending"><div class="t-row"><div><b class="t-code">${f.from.code}</b><small>${esc(f.from.city)}</small></div><span class="t-line"><i></i>${ic('plane')}<i></i></span><div><b class="t-code">${f.to.code}</b><small>${esc(f.to.city)}</small></div></div><p class="t-note">${ic('clock')} ${esc(f.dir)}، ${esc(f.day)}: لسه ما انحجز</p></div>`;
@@ -1103,34 +1239,203 @@ function todayCard(){
   return `<section class="hero today" style="--c:${cityColor(c)}">
     <p class="hero-sub">اليوم في</p><h2 class="today-city">${esc(c.name)}</h2>
     ${f ? `<p class="today-wx">${ic(wxInfo(f.code)[0])} <b class="num">${Math.round(f.max)}°</b> / <span class="num">${Math.round(f.min)}°</span>، ${wxInfo(f.code)[1]}</p>` : wxNowLine(c)}
-    <div class="stub"><div><small>المقترحات</small><b>${ARD(n)} مكان</b></div><div><small>بعدها</small><b>${next ? esc(next.name) : 'الرجعة 🏠'}</b></div><div><small>${ic('pin')}</small><b><button class="link-btn" data-act="tab" data-v="route">افتحي الخط</button></b></div></div>
+    <div class="today-chips">
+      ${n ? `<button class="tchip" data-act="tab" data-v="route">${ic('sparkle')}<span>${ARD(n)} مقترحات</span></button>` : ''}
+      <span class="tchip">${ic('route')}<span>بعدها: ${next ? esc(next.name) : 'الرجعة 🏠'}</span></span>
+    </div>
     ${stayMapBtn(c) ? `<div style="margin-top:12px">${stayMapBtn(c, 'btn sm')}</div>` : ''}
+  </section>`;
+}
+/* home hero: the two tickets side by side; swipe between them. The way out leads until you land in Milan,
+   then the way back moves to the front and counts down to the flight home. */
+function activeTicket(){ const out = FLIGHTS[0]; return Date.now() < Date.parse(out.arriveAt) ? 0 : 1; }
+function ticketSlide(f, i){
+  const dep = Date.parse(f.departAt);
+  const cdHTML = `<div class="cd" data-to="${dep}" data-arr="${f.arriveAt ? Date.parse(f.arriveAt) : ''}" role="timer" aria-label="الوقت المتبقي">
+      <div data-act="pop"><b data-u="d">--</b><span>يوم</span></div><div data-act="pop"><b data-u="h">--</b><span>ساعة</span></div>
+      <div data-act="pop"><b data-u="m">--</b><span>دقيقة</span></div><div data-act="pop"><b data-u="s">--</b><span>ثانية</span></div></div>`;
+  return `<article class="hero pass tix-slide${f.pending ? ' pending' : ''}" data-act="stamp" role="group" aria-roledescription="تذكرة" aria-label="${esc(f.dir)}: ${esc(f.from.city)} إلى ${esc(f.to.city)}">
+    <div class="tix-top"><span class="t-dir">${esc(f.dir)}</span>${f.no ? `<span class="num">${esc(f.no)}</span>` : ''}${f.airline ? `<span>${esc(f.airline)}</span>` : ''}<span class="grow"></span><span>${esc(f.day)}</span></div>
+    <div class="tix-route">
+      <div class="tix-end"><b class="t-code">${f.from.code}</b><small>${esc(f.from.city)}</small><b class="t-time num">${f.from.time || '--:--'}</b></div>
+      <span class="pass-line"><i></i>${ic('plane')}<i></i></span>
+      <div class="tix-end"><b class="t-code">${f.to.code}</b><small>${esc(f.to.city)}</small><b class="t-time num">${f.to.time || '--:--'}</b></div>
+    </div>
+    ${f.pending ? `<p class="tix-note">${ic('clock')} لسه ما انحجزت، أول ما تحجزون نحط تفاصيلها هنا</p>` : `<div class="tix-places"><span>${esc(f.from.place)}</span><span>${esc(f.to.place)}</span></div>`}
+    <p class="cd-label" data-cd-label>${f.pending ? 'باقي على يوم الرجعة' : 'باقي على الإقلاع'}</p>
+    ${cdHTML}
+    ${f.pending ? '' : `<div class="stub"><div><small>المدة</small><b>${esc(f.durShort)}، ${esc(f.stops)}</b></div><div><small>الشنط</small><b>${esc(f.bag)}</b></div><div><small>الطيارة</small><b>${esc(f.plane.replace('إيرباص ', ''))}</b></div></div>`}
+    ${i === 0 ? `<span class="pass-stamp" aria-hidden="true">${ic('check')} جاهزة للإقلاع</span>` : ''}
+  </article>`;
+}
+function showTicket(i, smooth){
+  const tr = document.getElementById('tixTrack'); if (!tr) return;
+  const s = tr.children[i]; if (!s) return;
+  const sr = s.getBoundingClientRect(), tr2 = tr.getBoundingClientRect();
+  tr.scrollBy({left: (sr.left + sr.width / 2) - (tr2.left + tr2.width / 2), behavior: smooth ? 'smooth' : 'auto'}); /* works in RTL too */
+  tr.dataset.shown = i; const sw = document.getElementById('tixSw'); if (sw) sw.dataset.dir = i;
+}
+function ticketsHero(){
+  const a = activeTicket();
+  return `<section class="tix" aria-label="تذاكر الطيران">
+    <div class="tix-track" id="tixTrack" data-active="${a}">${FLIGHTS.map(ticketSlide).join('')}</div>
+    <div class="tix-foot">
+      <button class="tix-sw${FLIGHTS[1].pending ? ' pend' : ''}" id="tixSw" data-act="tixFlip" data-dir="${a}" aria-label="بدّلي بين تذكرة الذهاب والرجوع"><span class="sw-flag sa">🇸🇦</span><span class="sw-track"><span class="sw-plane">${ic('plane')}</span></span><span class="sw-flag it">🇮🇹</span></button>
+    </div>
   </section>`;
 }
 function viewHome(){
   const cityNow = hereCity();
   const tip = DEFAULT_TIPS[tipIdx % DEFAULT_TIPS.length];
-  if (tripOn()) return `${headBar()}${todayCard()}` + homeRest(cityNow, tip);
-  return `${headBar()}
-  <section class="hero pass" data-act="stamp" role="button" tabindex="0" aria-label="تذكرة رحلتنا، اضغطي عشان تنختم">
-    <div class="pass-route"><b>السعودية</b><span class="pass-line"><i></i>${ic('plane')}<i></i></span><b>إيطاليا</b></div>
-    <p class="hero-sub">${FLIGHTS[0].no}، ${FLIGHTS[0].day} <span class="num">${FLIGHTS[0].from.time}</span> من جدة، توصلون ميلانو <span class="num">${FLIGHTS[0].to.time}</span></p>
-    <p class="cd-label" id="cd-label"></p>
-    <div class="cd" role="timer" aria-label="الوقت المتبقي للإقلاع">
-      <div data-act="pop"><b id="cd-d">--</b><span>يوم</span></div>
-      <div data-act="pop"><b id="cd-h">--</b><span>ساعة</span></div>
-      <div data-act="pop"><b id="cd-m">--</b><span>دقيقة</span></div>
-      <div data-act="pop"><b id="cd-s">--</b><span>ثانية</span></div>
+  return `${headBar()}${ticketsHero()}${tripOn() ? todayCard() : ''}` + homeRest(cityNow, tip);
+}
+/* ---------- prayer times (Aladhan, Umm al-Qura method) and qibla ----------
+   Times are cached per city and day on the phone, and the whole trip month is prefetched,
+   so they still show with no signal in Italy. Only city coordinates are sent. */
+const PRAYERS = [['Fajr', 'الفجر'], ['Dhuhr', 'الظهر'], ['Asr', 'العصر'], ['Maghrib', 'المغرب'], ['Isha', 'العشاء']];
+const KAABA = [21.4225, 39.8262];
+let prayCity = null, prayData = {}, prayLoading = {};
+const prayKey = (cid, d) => `italyTripPray:${cid}:${d}`;
+function prayCityObj(){ return plan.cities.find(c => c.id === prayCity) || hereCity() || plan.cities[0]; }
+function prayGet(cid, d){
+  if (prayData[cid + d]) return prayData[cid + d];
+  try { const v = JSON.parse(localStorage.getItem(prayKey(cid, d)) || 'null'); if (v) { prayData[cid + d] = v; return v; } } catch(_) {}
+  return null;
+}
+function praySet(cid, d, v){ prayData[cid + d] = v; try { localStorage.setItem(prayKey(cid, d), JSON.stringify(v)); } catch(_) {} }
+async function loadPrayer(c){
+  const k = geoKey(c); const g = k && CITY_GEO[k]; if (!g) return;
+  const d = romeDay(); if (prayGet(c.id, d) || prayLoading[c.id + d]) return;
+  prayLoading[c.id + d] = true;
+  try {
+    const [y, m, dd] = d.split('-');
+    const r = await fetch(`https://api.aladhan.com/v1/timings/${dd}-${m}-${y}?latitude=${g[0]}&longitude=${g[1]}&method=4`);
+    const j = await r.json();
+    if (j && j.data) { praySet(c.id, d, {t: j.data.timings, h: j.data.date.hijri}); if (picked && tab === 'home') render(); }
+  } catch (e) {} finally { prayLoading[c.id + d] = false; }
+}
+async function prefetchTripPrayers(){
+  const ym = TRIP_YM.split('-');
+  for (const c of plan.cities) {
+    const k = geoKey(c); const g = k && CITY_GEO[k]; if (!g) continue;
+    const days = tripDays(c); if (!days.length || prayGet(c.id, days[days.length - 1])) continue;
+    try {
+      const r = await fetch(`https://api.aladhan.com/v1/calendar/${ym[0]}/${Number(ym[1])}?latitude=${g[0]}&longitude=${g[1]}&method=4`);
+      const j = await r.json();
+      (j.data || []).forEach(x => { const [dd, mm, yy] = x.date.gregorian.date.split('-'); praySet(c.id, `${yy}-${mm}-${dd}`, {t: x.timings, h: x.date.hijri}); });
+    } catch (e) {}
+  }
+}
+const hhmm = s => { const m = String(s || '').match(/(\d{1,2}):(\d{2})/); return m ? Number(m[1]) * 60 + Number(m[2]) : null; };
+const ampm = s => { const v = hhmm(s); if (v === null) return '--'; const h = Math.floor(v / 60), mi = v % 60; return `${((h + 11) % 12) + 1}:${String(mi).padStart(2, '0')} ${h < 12 ? 'ص' : 'م'}`; };
+const romeMinutes = () => { const p = new Intl.DateTimeFormat('en-GB', {timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit', hour12: false}).format(new Date()); return hhmm(p); };
+function nextPrayer(t){
+  const now = romeMinutes();
+  for (const [k, ar] of PRAYERS) { const v = hhmm(t[k]); if (v !== null && v > now) return {k, ar, left: v - now}; }
+  return {k: 'Fajr', ar: 'الفجر', left: (24 * 60 - now) + (hhmm(t.Fajr) || 0), tomorrow: true};
+}
+const hoursAr = h => h === 1 ? 'ساعة' : h === 2 ? 'ساعتين' : h <= 10 ? `${h} ساعات` : `${h} ساعة`;
+const leftText = m => m >= 60 ? `${hoursAr(Math.floor(m / 60))}${m % 60 ? ` و${m % 60} دقيقة` : ''}` : `${m} دقيقة`;
+function qiblaBearing(lat, lon){
+  const r = Math.PI / 180, [kl, ko] = KAABA;
+  const y = Math.sin((ko - lon) * r) * Math.cos(kl * r);
+  const x = Math.cos(lat * r) * Math.sin(kl * r) - Math.sin(lat * r) * Math.cos(kl * r) * Math.cos((ko - lon) * r);
+  return (Math.atan2(y, x) / r + 360) % 360;
+}
+let bagOpen = false;
+/* رفيقتك: what you reach for while travelling: prayer + qibla, emergency, halal food, and the packing list folded away */
+function viewTools(){
+  const items = bagItems(); const done = items.filter(i => i.done).length;
+  const stays = plan.cities.filter(x => stayLink(x));
+  return `${prayerCard()}
+  ${qiblaCard()}
+  <section class="card">${H('heart', 'الطوارئ')}
+    <div class="sos-row">
+      <a class="sos big" href="tel:112">${ic('megaphone')}<span><b class="num">112</b><small>الطوارئ في أوروبا</small></span></a>
+      <a class="sos" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('سفارة المملكة العربية السعودية روما')}" target="_blank" rel="noopener">${ic('landmark')}<span><b>السفارة السعودية</b><small>روما، في الخرائط</small></span></a>
     </div>
-    <div class="stub">
-      <div><small>المسافرة</small><b>${PEOPLE_EMO[pickedIdx] || ''} ${esc(picked)}</b></div>
-      <div><small>الرفقة</small><b>${ARD(TRAVELERS)} مسافرات</b></div>
-      <div><small>المحطات</small><b>${ARD(plan.cities.length)} مدن</b></div>
-    </div>
-    <span class="pass-stamp" aria-hidden="true">${ic('check')} جاهزة للإقلاع</span>
+    ${stays.length ? `<p class="set-label" style="margin:12px 0 6px">عناوين السكن</p><div class="sos-stays">${stays.map(x => `<a class="ibtn" style="--c:${cityColor(x)}" href="${esc(stayLink(x))}" target="_blank" rel="noopener">${ic('bed')}<span>${esc(x.name)}</span></a>`).join('')}</div>` : ''}
+    <p class="hint" style="margin:10px 0 0">رقم الطوارئ يشتغل حتى بدون نت، والخرائط تحتاج نت.</p>
   </section>
-
-` + homeRest(cityNow, tip);
+  <section class="card">${H('fork', 'أكل حلال قريب')}
+    <div class="sos-stays">${plan.cities.map(x => `<a class="ibtn" style="--c:${cityColor(x)}" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('halal restaurant ' + (CITY_EN[geoKey(x)] || x.name))}" target="_blank" rel="noopener">${ic('pin')}<span>${esc(x.name)}</span></a>`).join('')}</div>
+    <p class="hint" style="margin:10px 0 0">يفتح Google Maps على المطاعم الحلال في المدينة.</p>
+  </section>
+  <section class="bag-fold">
+    <button class="bag-toggle" data-act="bagToggle" aria-expanded="${bagOpen}"><span class="h-ic">${ic('suitcase')}</span><span class="grow"><b>الشنطة</b><small>${done} من ${items.length} جاهز</small></span><span class="pl-chev" aria-hidden="true"></span></button>
+  </section>
+  ${bagOpen ? viewBag() : ''}`;
+}
+const CITY_EN = {milan: 'Milan', bologna: 'Bologna', florence: 'Florence', rome: 'Rome'};
+function qiblaCard(){
+  const q = qiblaTarget(); if (!q) return '';
+  return `<section class="card qibla-card" id="qiblaCard">${H('compass', 'اتجاه القبلة')}
+    <div class="qdial" id="qDial"><span class="q-n">N</span><div class="q-arrow" id="qArrow" style="transform:rotate(${q.deg}deg)"><span>🕋</span></div><i class="q-center"></i></div>
+    <p class="q-deg" id="qDeg"></p>
+    <p class="hint" id="qHint" style="text-align:center;margin:4px 0 10px">حطي الجوال مسطّح، ووجّهي أعلى الجوال ناحية السهم.</p>
+    <button class="btn primary" style="width:100%" data-act="qStart" ${qiblaWatch ? 'hidden' : ''}>${ic('compass')} شغّلي البوصلة</button>
+  </section>`;
+}
+function prayerCard(){
+  const c = prayCityObj(); if (!c) return '';
+  const d = romeDay(); const p = prayGet(c.id, d);
+  if (!p) loadPrayer(c);
+  const nx = p ? nextPrayer(p.t) : null;
+  return `<section class="pray" style="--c:${cityColor(c)}" aria-label="أوقات الصلاة">
+    <div class="pray-head">
+      <span class="tb-ic">${ic('moon')}</span>
+      <div class="grow"><b>أوقات الصلاة في ${esc(c.name)}</b><small>${p ? `${esc(p.h.day)} ${esc(p.h.month.ar)} ${esc(p.h.year)}هـ، بتوقيت إيطاليا` : 'نجيب الأوقات…'}</small></div>
+      <button class="ibtn" data-act="qibla" aria-label="اتجاه القبلة" title="القبلة">${ic('compass')}</button>
+    </div>
+    ${nx ? `<p class="pray-next" id="prayNext" data-k="${nx.k}">${nx.tomorrow ? 'الصلاة الجاية بكرة: ' : 'الصلاة الجاية: '}<b>${nx.ar}</b>، باقي <span class="num">${leftText(nx.left)}</span></p>` : ''}
+    <div class="pray-row">${PRAYERS.map(([k, ar]) => `<div class="${nx && nx.k === k ? 'on' : ''}"><small>${ar}</small><b class="num">${p ? ampm(p.t[k]) : '--'}</b></div>`).join('')}</div>
+    <div class="chips pray-cities" role="group" aria-label="المدينة">${plan.cities.filter(x => geoKey(x)).map(x => `<button class="chip" aria-pressed="${x.id === c.id}" data-act="prayCity" data-v="${esc(x.id)}">${esc(x.name)}</button>`).join('')}</div>
+  </section>`;
+}
+/* qibla sheet: a dial with the Kaaba direction; with permission it turns with the phone's compass */
+let qiblaHeading = null, qiblaWatch = false;
+function buildQibla(){
+  if ($('#qiblaSheet')) return;
+  document.body.insertAdjacentHTML('beforeend', `<div class="fx-back" id="qiblaBack" hidden></div>
+  <div class="fx-sheet qibla-sheet" id="qiblaSheet" role="dialog" aria-modal="true" aria-labelledby="qiblaTitle" tabindex="-1" hidden>
+    <div class="row" style="justify-content:space-between"><h2 id="qiblaTitle"><span class="h-ic">${ic('compass')}</span>اتجاه القبلة</h2><button class="icon-btn" id="qiblaClose" aria-label="إغلاق" style="box-shadow:none;background:var(--pink-t)">${ic('x')}</button></div>
+    <div class="qdial" id="qDial"><span class="q-n">N</span><div class="q-arrow" id="qArrow"><span>🕋</span></div><i class="q-center"></i></div>
+    <p class="q-deg" id="qDeg"></p>
+    <p class="hint" id="qHint" style="text-align:center;margin:0">حطي الجوال مسطّح، ووجّهي أعلى الجوال ناحية السهم.</p>
+    <button class="btn primary" id="qStart">${ic('compass')} شغّلي البوصلة</button>
+  </div>`);
+  const close = () => { $('#qiblaSheet').hidden = $('#qiblaBack').hidden = true; };
+  $('#qiblaClose').addEventListener('click', close); $('#qiblaBack').addEventListener('click', close);
+  $('#qStart').addEventListener('click', async () => {
+    try { if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') { const r = await DeviceOrientationEvent.requestPermission(); if (r !== 'granted') { $('#qHint').textContent = 'ما انسمح للبوصلة، اتبعي الدرجة المكتوبة من الشمال.'; return; } } } catch (e) {}
+    if (!qiblaWatch) {
+      qiblaWatch = true;
+      const onO = e => { const h = typeof e.webkitCompassHeading === 'number' ? e.webkitCompassHeading : (e.absolute && e.alpha !== null ? 360 - e.alpha : null); if (h !== null) { qiblaHeading = h; drawQibla(); } };
+      window.addEventListener('deviceorientationabsolute', onO, true); window.addEventListener('deviceorientation', onO, true);
+    }
+    $('#qStart').hidden = true; $('#qHint').textContent = 'حرّكي الجوال لين يصير 🕋 فوق.';
+  });
+}
+async function startCompass(){
+  try { if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') { const r = await DeviceOrientationEvent.requestPermission(); if (r !== 'granted') { const h = $('#qHint'); if (h) h.textContent = 'ما انسمح للبوصلة، اتبعي الدرجة المكتوبة من الشمال.'; return; } } } catch (e) {}
+  if (!qiblaWatch) {
+    qiblaWatch = true;
+    const onO = e => { const h = typeof e.webkitCompassHeading === 'number' ? e.webkitCompassHeading : (e.absolute && e.alpha !== null ? 360 - e.alpha : null); if (h !== null) { qiblaHeading = h; drawQibla(); } };
+    window.addEventListener('deviceorientationabsolute', onO, true); window.addEventListener('deviceorientation', onO, true);
+  }
+  const b = document.querySelector('[data-act=qStart]'); if (b) b.hidden = true;
+  const h = $('#qHint'); if (h) h.textContent = 'حرّكي الجوال لين يصير 🕋 فوق.';
+}
+function qiblaTarget(){ const c = prayCityObj(); const g = c && CITY_GEO[geoKey(c)]; return g ? {deg: qiblaBearing(g[0], g[1]), city: c.name} : null; }
+function drawQibla(){
+  const q = qiblaTarget(); if (!q || !$('#qArrow')) return;
+  const rot = qiblaHeading === null ? q.deg : q.deg - qiblaHeading;
+  $('#qArrow').style.transform = `rotate(${rot}deg)`;
+  $('#qDial').style.setProperty('--n', `${qiblaHeading === null ? 0 : -qiblaHeading}deg`);
+  const dirs = ['شمال', 'شمال شرق', 'شرق', 'جنوب شرق', 'جنوب', 'جنوب غرب', 'غرب', 'شمال غرب'];
+  $('#qDeg').innerHTML = `من ${esc(q.city)}: <b class="num">${Math.round(q.deg)}°</b> من الشمال (${dirs[Math.round(q.deg / 45) % 8]})`;
+  const aligned = qiblaHeading !== null && Math.abs(((rot % 360) + 540) % 360 - 180) < 6;
+  $('#qDial').classList.toggle('aligned', aligned);
 }
 /* ---------- rotating tips: phrases, tips, facts and travel lines in one card ---------- */
 let tipPos = Math.floor(Math.random() * 1000), tipTimer = null;
@@ -1172,19 +1477,10 @@ function startTipTimer(){
 function homeRest(cityNow, tip){
   return `
   ${tipBoxHTML()}
-
-  ${cityNow ? `<section class="card here" style="--c:${cityColor(cityNow)}">${H('pin', 'أنتم هنا')}
-    <strong style="font-size:20px">${esc(cityNow.name)}</strong>${wxNowLine(cityNow)}<p class="muted" style="margin:4px 0 0">${esc(sep(cityNow.dates || ''))}${cityNow.desc ? '، ' + esc(sep(cityNow.desc)) : ''}</p>
-  </section>` : ''}
-
   <section class="stops" aria-label="محطاتنا">
     <h2 class="sec">${ic('route')}محطاتنا</h2>
     <div class="stop-rail">${stopTiles()}</div>
-  </section>
-
-  ${updatesCard()}
-
-  `;
+  </section>`;
 }
 
 function viewMoney(){
@@ -1319,6 +1615,65 @@ function buildFx(){
   $('#fxQuick').addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (b) { $('#fxAmt').value = b.dataset.q; updateFx(); } });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#fxSheet').hidden) fxOpen(false); });
   updateFx();
+}
+
+/* ---------- "turn on notifications" sheet: shown once per visit until she turns them on ----------
+   The hype messages themselves live in notify/schedule.json and are sent from outside the app. */
+const NT_LATER = 'italyTripNotifLater';
+/* public "Web Push certificate" key from Firebase console → Project settings → Cloud Messaging (safe to publish) */
+const FCM_VAPID = 'BGK91NMdEosZxbzbPOw8jOkQ9enejSDm-RdUsgwv8x_gDUPXmBPqrJJZJvGtkQIzYz2LtW50V1Rmae83efehyFc';
+let ntAsked = false;
+async function ntToken(){
+  if (!FCM_VAPID) return null;
+  try { const p = await claude.use('push'); return p ? await p.token(FCM_VAPID) : null; } catch(_) { return null; }
+}
+/* tokens can change, so each visit quietly re-checks and saves this phone's token */
+async function ntRefresh(){ const t = await ntToken(); const m = mine(); if (t && !(m.fcm || []).includes(t)) saveMine({notify: true, fcm: [...(m.fcm || []), t].slice(-3)}); else if (!m.notify) saveMine({notify: true}); }
+function ntState(){
+  const ios = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const standalone = navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
+  if (!('Notification' in window) || !('serviceWorker' in navigator)) return ios && !standalone ? 'install' : 'none';
+  if (Notification.permission === 'denied') return 'none';
+  if (Notification.permission === 'granted') return 'save';
+  return 'ask';
+}
+function maybeAskNotify(){
+  if (ntAsked || !picked || !me) return;
+  const st = ntState(); if (st === 'none') return;
+  ntAsked = true;
+  if (st === 'save') { ntRefresh(); return; }
+  if (Number(lsGet(NT_LATER) || 0) > Date.now()) return;
+  setTimeout(() => showNotify(st), 1600);
+}
+function showNotify(st){
+  if ($('#ntSheet')) return;
+  const name = esc(picked);
+  const body = st === 'install'
+    ? `عشان توصلك على الآيفون: اضغطي زر المشاركة تحت، بعدين <b>«إضافة إلى الشاشة الرئيسية»</b>، وافتحي التطبيق من هناك وبتلقيني أنتظرك 🤍`
+    : `عندنا أشياء حماسية جاية لك عن إيطاليا: عد تنازلي، وأسرار المدن، ومواعيد مع مايكل أنجلو… ما نبيها تفوتك ✨`;
+  document.body.insertAdjacentHTML('beforeend', `
+  <div class="fx-back" id="ntBack"></div>
+  <div class="fx-sheet nt-sheet" id="ntSheet" role="dialog" aria-modal="true" aria-labelledby="ntTitle">
+    <div class="nt-bell" aria-hidden="true">${ic('bell')}</div>
+    <h2 id="ntTitle">${name}، فعّلي الإشعارات 🔔</h2>
+    <p>${body}</p>
+    <div class="nt-flags" aria-hidden="true">🇸🇦 ✈️ 🇮🇹</div>
+    <div class="nt-acts">
+      ${st === 'install' ? `<button class="btn primary" id="ntLater">تمام، فهمت</button>` : `<button class="btn primary" id="ntOn">فعّليها ✨</button><button class="nt-later" id="ntLater">بعدين</button>`}
+    </div>
+  </div>`);
+  const close = () => { $('#ntSheet')?.remove(); $('#ntBack')?.remove(); };
+  $('#ntBack').addEventListener('click', () => { lsSet(NT_LATER, String(Date.now() + 2 * 864e5)); close(); });
+  $('#ntLater').addEventListener('click', () => { lsSet(NT_LATER, String(Date.now() + 2 * 864e5)); close(); });
+  const on = $('#ntOn'); if (on) on.addEventListener('click', async () => {
+    let perm = 'default';
+    try { perm = await Notification.requestPermission(); } catch(_) {}
+    close();
+    if (perm !== 'granted') { toast('ما انفعّلت، تقدرين تفعّلينها بعدين من إعدادات الجوال'); return; }
+    ntRefresh();
+    burst(window.COUNTRY.fx && window.COUNTRY.fx.done);
+    try { const reg = await navigator.serviceWorker.ready; reg.showNotification(`تمام يا ${picked}! 🇮🇹`, {body: 'انفعّلت الإشعارات. أول شي حماسي بيوصلك قريب… Andiamo ✈️', icon: 'icons/icon-192.png', lang: 'ar', dir: 'rtl'}); } catch(_) { toast('انفعّلت الإشعارات 🔔'); }
+  });
 }
 function fxOpen(on){
   $('#fxSheet').hidden = $('#fxBack').hidden = !on;
@@ -1460,7 +1815,6 @@ function viewRoute(){
   const count = k => k === 'all' ? all.length : all.filter(i => i.kind === k).length;
   if (!KINDS.slice(1).some(([k]) => k === routeKind)) routeKind = (KINDS.slice(1).find(([k]) => count(k)) || ['activity'])[0];
   return `
-  <section class="card flights">${H('plane', 'الطيران')}${FLIGHTS.map(flightCard).join('')}</section>
   <div class="chips city-tabs" role="tablist" aria-label="مدن الرحلة">
     ${plan.cities.map(x => `<button class="city-tab" role="tab" aria-selected="${x.id === routeCity}" style="--c:${cityColor(x)}" data-act="routeCity" data-v="${esc(x.id)}">
       ${ic(isHere(x) ? 'plane' : 'pin')}<span><b>${esc(x.name)}</b><small>${esc(sep(x.dates || '').split('،')[0])}</small></span><em>${citySuggestions(x).length}</em>
@@ -1505,12 +1859,7 @@ function viewRoute(){
   </section>
   ` : '<p class="muted">ما فيه مدن في الخطة</p>'}
 
-  ${isOwner ? `<section class="card">${H('megaphone', 'نشر تحديث')}
-    <form class="form" id="updForm">
-      <textarea class="ta" name="text" placeholder="تحديث للمسافرين، مثلاً: الحجز تأكد ✅" required></textarea>
-      <button class="btn primary" type="submit">انشري التحديث</button>
-    </form>
-  </section>` : ''}`;
+`;
 }
 
 function viewBag(){
@@ -1564,8 +1913,8 @@ function viewPick(){
     <span class="stamp" aria-hidden="true">✔ جاهزة للإقلاع</span>
   </section>`;
 }
-const VIEWS = {home: viewHome, route: viewRoute, money: viewMoney, bag: viewBag};
-const TABS = [['home','','الرئيسية'],['route','','الخط'],['money','','الفلوس'],['bag','','شنطتي']];
+const VIEWS = {home: viewHome, route: viewRoute, money: viewMoney, tools: viewTools};
+const TABS = [['home','','الرئيسية'],['route','','الخط'],['money','','الفلوس'],['tools','','رفيقتك']];
 
 function render(){
   const app = $('#app');
@@ -1573,6 +1922,7 @@ function render(){
   const act = document.activeElement;
   const focusKey = act && (act.id || act.name);
   const typed = act && (act.tagName === 'INPUT' || act.tagName === 'TEXTAREA') ? act.value : null;
+  if (tab === 'bag') { tab = 'tools'; bagOpen = true; }
   if (tab === 'budget' || tab === 'mine') { moneyView = tab === 'mine' ? 'mine' : 'group'; tab = 'money'; }
   const tabLabel = (TABS.find(t => t[0] === tab) || [])[2];
   app.innerHTML = picked ? (tab === 'home' ? '' : `<h1 class="page-title"><span class="h-ic">${ic(TAB_IC[tab])}</span>${tabLabel}</h1>`) + VIEWS[tab]() : viewWelcome();
@@ -1582,8 +1932,15 @@ function render(){
   tickCd();
   fxSync();
   if (document.getElementById('tipBox')) startTipTimer(); else clearInterval(tipTimer);
+  if (document.getElementById('qDial')) drawQibla();
+  const tr = document.getElementById('tixTrack');
+  if (tr) {
+    showTicket(Number(tr.dataset.active), false);
+    tr.addEventListener('scroll', () => { const kids = [...tr.children]; const mid = tr.getBoundingClientRect().left + tr.clientWidth / 2; let best = 0, bd = 1e9; kids.forEach((k, n) => { const r = k.getBoundingClientRect(); const dd = Math.abs(r.left + r.width / 2 - mid); if (dd < bd) { bd = dd; best = n; } }); tr.dataset.shown = best; const sw = document.getElementById('tixSw'); if (sw) sw.dataset.dir = best; }, {passive: true});
+  }
   if (focusKey) { const el = document.getElementById(focusKey) || document.querySelector('[name="' + focusKey + '"]'); if (el) { el.focus(); if (typed !== null) el.value = typed; } }
   applyCollapsed();
+  maybeAskNotify();
 }
 
 /* ---------- collapsible sections: tap heading to open/close (saved on this device) ----------
@@ -1619,7 +1976,7 @@ document.addEventListener('click', e => {
 let swipeStart = null;
 document.addEventListener('touchstart', e => {
   const t = e.touches[0];
-  const skip = e.touches.length > 1 || !picked || e.target.closest('input,select,textarea,.chips,.nav,.sky,.fx-sheet');
+  const skip = e.touches.length > 1 || !picked || e.target.closest('input,select,textarea,.chips,.nav,.sky,.fx-sheet,.tix,.stop-rail,.wx-days');
   swipeStart = skip ? null : {x: t.clientX, y: t.clientY, time: Date.now()};
 }, {passive: true});
 document.addEventListener('touchend', e => {
@@ -1643,7 +2000,12 @@ document.addEventListener('click', async e => {
   const CONFIRM = {delPlace: 'تبين تحذفين هالاقتراح؟', delBag: 'تبين تحذفين هالغرض من شنطتك؟', bagReset: 'ترجعين القائمة الأساسية؟ تعديلاتك على الشنطة بتنمسح.', delItem: 'تبين تحذفين هالاقتراح من المدينة؟', delIdea: 'تبين تحذفين اقتراحك؟', delExp: 'تبين تحذفين هالمصروف؟', release: 'تبين تحررين هالاسم؟'};
   if (CONFIRM[a] && !confirm(CONFIRM[a])) return;
   if (a === 'spin') { b.classList.remove('spin'); void b.offsetWidth; b.classList.add('spin'); return; }
+  if (a === 'tixFlip') { const tr = document.getElementById('tixTrack'); const cur = Number(tr && (tr.dataset.shown ?? tr.dataset.active)) || 0; showTicket(cur === 0 ? 1 : 0, true); return; }
   if (a === 'tipNext') { showTip(1); return; }
+  if (a === 'prayCity') { prayCity = v; render(); return; }
+  if (a === 'qibla') { try { const st = openState(); st['اتجاه القبلة'] = true; localStorage.setItem(OPEN_KEY, JSON.stringify(st)); } catch(_) {} tab = 'tools'; render(); const q = document.getElementById('qiblaCard'); if (q) q.scrollIntoView({behavior: 'smooth', block: 'center'}); return; }
+  if (a === 'qStart') { await startCompass(); return; }
+  if (a === 'bagToggle') { bagOpen = !bagOpen; render(); return; }
   if (a === 'quote') { quoteIdx++; render(); const q = document.querySelector('.quote'); if (q) q.classList.add('swap'); return; }
   if (a === 'pop') { b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); burst(TAB_FX.pop); return; }
   if (a === 'stamp') { if (e.target.closest('[data-act=pop]')) return; b.classList.remove('stamped'); void b.offsetWidth; b.classList.add('stamped'); burst(TAB_FX.stamp); return; }
@@ -2019,6 +2381,7 @@ loadCityWeather();
 setInterval(loadCityWeather, 30 * 60 * 1000);
 loadFxRate();
 setInterval(loadFxRate, 6 * 60 * 60 * 1000);
+setTimeout(prefetchTripPrayers, 4000);
 init();
 })();
 </script>
