@@ -620,7 +620,11 @@ body{position:relative;z-index:0}
 .tix-sw[data-dir="1"] .sw-plane .ic{transform:none}
 .tix-sw.pend[data-dir="1"] .sw-track::before{border-top-style:dotted}
 @media (prefers-reduced-motion:reduce){.sw-plane,.sw-plane .ic,.sw-flag{transition:none}}
-.clocks.mini{flex-wrap:wrap}
+.head{flex-wrap:wrap}
+.head .clocks.mini{flex:0 0 100%;display:grid;grid-template-columns:auto auto 1fr;gap:6px;margin-top:10px}
+.clocks.mini .clk{justify-content:center;min-height:36px}
+.pray-pill b{direction:rtl;unicode-bidi:isolate}
+.pray-pill small{unicode-bidi:isolate;font-variant-numeric:tabular-nums}
 .pray-pill{border:0;font:inherit;color:inherit;cursor:pointer}
 .pray-pill b{font-size:13px;font-weight:900;color:var(--pink)}
 .pray-pill small{font-size:12px;font-weight:800;color:var(--ink)}
@@ -1186,12 +1190,13 @@ function prayPill(){
 function headBar(){
   return `<header class="head">
     <div class="head-left"><button class="head-who" data-act="back" aria-label="تبديل الاسم"><span class="head-hi">${greetWord()}،</span><span class="head-name">${esc(picked)}! <span class="head-swap">${ic('back')}<small>تبديل الاسم</small></span></span></button>
-      <div class="clocks mini" aria-label="الوقت الحين">
-        <div class="clk" role="button" tabindex="0" aria-label="الوقت في السعودية"><span>🇸🇦</span><b id="clk-sa">--:--</b></div>
-        <div class="clk" role="button" tabindex="0" aria-label="الوقت في إيطاليا"><span>🇮🇹</span><b id="clk-it">--:--</b></div>
-        ${prayPill()}
-      </div></div>
+      </div>
     <div class="head-actions"><button class="icon-btn night-btn" data-act="night" aria-pressed="${document.documentElement.dataset.theme === 'dark'}" aria-label="${document.documentElement.dataset.theme === 'dark' ? 'رجّعي الوضع النهاري' : 'الوضع الليلي'}">${ic(document.documentElement.dataset.theme === 'dark' ? 'sun' : 'moon')}</button></div>
+    <div class="clocks mini" aria-label="الوقت الحين">
+      <div class="clk" role="button" tabindex="0" aria-label="الوقت في السعودية"><span>🇸🇦</span><b id="clk-sa">--:--</b></div>
+      <div class="clk" role="button" tabindex="0" aria-label="الوقت في إيطاليا"><span>🇮🇹</span><b id="clk-it">--:--</b></div>
+      ${prayPill()}
+    </div>
   </header>`;
 }
 const romeDay = (t = Date.now()) => new Intl.DateTimeFormat('en-CA', {timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit'}).format(new Date(t));
